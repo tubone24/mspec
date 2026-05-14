@@ -112,7 +112,8 @@ mspec/
 | `mspec delta init [--capability <name>] [--change <name>]` | 既存 `specs/<capability>/spec.md` を走査し、次の `FR-NNN` を自動採番した Delta Spec の雛形を `changes/<change-dir>/specs/<capability>/spec.md` に作成 | 0/1 |
 | `mspec test --expect-red <task-id> [--change <name>]` | `.mspec/config.yaml` の `test.command` を実行し**失敗を期待**。失敗観測時に `.mspec/cache/red-evidence/<task-id>.json` に証跡保存。成功したら fail (= TDD 違反)。runner 自動推定は**しない** (O2 確定) | 0/1 |
 | `mspec test --expect-green <task-id> [--change <name>]` | 同じ `test.command` で今度は **成功**を期待し `.mspec/cache/green-evidence/<task-id>.json` 保存。red→green の遷移を CLI が裏付ける | 0/1 |
-| `mspec validate [--all\|--change <name>] [--strict]` | Markdown 構文 + アンカー + Scenario 構造 + Constitution Check 必須節を検査 | 0/1 |
+| `mspec validate [--all\|--change <name>] [--strict]` | Markdown 構文 + アンカー + Scenario 構造 + Constitution Check 必須節を検査。`--strict` 時は SoT spec の `spec lint` も合成 | 0/1 |
+| `mspec spec lint [<glob>] [--json] [--allow <ruleId>]` | SoT spec (`specs/<capability>/spec.md`) から実装詳細語彙 (shell コマンド / ライブラリ名 / コードレベル動詞) を regex で検出するドリフト防止リンタ | 0/1 |
 | `mspec archive <change-name> [-y] [--dry-run]` | Delta を本 spec にパーサーマージし `changes/archive/` へ移動 | 0/1 |
 | `mspec anchor check [--change <name>]` | コード/E2E のアンカーが実在する Delta Spec を指しているか検証 | 0/1 |
 | `mspec anchor extract <change-name> [--json]` | アンカーと該当 Delta Spec の組をまとめて出力 (LLM 入力用) | 0 |
@@ -287,6 +288,26 @@ integrations:
 - `removable: false` かつ `skippable: false` のステップ (= `new`, `proposal`, `delta`, `tasks`, `implement`, `archive`) は絶対にスキップ不可
 - `--reason` が 10 文字未満なら fail
 - 1 チェンジで実装系全ステップ skip した場合は強制 fail (実装ステップは絶対残る)
+
+#### `mspec spec lint` (ドリフト防止リンタ)
+
+**目的**: Source-of-Truth spec (`specs/<capability>/spec.md`) は BDD で「振る舞い」を記述する場所であり、実装詳細 (採用ライブラリ名、shell コマンド、関数呼び出し) を漏らしてはいけない。Spec Kit / OpenSpec / Superpowers のいずれも「LLM が生成した SoT spec に design doc 違反の実装語彙が混入する」ドリフトを CLI で防げていない。`mspec` はこれを **regex ベースの決定論的リンタ** で塞ぐ。
+
+**動作**:
+- デフォルト辞書 (`packages/cli/src/lib/spec-forbidden.ts`) に 3 カテゴリの禁止語彙を持つ
+  - `shell-command`: `git mv` / `git add` / `git commit` / `rm -rf` / `fs.rename` / `child_process` / `fetch(` / `axios.` など
+  - `library-name`: `commander` / `js-yaml` / `remark` / `zod` / `vitest` / `jest` / `tsup` / `picocolors` / `minisearch` など (採用ライブラリの実名)
+  - `impl-verb`: `calls foo()` / `invokes foo()` / `imports "..."` / `uses the X library` など、関数呼び出しレベルの動詞
+- HTML コメント `<!-- ... -->` と fenced code block ` ``` ` 内は無視 (ヘッダーや例示コードを誤検出しない)
+- 1 行に複数違反があれば全て報告。列位置 (column) も返すので IDE 統合可能
+- `--allow <ruleId>` でルールを個別無効化、`--json` で CI 用出力
+- `mspec validate --strict` から自動合成され、違反が 1 件でもあれば validate 全体を fail にする
+
+**典型的な置換指針**:
+- 「`git mv` を使って移動する」→「ディレクトリ名を保ったまま filesystem-level でリネームする」
+- 「`commander` でパースする」→「CLI 引数パーサが解釈する」
+- 「`fs.rename` を呼ぶ」→「ファイルをリネームする」
+- 「`uses the remark library`」→「Markdown パーサが解析する」
 
 #### `mspec anchor`
 アンカー仕様は §6 参照。`extract --json` の出力:

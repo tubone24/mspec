@@ -15,6 +15,7 @@ import { anchorExtractCommand } from './commands/anchor-extract.js';
 import { anchorListCommand } from './commands/anchor-list.js';
 import { constitutionInitCommand, constitutionShowCommand } from './commands/constitution.js';
 import { schemaShowCommand, schemaValidateCommand } from './commands/schema.js';
+import { specLintCommand } from './commands/spec-lint.js';
 
 const program = new Command();
 
@@ -137,6 +138,21 @@ schema
   .command('validate')
   .description('Validate workflow.yaml against the meta-schema')
   .action(schemaValidateCommand);
+
+const spec = program.command('spec').description('Source-of-Truth spec utilities');
+spec
+  .command('lint [glob]')
+  .description('Detect implementation-detail leakage in SoT specs (default glob: specs/*/spec.md)')
+  .option('--json', 'Output JSON (for CI)')
+  .option(
+    '--allow <ruleId>',
+    'Disable a specific rule (repeatable)',
+    (value: string, prev: string[] = []) => prev.concat([value]),
+    [],
+  )
+  .action((glob: string | undefined, opts: { json?: boolean; allow?: string[] }) =>
+    specLintCommand(glob, { json: opts.json, allow: opts.allow }),
+  );
 
 program
   .command('questions')

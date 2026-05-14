@@ -42,7 +42,8 @@ mspec new add-search
 | `mspec init` | プロジェクトに `.mspec/`, `memory/`, `.claude/` を一括配置 |
 | `mspec new <feature>` | `changes/<YYYY-MM-DD-HHMMSS>-<feature>/` + `readme.md` を生成 |
 | `mspec status [--json]` | 全成果物の `done\|ready\|blocked\|skipped\|invalid` を返す |
-| `mspec validate [--strict]` | Markdown 構文 + アンカー + Constitution Check 節を検査 |
+| `mspec validate [--strict]` | Markdown 構文 + アンカー + Constitution Check 節を検査 (`--strict` 時は `spec lint` も合成) |
+| `mspec spec lint [<glob>] [--json] [--allow <ruleId>]` | SoT spec の実装詳細語彙 (shell コマンド/ライブラリ名/コード動詞) を regex で検出するドリフト防止リンタ |
 | `mspec continue [--json]` | 次に AI が実行すべき完全なプロンプト (main / subagent) を JSON で返す |
 | `mspec delta init --capability <name>` | 既存 spec を読んで次の FR-NNN を自動採番した Delta 雛形を作成 |
 | `mspec archive <change>` | Delta を本 spec にパーサーマージし `changes/archive/` へ移動 |

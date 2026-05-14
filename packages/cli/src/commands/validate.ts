@@ -5,6 +5,7 @@ import { projectPaths } from '../workflow/paths.js';
 import { findChange, listChanges, resolveProduces } from '../lib/change-discovery.js';
 import { validateArtifact } from '../lib/artifact-validator.js';
 import { checkEnforcement } from '../lib/enforce.js';
+import { lintSotSpecs } from '../lib/spec-linter.js';
 import type { Workflow } from '../types/index.js';
 
 export interface ValidateOptions {
@@ -37,6 +38,23 @@ export async function validateCommand(opts: ValidateOptions): Promise<void> {
       totalIssues += issues.length;
       console.log(`${pc.red('✗')} ${tgt.name}`);
       for (const i of issues) console.log(`  - ${i}`);
+    }
+  }
+
+  // Strict mode also lints all Source-of-Truth specs for implementation-detail
+  // leakage (regex-based; deterministic). Any violation fails the overall run.
+  if (opts.strict) {
+    const lintViolations = lintSotSpecs(paths.root);
+    if (lintViolations.length > 0) {
+      totalIssues += lintViolations.length;
+      console.log(`${pc.red('✗')} spec lint`);
+      for (const v of lintViolations) {
+        console.log(
+          `  - ${v.file}:${v.line}:${v.column} [${v.ruleId}] ${v.matched} — ${v.hint}`,
+        );
+      }
+    } else {
+      console.log(`${pc.green('✓')} spec lint`);
     }
   }
 

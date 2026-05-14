@@ -83,7 +83,7 @@ The system MUST run `mspec validate` for the change before any merge work and MU
 - THEN the command runs `mspec validate` first, fails it, exits non-zero, and writes nothing
 
 ### Requirement: FR-009 — Move change directory to archive
-The system MUST relocate `changes/<change-name>/` to `changes/archive/<change-name>/` using `git mv` (preserving the directory name verbatim) after a successful merge.
+The system MUST relocate `changes/<change-name>/` to `changes/archive/<change-name>/` after a successful merge, preserving the change directory name verbatim (filesystem-level move) so existing anchors continue to resolve.
 
 #### Scenario: Successful archive moves the change directory
 - GIVEN a successful merge of all capability Delta Specs
