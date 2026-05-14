@@ -1,0 +1,117 @@
+# .mspec/workflow.yaml
+version: 1
+name: mspec-default
+description: むぎぼースペックの標準パイプライン
+
+steps:
+  - id: new
+    command: /mspec-new
+    skill: mspec-new
+    produces: [readme.md]
+    block: true
+    removable: false
+    ask_questions: false
+
+  - id: proposal
+    command: /mspec-proposal
+    skill: mspec-proposal
+    requires: [readme.md]
+    produces: [proposal.md]
+    block: true
+    removable: false
+    ask_questions: true
+    subagent: false
+    constitution_check: true
+
+  - id: delta
+    command: /mspec-delta
+    skill: mspec-delta
+    requires: [proposal.md]
+    produces: [specs/*/spec.md]
+    block: false
+    removable: false
+    ask_questions: false
+    enforce_fr_ids: true
+
+  - id: research
+    command: /mspec-research
+    skill: mspec-research
+    requires: [proposal.md, specs/*/spec.md]
+    produces: [research.md]
+    block: true
+    removable: true
+    ask_questions: true
+    subagent: true
+    constitution_check: true
+    skippable: true
+
+  - id: design
+    command: /mspec-design
+    skill: mspec-design
+    requires: [research.md]
+    produces: [design.md, architecture-overview.md]
+    block: true
+    removable: true
+    ask_questions: true
+    constitution_check: true
+
+  - id: quickstart
+    command: /mspec-quickstart
+    skill: mspec-quickstart
+    requires: [design.md]
+    produces: [quickstart.md]
+    block: false
+    removable: true
+    skippable: true
+
+  - id: checklist
+    command: /mspec-checklist
+    skill: mspec-checklist
+    requires: [specs/*/spec.md, design.md]
+    produces: [checklist.md]
+    block: false
+    removable: true
+    subagent: true
+    skippable: true
+
+  - id: self-review
+    command: /mspec-review
+    skill: mspec-review
+    requires: [checklist.md, design.md, architecture-overview.md, quickstart.md]
+    produces: []
+    block: true
+    removable: true
+    enabled: true
+    subagent: true
+    constitution_check: true
+    skippable: true
+
+  - id: tasks
+    command: /mspec-tasks
+    skill: mspec-tasks
+    requires: [design.md, checklist.md]
+    produces: [tasks.md]
+    block: true
+    removable: false
+    constitution_check: true
+
+  - id: implement
+    command: /mspec-implement
+    skill: mspec-implement
+    requires: [tasks.md]
+    produces: []
+    block: true
+    removable: false
+    ask_questions: true
+    enforce_anchor: true
+    enforce_e2e: true
+    enforce_tdd: true
+    constitution_check: false
+
+  - id: archive
+    command: /mspec-archive
+    skill: mspec-archive
+    requires: [tasks.md]
+    produces: []
+    block: false
+    removable: false

@@ -1,0 +1,18 @@
+version: 1
+
+# テスト実行コマンド (O2: 自動推定せず明示必須)
+test:
+  command: ""
+  expect_red_on_exit: [1, 2]
+  expect_green_on_exit: [0]
+
+# プロジェクト全体メタ
+project:
+  default_capability: ""
+  language: "typescript"
+
+# 統合設定 (init で配置済みのもの)
+integrations:
+  claude:
+    enabled: true
+    subagents: true

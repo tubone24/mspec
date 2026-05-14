@@ -1,0 +1,63 @@
+version: 1
+step: design
+questions:
+  - id: DSG-DM-001
+    category: data_model
+    when: always
+    question: 新規エンティティが追加される場合、ID 採番戦略は?
+    options:
+      - UUID v4
+      - UUID v7 (時系列ソート可)
+      - DB 自動採番 (serial / auto_increment)
+      - ULID
+      - 既存エンティティ ID を流用
+
+  - id: DSG-DM-002
+    category: data_model
+    when: always
+    question: 既存テーブルのマイグレーションを伴う場合、ロールバック方針は?
+    options:
+      - 完全可逆 (down マイグレーション必須)
+      - 前方互換のみ (旧コードも新スキーマで動く)
+      - 一方向 (ロールバック不可、データ移行で対応)
+      - マイグレーションなし
+
+  - id: DSG-UX-001
+    category: ux
+    when: always
+    question: エラーメッセージのユーザー向け表示方針は?
+    options:
+      - 技術的詳細を隠した friendly メッセージ
+      - 開発者向けデバッグ情報も含める
+      - エラーコード + 日本語短文
+      - フォーム inline エラー
+
+  - id: DSG-NFR-001
+    category: nfr
+    when: always
+    question: キャッシュ層の導入は?
+    options:
+      - 不要
+      - in-memory (LRU 等)
+      - Redis / Memcached
+      - CDN / エッジキャッシュ
+
+  - id: DSG-CST-001
+    category: constraints
+    when: always
+    question: Constitution の原則と矛盾しそうな箇所はありますか?
+    options:
+      - なし
+      - 1 原則に部分違反 (Complexity Tracking に記述する)
+      - 複数原則に違反 (要相談)
+
+  - id: DSG-EDG-001
+    category: edge_cases
+    when: always
+    question: 並行リクエストでデータ整合性が必要な箇所は?
+    options:
+      - DB トランザクションで対応
+      - 楽観的ロック (version 列)
+      - 悲観的ロック (SELECT FOR UPDATE)
+      - 分散ロック (Redis 等)
+      - 単一プロセスなので不要

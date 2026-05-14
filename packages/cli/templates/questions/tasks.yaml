@@ -1,0 +1,30 @@
+version: 1
+step: tasks
+questions:
+  - id: TSK-CMP-001
+    category: completion
+    when: always
+    question: テストフェーズの粒度は?
+    options:
+      - Scenario ごとに E2E 1 本 (最小)
+      - Scenario + ユニットテストもセット
+      - ストーリー単位で E2E ＋ コンポーネント単位ユニット
+      - フル網羅 (statement coverage 90%+)
+
+  - id: TSK-CST-001
+    category: constraints
+    when: always
+    question: タスクの並列実行 (`[P]` マーカー) を許可する範囲は?
+    options:
+      - ファイルが完全に独立しているタスクのみ
+      - 同一モジュール内でも独立すれば許可
+      - 全て直列 (並列実行を許可しない)
+
+  - id: TSK-EDG-001
+    category: edge_cases
+    when: always
+    question: TDD の red→green サイクルで、red 確認に時間がかかる場合の許容は?
+    options:
+      - red 必須 (時間がかかっても証跡必要)
+      - red をスキップして直接実装 OK (理由を tasks.md に明記)
+      - フェーズ別に判断 (Tests-first phase のみ red 必須)

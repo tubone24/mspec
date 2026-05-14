@@ -1,0 +1,56 @@
+version: 1
+step: research
+questions:
+  - id: RES-INT-001
+    category: integration
+    when: always
+    question: 主要な外部連携先 (API / サービス / ライブラリ) はありますか?
+    options: dynamic
+
+  - id: RES-INT-002
+    category: integration
+    when: always
+    question: 既存コードベースで類似機能の参考になる箇所はありますか?
+    options: dynamic
+
+  - id: RES-DM-001
+    category: data_model
+    when: always
+    question: 新規/変更されるデータの永続化先は?
+    options:
+      - RDB (PostgreSQL/MySQL 等)
+      - KVS (Redis 等)
+      - ドキュメント DB (MongoDB 等)
+      - オブジェクトストレージ (S3 等)
+      - ローカルファイル
+      - メモリのみ (永続化なし)
+
+  - id: RES-CST-001
+    category: constraints
+    when: always
+    question: 候補ライブラリで懸念がある観点は? (ライセンス・保守性・パフォーマンス等)
+    options:
+      - ライセンス互換性
+      - メンテナンス状態 (最終更新が古い)
+      - パフォーマンス・スループット
+      - 学習コスト
+      - 依存ツリーの肥大化
+    multi_select: true
+
+  - id: RES-NFR-001
+    category: nfr
+    when: always
+    question: ロギング・モニタリングで必要な追加項目は?
+    options:
+      - メトリクス (Prometheus 等)
+      - 構造化ログ (JSON)
+      - 分散トレース (OpenTelemetry)
+      - エラー追跡 (Sentry 等)
+      - 何も追加しない (既存のまま)
+    multi_select: true
+
+  - id: RES-EDG-001
+    category: edge_cases
+    when: always
+    question: 候補方針の中で「失敗時のリカバリ手順」が要件として明確なのは?
+    options: dynamic
