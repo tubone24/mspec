@@ -3,11 +3,15 @@
 // Change: diataxis-artifact-structure
 
 import { mkdir, writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import pc from 'picocolors';
 import { projectPaths } from '../workflow/paths.js';
 import { findChange, listChanges, fileExists } from '../lib/change-discovery.js';
 import { scanFrIds, nextFrId } from '../lib/fr-numbering.js';
+import { loadConfig } from '../workflow/config-loader.js';
+import { resolveTemplate } from '../lib/template-resolver.js';
+import { DEFAULT_LOCALE } from '../lib/locale-resolver.js';
 
 const KEBAB_RE = /^[a-z][a-z0-9-]*$/;
 
@@ -15,6 +19,7 @@ export interface DeltaInitOptions {
   capability?: string;
   change?: string;
   cwd?: string;
+  locale?: string;
 }
 
 export async function deltaInitCommand(opts: DeltaInitOptions): Promise<void> {
@@ -22,6 +27,7 @@ export async function deltaInitCommand(opts: DeltaInitOptions): Promise<void> {
     throw new Error('--capability <kebab-name> is required');
   }
   const paths = projectPaths(opts.cwd ?? process.cwd());
+  const locale = opts.locale ?? (await resolveLocaleFromConfig(paths.configFile));
   const changeName = opts.change ?? (await singleActiveChange(paths));
   const change = await findChange(paths, changeName);
   if (!change) throw new Error(`change "${changeName}" not found`);
@@ -38,7 +44,7 @@ export async function deltaInitCommand(opts: DeltaInitOptions): Promise<void> {
     throw new Error(`delta spec already exists: ${deltaPath}`);
   }
   await mkdir(join(change.dir, 'specs', opts.capability), { recursive: true });
-  await writeFile(deltaPath, buildDeltaSkeleton(opts.capability, newFr), 'utf8');
+  await writeFile(deltaPath, await buildDeltaSkeleton(opts.capability, newFr, locale), 'utf8');
 
   if (!isExisting) {
     // Create source-of-truth spec.md with the empty frame so archive can merge into it later.
@@ -65,31 +71,31 @@ async function singleActiveChange(paths: ReturnType<typeof projectPaths>): Promi
   throw new Error(`multiple active changes; specify --change: ${live.map((c) => c.name).join(', ')}`);
 }
 
-function buildDeltaSkeleton(capability: string, firstFr: string): string {
-  return `# Delta Spec: ${capability}
+function templatesArtifactsDir(): string {
+  const here = dirname(fileURLToPath(import.meta.url));
+  return here.endsWith('commands')
+    ? join(here, '..', '..', 'templates', 'artifacts')
+    : join(here, '..', 'templates', 'artifacts');
+}
 
-## ADDED Requirements
+async function resolveLocaleFromConfig(configFile: string): Promise<string> {
+  try {
+    const loaded = await loadConfig(configFile);
+    return loaded.resolvedLocale.locale;
+  } catch {
+    return DEFAULT_LOCALE;
+  }
+}
 
-### Requirement: ${firstFr} — <Short Title>
-The system SHALL <behavior>.
-
-#### Scenario: <Scenario Name>
-- GIVEN <前提>
-- WHEN <操作>
-- THEN <結果>
-
-## MODIFIED Requirements
-
-<!-- 既存 Requirement を変更する場合は \`### Requirement: FR-NNN — <既存タイトル>\` を書く -->
-
-## REMOVED Requirements
-
-<!-- 削除する Requirement の FR-NNN を書く -->
-
-## RENAMED Requirements
-
-<!-- リネームは \`### Requirement: FR-NNN — <旧> -> FR-NNN — <新>\` -->
-`;
+async function buildDeltaSkeleton(
+  capability: string,
+  firstFr: string,
+  locale: string,
+): Promise<string> {
+  const tpl = await resolveTemplate('delta-spec', locale, templatesArtifactsDir());
+  return tpl.content
+    .replaceAll('{{CAPABILITY}}', capability)
+    .replaceAll('{{FIRST_FR}}', firstFr);
 }
 
 function buildSotSkeleton(capability: string): string {

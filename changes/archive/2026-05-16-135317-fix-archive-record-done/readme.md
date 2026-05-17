@@ -22,7 +22,7 @@ doc_type: Reference
 - [x] design.md / architecture-overview.md
 - [x] quickstart.md
 - [x] checklist.md
-- [ ] tasks.md
+- [x] tasks.md
 
 ## Skipped Steps
 

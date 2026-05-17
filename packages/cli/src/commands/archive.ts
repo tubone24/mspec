@@ -1,3 +1,6 @@
+// @mspec-delta 2026-05-16-135317-fix-archive-record-done/specs/cli-core/spec.md
+// Requirements implemented: FR-003
+// Change: fix-archive-record-done
 import { readFile, writeFile, mkdir, rename } from 'node:fs/promises';
 import { dirname, join, basename } from 'node:path';
 import pc from 'picocolors';
@@ -11,6 +14,7 @@ import {
   type MergeSummary,
 } from '../lib/archive-merger.js';
 import { formatSummary } from '../lib/archive-summary.js';
+import { recordDone } from '../lib/done-log.js';
 
 export interface ArchiveOptions {
   change: string;
@@ -138,6 +142,7 @@ export async function archiveCommand(opts: ArchiveOptions): Promise<ArchiveResul
   await mkdir(paths.changesArchiveDir, { recursive: true });
   const targetDir = join(paths.changesArchiveDir, change.name);
   await rename(change.dir, targetDir);
+  await recordDone(paths, change.name, 'archive');
 
   const moved = { from: change.dir, to: targetDir };
 

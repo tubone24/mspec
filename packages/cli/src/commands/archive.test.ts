@@ -1,6 +1,9 @@
 // @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/cli-core/spec.md
 // Requirements implemented: FR-001
 // Change: fix-command-name-consistency
+// @mspec-delta 2026-05-16-135317-fix-archive-record-done/specs/cli-core/spec.md
+// Requirements implemented: FR-003
+// Change: fix-archive-record-done
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mkdtemp, mkdir, writeFile, rm, readFile, stat } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -232,6 +235,39 @@ body
     );
     expect(created).toContain('# Capability: theme-engine');
     expect(created).toContain('### Requirement: FR-001 — Theme picker');
+  });
+
+  // TASK-002: FR-003 Scenario 1 — 正常アーカイブ後の done-log 記録
+  it('records done-log entry after successful archive', async () => {
+    await archiveCommand({ change: env.change, yes: true, cwd: env.root });
+    const logPath = join(env.root, '.mspec', 'cache', 'done-log.json');
+    const raw = await readFile(logPath, 'utf8');
+    const log = JSON.parse(raw);
+    expect(log[env.change]).toBeDefined();
+    expect(log[env.change]['archive']).toBeDefined();
+    expect(typeof log[env.change]['archive']['done_at']).toBe('string');
+  });
+
+  // TASK-003: FR-003 Scenario 2 — rename 失敗時の recordDone 未呼び出し
+  it('does not record done-log when rename fails', async () => {
+    // make target path a file so rename fails
+    await mkdir(join(env.root, 'changes', 'archive'), { recursive: true });
+    await writeFile(join(env.root, 'changes', 'archive', env.change), 'not a dir', 'utf8');
+    await expect(
+      archiveCommand({ change: env.change, yes: true, cwd: env.root }),
+    ).rejects.toThrow();
+    const logPath = join(env.root, '.mspec', 'cache', 'done-log.json');
+    expect(await exists(logPath)).toBe(false);
+  });
+
+  // TASK-004: FR-003 Scenario 3 — recordDone 例外のエラー伝播
+  it('propagates error when recordDone fails', async () => {
+    // make .mspec/cache a file so recordDone's mkdir throws ENOTDIR
+    await mkdir(join(env.root, '.mspec'), { recursive: true });
+    await writeFile(join(env.root, '.mspec', 'cache'), 'not a dir', 'utf8');
+    await expect(
+      archiveCommand({ change: env.change, yes: true, cwd: env.root }),
+    ).rejects.toThrow();
   });
 
   it('aborts without writing when delta parse has warnings', async () => {

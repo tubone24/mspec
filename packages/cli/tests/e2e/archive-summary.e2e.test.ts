@@ -1,6 +1,9 @@
 // @mspec-delta 2026-05-14-022259-claude-core-completion/specs/cli-archive/spec.md
 // Requirements implemented: FR-013, FR-014
 // Change: claude-core-completion
+// @mspec-delta 2026-05-16-135317-fix-archive-record-done/specs/cli-core/spec.md
+// Requirements implemented: FR-003
+// Change: fix-archive-record-done
 
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { mkdtemp, mkdir, writeFile, rm } from 'node:fs/promises';
