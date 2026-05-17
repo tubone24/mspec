@@ -1,3 +1,7 @@
+<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/cli-core/spec.md -->
+<!-- Requirements implemented: FR-002 -->
+<!-- Change: fix-command-name-consistency -->
+
 # むぎぼースペック (mspec)
 
 > LLM の自律生成 × CLI の決定論的検証 をパイプライン化する、Claude Code 向け仕様駆動開発フレームワーク。
@@ -32,7 +36,7 @@ node /path/to/mspec/packages/cli/dist/index.js init
 mspec new add-search
 
 # 4. Claude Code 上でワークフローを進める
-# /mspec-proposal → /mspec-continue → /mspec-delta → ...
+# /mspec:proposal → /mspec:continue → /mspec:delta → ...
 ```
 
 ## CLI コマンド一覧 (v0.1)
@@ -76,7 +80,7 @@ your-project/
 │       └── (archived → changes/archive/...)
 ├── memory/constitution.md       # プロジェクト原則
 └── .claude/
-    ├── commands/mspec/*.md      # /mspec-* スラッシュコマンド
+    ├── commands/mspec/*.md      # /mspec:* スラッシュコマンド
     ├── skills/mspec-*/SKILL.md  # ステップ実行スキル
     └── agents/mspec-*.md        # サブエージェント定義
 ```
@@ -95,6 +99,33 @@ export function searchDocs() { ... }
 ```
 
 `mspec anchor check` で実在検証、`mspec anchor extract <change> --json` で LLM へ「コードが実装している仕様」をそのままコンテキスト投入できる。
+
+## Locale Configuration
+
+<!-- @mspec-delta 2026-05-16-052329-artifact-language-config/specs/language-config/spec.md -->
+<!-- Requirements implemented: FR-001, FR-002, FR-004 -->
+<!-- Change: artifact-language-config -->
+
+`.mspec/config.yaml` のトップレベルに `locale` を設定すると、成果物テンプレートと質問バンクをそのロケールで解決する。
+
+```yaml
+locale: ja   # ISO 639-1 二文字コード（省略時の既定値は ja）
+```
+
+| 設定 | 挙動 |
+|------|------|
+| `locale: ja` | `templates/artifacts/proposal.ja.md` を使用 |
+| `locale: en` | `templates/artifacts/proposal.en.md` を使用 |
+| 未設定 | `ja` で動作（既定値） |
+| 未対応コード | `mspec validate` が exit 1 + stderr に `unsupported locale: <code>` と `supported: ja, en` を出力 |
+
+### 対応言語の追加
+
+`templates/artifacts/*.zh.md` と `templates/questions/*.zh.yaml` を両方配置するだけで `locale: zh` が自動認識される（`mspec init` 不要）。
+
+### EARS キーワードは英語固定
+
+`SHALL` / `WHEN` / `GIVEN` / `THEN` 等の EARS キーワードと `Requirement:` / `Scenario:` の識別子は国際慣行に従い英語固定。翻訳対象外。
 
 ## 開発
 

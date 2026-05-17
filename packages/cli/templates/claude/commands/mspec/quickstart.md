@@ -1,3 +1,6 @@
+<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/cli-core/spec.md -->
+<!-- Requirements implemented: FR-001 -->
+<!-- Change: fix-command-name-consistency -->
 ---
 description: Write quickstart.md for the change
 ---

@@ -1,8 +1,14 @@
 ---
 name: mspec-research
 description: research step of mspec workflow — investigate via subagent and produce research.md
-when_to_use: User runs /mspec-research, or workflow auto-continues to research
----
+when_to_use: User runs /mspec:research, or workflow auto-continues to research
+---<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
+<!-- Requirements implemented: FR-017 -->
+<!-- Change: fix-command-name-consistency -->
+
+<!-- @mspec-delta 2026-05-15-040857-step-checkbox-update/specs/claude-integration/spec.md -->
+<!-- Requirements implemented: FR-015 -->
+<!-- Change: step-checkbox-update -->
 
 ## Procedure
 
@@ -13,5 +19,6 @@ when_to_use: User runs /mspec-research, or workflow auto-continues to research
 5. Receive the `research.md` body (Decisions / Web References / Codebase Findings / Open Choices) and write it to disk.
 6. For any `Open Choices`, ask the user via AskUserQuestion (1 question per call) and update the file.
 7. Append the `## Constitution Check` (Phase 0 only).
-8. Run `mspec validate --change <change-dir>`.
-9. `block: true` — stop and ask the user to run `/mspec-continue`.
+7a. `readme.md` の `## Artifacts` 節の `- [ ] research.md` を `- [x] research.md` に更新する。
+8. Run `mspec validate --change <change-dir>`. validate が失敗した場合は `- [x] research.md` を `- [ ] research.md` にロールバックする。
+9. `block: true` — stop and ask the user to run `/mspec:continue`.

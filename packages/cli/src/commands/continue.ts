@@ -1,14 +1,34 @@
+// @mspec-delta 2026-05-14-131906-fix-special-step-produces/specs/cli-state-engine/spec.md
+// Requirements implemented: FR-001, FR-002
+// Change: fix-special-step-produces
+
+// @mspec-delta 2026-05-16-170347-lightweight-change-mode/specs/cli-workflow-engine/spec.md
+// Requirements implemented: FR-019, FR-020
+// Change: lightweight-change-mode
+
+import { readFile } from 'node:fs/promises';
 import pc from 'picocolors';
 import { loadWorkflow } from '../workflow/loader.js';
 import { projectPaths } from '../workflow/paths.js';
-import { findChange, listChanges } from '../lib/change-discovery.js';
+import { findChange, listChanges, fileExists } from '../lib/change-discovery.js';
 import { loadSkipLog, skippedSteps } from '../lib/skip-log.js';
+import { loadDoneLog } from '../lib/done-log.js';
 import { computeStatus } from '../lib/state-engine.js';
+import { extractPrinciples } from '../lib/constitution-principles.js';
+import { parseMode } from '../lib/readme-parser.js';
 import type { Status, Step, Workflow } from '../types/index.js';
 
 export interface ContinueOptions {
   change?: string;
   json?: boolean;
+  /** Override cwd (for testing). Defaults to process.cwd(). */
+  cwd?: string;
+}
+
+export interface ConstitutionPrinciple {
+  id: string;
+  name: string;
+  evaluate_in_phase: string[];
 }
 
 export interface ContinueOutput {
@@ -24,25 +44,40 @@ export interface ContinueOutput {
   produces: string[];
   block_after: boolean;
   blockers: string[];
+  constitution_principles: ConstitutionPrinciple[];
 }
 
 export async function continueCommand(opts: ContinueOptions): Promise<void> {
-  const paths = projectPaths(process.cwd());
+  const paths = projectPaths(opts.cwd ?? process.cwd());
   const workflow = await loadWorkflow(paths.workflowFile);
-  const skipLog = await loadSkipLog(paths);
+  const [skipLog, doneLog] = await Promise.all([loadSkipLog(paths), loadDoneLog(paths)]);
 
   const changeName = opts.change ?? (await singleActiveChange(paths));
   const change = await findChange(paths, changeName);
   if (!change) throw new Error(`change "${changeName}" not found`);
 
-  const status = await computeStatus({ workflow, change, skipLog });
-  const out = buildContinue(status, workflow, change.dir, skippedSteps(skipLog, change.name));
+  const readmePath = `${change.dir}/readme.md`;
+  let mode: string | null = null;
+  if (await fileExists(readmePath)) {
+    const readmeContent = await readFile(readmePath, 'utf8');
+    mode = parseMode(readmeContent);
+  }
+
+  const status = await computeStatus({ workflow, change, skipLog, doneLog, mode });
+  const principles = await loadConstitutionPrinciples(paths.constitutionFile);
+  const out = buildContinue(status, workflow, change.dir, skippedSteps(skipLog, change.name), principles);
 
   if (opts.json) {
     process.stdout.write(JSON.stringify(out, null, 2) + '\n');
     return;
   }
   printHuman(out);
+}
+
+async function loadConstitutionPrinciples(constitutionFile: string): Promise<ConstitutionPrinciple[]> {
+  if (!(await fileExists(constitutionFile))) return [];
+  const contents = await readFile(constitutionFile, 'utf8');
+  return extractPrinciples(contents).map((p) => ({ ...p, evaluate_in_phase: [] }));
 }
 
 async function singleActiveChange(paths: ReturnType<typeof projectPaths>): Promise<string> {
@@ -57,6 +92,7 @@ function buildContinue(
   workflow: Workflow,
   changeDir: string,
   upstreamSkipped: string[],
+  allPrinciples: ConstitutionPrinciple[],
 ): ContinueOutput {
   const invalid = status.steps.find((s) => s.state === 'invalid');
   if (invalid) {
@@ -78,6 +114,13 @@ function buildContinue(
     exists: true, // status engine already required prev steps to be done/skipped
   }));
 
+  const constitutionPrinciples = step.constitution_check
+    ? allPrinciples.map((p) => ({
+        ...p,
+        evaluate_in_phase: step.id === 'design' ? ['0', '1'] : ['0'],
+      }))
+    : [];
+
   return {
     change: status.change,
     current_step: step.id,
@@ -91,6 +134,7 @@ function buildContinue(
     produces: step.produces ?? [],
     block_after: step.block,
     blockers: status.blockers,
+    constitution_principles: constitutionPrinciples,
   };
 }
 
@@ -108,6 +152,7 @@ function baseEmpty(status: Status, action: ContinueOutput['next_action']): Conti
     produces: [],
     block_after: false,
     blockers: status.blockers,
+    constitution_principles: [],
   };
 }
 

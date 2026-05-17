@@ -1,3 +1,6 @@
+<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/cli-core/spec.md -->
+<!-- Requirements implemented: FR-001 -->
+<!-- Change: fix-command-name-consistency -->
 ---
 description: Break the change into tasks.md with anchor blocks
 ---
@@ -17,4 +20,4 @@ You are in the **tasks** step of the mspec workflow.
 4. Tests-first: every Scenario in the Delta Spec must have an E2E task before its implementation task.
 5. Append the `## Constitution Check` Phase 0 table.
 6. Run `mspec validate --change <change-dir>`.
-7. Since `block: true`, stop and instruct the user to run `/mspec-continue`.
+7. Since `block: true`, stop and instruct the user to run `/mspec:continue`.

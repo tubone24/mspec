@@ -1,3 +1,6 @@
+// @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/cli-core/spec.md
+// Requirements implemented: FR-001
+// Change: fix-command-name-consistency
 import { mkdir, readFile, writeFile, access, readdir, appendFile, stat } from 'node:fs/promises';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -235,7 +238,7 @@ export async function initCommand(opts: InitOptions = {}): Promise<void> {
 
   console.log();
   console.log(pc.green('mspec init: done.'));
-  console.log(pc.cyan('next:'), pc.bold('run /mspec-new <feature>'));
+  console.log(pc.cyan('next:'), pc.bold('run /mspec:new <feature>'));
 }
 
 async function ensureGitignoreEntry(root: string, line: string): Promise<void> {

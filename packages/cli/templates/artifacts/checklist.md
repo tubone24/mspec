@@ -1,3 +1,7 @@
+---
+doc_type: Reference
+---
+
 # Checklist: <タイトル>
 
 ## Delta Spec Coverage

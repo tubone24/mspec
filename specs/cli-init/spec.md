@@ -1,3 +1,7 @@
+<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/cli-core/spec.md -->
+<!-- Requirements implemented: FR-002 -->
+<!-- Change: fix-command-name-consistency -->
+
 <!-- mspec: gaps in FR numbering are intentional. -->
 
 # cli-init Specification
@@ -122,12 +126,12 @@ The system MUST write `integrations.claude.subagents: false` into `.mspec/config
 
 ### Requirement: FR-010 — Emit next-step guidance on success
 
-The system MUST emit a `next: run /mspec-new <feature>` style instruction to the user when `mspec init` completes successfully.
+The system MUST emit a `next: run /mspec:new <feature>` style instruction to the user when `mspec init` completes successfully.
 
 #### Scenario: Success message guides user
 - GIVEN `mspec init` が成功条件をすべて満たして完了する直前
 - WHEN コマンドが終了する
-- THEN 標準出力に次に実行すべきコマンドとして `/mspec-new` を含む案内が表示される
+- THEN 標準出力に次に実行すべきコマンドとして `/mspec:new` を含む案内が表示される
 - AND 終了コードは 0 である
 
 ### Requirement: FR-011 — `config.yaml` carries declared schema version

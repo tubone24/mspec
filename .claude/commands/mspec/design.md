@@ -1,6 +1,9 @@
 ---
 description: Run the design step (design.md + architecture-overview.md, Phase 0/1 Constitution Check)
----
+---<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
+<!-- Requirements implemented: FR-017 -->
+<!-- Change: fix-command-name-consistency -->
+
 
 You are in the **design** step of the mspec workflow.
 
@@ -12,4 +15,4 @@ You are in the **design** step of the mspec workflow.
 4. Re-evaluate Constitution Check (Phase 1) at the bottom of `design.md`. Both Phase 0 and Phase 1 columns must be filled.
 5. If any Principle is ❌, fill `### Complexity Tracking` with justification.
 6. Run `mspec validate --change <change-dir>`.
-7. Since `block: true`, stop and instruct the user to run `/mspec-continue`.
+7. Since `block: true`, stop and instruct the user to run `/mspec:continue`.

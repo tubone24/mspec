@@ -1,7 +1,12 @@
+---
+doc_type: Reference
+---
+
 # <feature-kebab>
 
 > Status: <new|in-progress|archived>
 > Created: __TODAY__
+> Mode: <typo|minor|bugfix>（省略可。mspec-new スキルがモード推定後に追記する）
 
 ## Request
 

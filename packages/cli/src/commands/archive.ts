@@ -10,6 +10,7 @@ import {
   createEmptySpec,
   type MergeSummary,
 } from '../lib/archive-merger.js';
+import { formatSummary } from '../lib/archive-summary.js';
 
 export interface ArchiveOptions {
   change: string;
@@ -166,7 +167,7 @@ export function printReport(
   moved: { from: string; to: string } | null,
   dryRun: boolean,
 ): void {
-  const header = dryRun ? pc.yellow('[dry-run]') : pc.green('[archive]');
+  const header = dryRun ? pc.yellow('[dry-run preview]') : pc.green('[archive]');
   console.log(`${header} ${changeName}`);
   for (const r of reports) {
     console.log(`  Capability: ${pc.cyan(r.capability)}`);
@@ -182,5 +183,13 @@ export function printReport(
     console.log(`  Moved: ${moved.from} → ${moved.to}`);
   } else if (dryRun) {
     console.log(`  Would move: changes/${changeName} → changes/archive/${changeName}`);
+  }
+  if (!dryRun) {
+    console.log();
+    console.log('  Summary:');
+    const summaryText = formatSummary(reports.map((r) => ({ capability: r.capability, summary: r.summary })));
+    for (const line of summaryText.split('\n')) {
+      console.log(`    ${line}`);
+    }
   }
 }

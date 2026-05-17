@@ -1,3 +1,7 @@
+---
+doc_type: Reference
+---
+
 # Architecture Overview: <タイトル>
 
 ## System Diagram

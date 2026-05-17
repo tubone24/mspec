@@ -1,4 +1,10 @@
+# @mspec-delta 2026-05-16-052329-artifact-language-config/specs/language-config/spec.md
+# Requirements implemented: FR-001, FR-002
+# Change: artifact-language-config
 version: 1
+
+# 成果物生成言語 (ISO 639-1 二文字コード, 省略時は ja)
+locale: ja
 
 # テスト実行コマンド (O2: 自動推定せず明示必須)
 test:

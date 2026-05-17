@@ -1,3 +1,7 @@
+---
+doc_type: How-to
+---
+
 # Quickstart: <タイトル>
 
 ## Prerequisites

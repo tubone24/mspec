@@ -1,6 +1,9 @@
 ---
 description: Generate checklist.md via the mspec-checklist-auditor subagent
----
+---<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
+<!-- Requirements implemented: FR-017 -->
+<!-- Change: fix-command-name-consistency -->
+
 
 You are in the **checklist** step of the mspec workflow.
 

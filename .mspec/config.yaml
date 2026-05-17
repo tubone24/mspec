@@ -2,7 +2,7 @@ version: 1
 
 # テスト実行コマンド (O2: 自動推定せず明示必須)
 test:
-  command: ""
+  command: "node /Users/kagadminmac/project/mspec/packages/cli/node_modules/.bin/vitest run --root /Users/kagadminmac/project/mspec/packages/cli"
   expect_red_on_exit: [1, 2]
   expect_green_on_exit: [0]
 

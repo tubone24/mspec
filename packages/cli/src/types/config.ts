@@ -1,3 +1,7 @@
+// @mspec-delta 2026-05-16-052329-artifact-language-config/specs/language-config/spec.md
+// Requirements implemented: FR-001, FR-002, FR-003, FR-004
+// Change: artifact-language-config
+
 import { z } from 'zod';
 
 export const TestConfigSchema = z.object({
@@ -27,6 +31,7 @@ export const IntegrationsSchema = z.object({
 
 export const ConfigSchema = z.object({
   version: z.literal(1),
+  locale: z.string().regex(/^[a-z]{2}$/).optional(),
   test: TestConfigSchema.optional(),
   project: ProjectConfigSchema.optional(),
   integrations: IntegrationsSchema.optional(),

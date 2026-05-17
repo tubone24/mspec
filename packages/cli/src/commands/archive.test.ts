@@ -1,3 +1,6 @@
+// @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/cli-core/spec.md
+// Requirements implemented: FR-001
+// Change: fix-command-name-consistency
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mkdtemp, mkdir, writeFile, rm, readFile, stat } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -9,37 +12,37 @@ name: mspec-test
 description: minimal workflow for archive tests
 steps:
   - id: new
-    command: /mspec-new
+    command: /mspec:new
     skill: mspec-new
     produces: [readme.md]
     block: true
     removable: false
   - id: proposal
-    command: /mspec-proposal
+    command: /mspec:proposal
     skill: mspec-proposal
     produces: [proposal.md]
     block: true
     removable: false
   - id: delta
-    command: /mspec-delta
+    command: /mspec:delta
     skill: mspec-delta
     produces: ["specs/*/spec.md"]
     block: false
     removable: false
   - id: tasks
-    command: /mspec-tasks
+    command: /mspec:tasks
     skill: mspec-tasks
     produces: [tasks.md]
     block: true
     removable: false
   - id: implement
-    command: /mspec-implement
+    command: /mspec:implement
     skill: mspec-implement
     produces: []
     block: true
     removable: false
   - id: archive
-    command: /mspec-archive
+    command: /mspec:archive
     skill: mspec-archive
     produces: []
     block: false

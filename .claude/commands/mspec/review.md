@@ -1,6 +1,9 @@
 ---
 description: Run the self-review step via mspec-self-reviewer subagent
----
+---<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
+<!-- Requirements implemented: FR-017 -->
+<!-- Change: fix-command-name-consistency -->
+
 
 You are in the **self-review** step of the mspec workflow.
 
@@ -12,4 +15,4 @@ You are in the **self-review** step of the mspec workflow.
 4. The subagent returns review notes; append them as a `## Self-Review` section to `design.md` (no new files; `produces: []`).
 5. Re-check Constitution Check tables across all artifacts.
 6. Run `mspec validate --change <change-dir>`.
-7. Since `block: true`, stop and instruct the user to run `/mspec-continue`.
+7. Since `block: true`, stop and instruct the user to run `/mspec:continue`.

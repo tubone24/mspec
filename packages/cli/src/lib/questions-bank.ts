@@ -1,10 +1,54 @@
+// @mspec-delta 2026-05-16-052329-artifact-language-config/specs/question-bank-i18n/spec.md
+// Requirements implemented: FR-001, FR-002, FR-003, FR-004
+// Change: artifact-language-config
+
 import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parse as parseYaml } from 'yaml';
+import pc from 'picocolors';
 import { QuestionBankSchema, type Question, type QuestionBank } from '../types/index.js';
 import { fileExists } from './change-discovery.js';
 import { projectPaths } from '../workflow/paths.js';
+
+const translationWarnCache = new Set<string>();
+
+/** Reset translation warning dedup cache (for testing). */
+export function resetTranslationWarningCache(): void {
+  translationWarnCache.clear();
+}
+
+/** Localize a question's text fields to the active locale. Falls back to 'en'. */
+export function localizeQuestion(q: Question, locale: string): Question {
+  const localizeField = (field: string | Record<string, string>): string => {
+    if (typeof field === 'string') return field; // legacy scalar → en-compatible
+    if (locale in field) return field[locale]!;
+    // Fallback to 'en'
+    const key = `${locale}:${q.id}`;
+    if (!translationWarnCache.has(key)) {
+      translationWarnCache.add(key);
+      process.stderr.write(
+        pc.yellow(`missing translation: ${q.id} for locale '${locale}'\n`),
+      );
+    }
+    return (field['en'] as string) ?? Object.values(field)[0] ?? '';
+  };
+
+  const localizeOptions = (
+    options: Question['options'],
+  ): string[] | 'dynamic' => {
+    if (options === 'dynamic') return 'dynamic';
+    return (options as Array<string | Record<string, string>>).map((o) =>
+      typeof o === 'string' ? o : localizeField(o),
+    );
+  };
+
+  return {
+    ...q,
+    question: localizeField(q.question as string | Record<string, string>),
+    options: localizeOptions(q.options),
+  };
+}
 
 /**
  * Resolve the directory containing default question bank YAMLs (cli-pkg/templates/questions/).

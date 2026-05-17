@@ -1,3 +1,7 @@
+<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/cli-core/spec.md -->
+<!-- Requirements implemented: FR-002 -->
+<!-- Change: fix-command-name-consistency -->
+
 <!-- mspec: gaps in FR numbering are intentional. -->
 
 # claude-integration Specification
@@ -10,12 +14,12 @@
 
 ### Requirement: FR-001 — Slash commands under `.claude/commands/mspec/`
 
-The system MUST provide a slash-command Markdown file under `.claude/commands/mspec/` for each mspec workflow step (e.g. `new`, `proposal`, `delta`, `research`, `design`, `quickstart`, `checklist`, `review`, `tasks`, `implement`, `archive`) and for the workflow driver `continue`, so that the user can invoke any step from Claude Code as `/mspec-<step>`.
+The system MUST provide a slash-command Markdown file under `.claude/commands/mspec/` for each mspec workflow step (e.g. `new`, `proposal`, `delta`, `research`, `design`, `quickstart`, `checklist`, `review`, `tasks`, `implement`, `archive`) and for the workflow driver `continue`, so that the user can invoke any step from Claude Code as `/mspec:<step>`.
 
 #### Scenario: Step commands are available in Claude Code
 - GIVEN `mspec init --tools claude` がプロジェクトに対して実行済みである
 - WHEN Claude Code セッションで `/` を入力してコマンド一覧を確認する
-- THEN `/mspec-new`, `/mspec-proposal`, `/mspec-continue` を含む各 step に対応するスラッシュコマンドが利用可能である
+- THEN `/mspec:new`, `/mspec:proposal`, `/mspec:continue` を含む各 step に対応するスラッシュコマンドが利用可能である
 - AND 各コマンドは `.claude/commands/mspec/<step>.md` というパスにファイルとして存在する
 
 ### Requirement: FR-002 — One SKILL.md per workflow step
@@ -95,7 +99,7 @@ The system MUST NOT instruct the main Skill to launch a subagent when the projec
 #### Scenario: Opted-out project falls back to inline execution
 - GIVEN プロジェクトの `.mspec/config.yaml` に `integrations.claude.subagents: false` が記録されている
 - AND ワークフロー上 `research` step は `subagent: true` と定義されている
-- WHEN ユーザーが `/mspec-continue` を実行し、research step に到達する
+- WHEN ユーザーが `/mspec:continue` を実行し、research step に到達する
 - THEN メインの Claude スキルは Task ツールによる subagent 起動を行わない
 - AND research step の手順はメインスキル自身が実行する
 
@@ -114,3 +118,228 @@ The system MUST limit AI-tool integration assets in v0 to Claude Code: `mspec in
 - WHEN プロジェクト直下を観察する
 - THEN `.claude/` 配下にのみ mspec 統合資産が存在する
 - AND Codex / Copilot 用のディレクトリ (例: `.codex/`, `.github/copilot/`) は作成されない
+
+### Requirement: FR-010 — Update mspec skill prompts to explicitly reference EARS+Scenario format and RFC 2119 keyword semantics
+
+The system MUST update the `## Procedure` section of each mspec SKILL.md (at minimum `mspec-delta`, `mspec-proposal`, and `mspec-design`) to explicitly instruct Claude to write Requirement bodies in EARS format, applying the RFC 2119 keyword distinctions defined in the Constitution (SHALL for functional requirements, MUST for constraints and safety requirements, SHOULD for recommendations), and to nest at least one `#### Scenario:` block with GIVEN / WHEN / THEN bullets inside each Requirement.
+
+#### Scenario: mspec-delta skill prompt references EARS format and keyword semantics
+- GIVEN `.claude/skills/mspec-delta/SKILL.md` の `## Procedure` 節を開く
+- WHEN 節の内容を読む
+- THEN Requirement 本文を EARS 形式（SHALL / MUST / SHOULD の使い分け）で記述するよう明示した指示が含まれる
+- AND Scenario（GIVEN/WHEN/THEN）を各 Requirement の直下に入れ子で必須とする旨が記述されている
+
+#### Scenario: mspec-proposal skill prompt acknowledges EARS+Scenario convention
+- GIVEN `.claude/skills/mspec-proposal/SKILL.md` の `## Procedure` 節を開く
+- WHEN 節の内容を読む
+- THEN Capabilities セクションへの記述を促す箇所に、後続の delta ステップで EARS+Scenario 形式が使われることを前提とした注記が含まれる
+
+#### Scenario: mspec-design skill prompt references EARS requirement conventions
+- GIVEN `.claude/skills/mspec-design/SKILL.md` の `## Procedure` 節を開く
+- WHEN 節の内容を読む
+- THEN design.md に記載する受け入れ基準を Delta Spec の Scenario（GIVEN/WHEN/THEN）と対応付けるよう指示する記述が含まれる
+
+### Requirement: FR-011 — checklist-auditor annotates each item with verify metadata
+
+When the `mspec-checklist-auditor` subagent generates `checklist.md`, the system SHALL annotate **every** checklist item with exactly one of: `<!-- verify: fr-NNN -->` when the item is automatically verifiable by the E2E tests that implement the corresponding FR, or `<!-- verify: human -->` when the item requires human judgment (e.g., Constitution compliance, design assessment, or external observation). The auditor MUST NOT leave any checklist item without a `verify:` annotation, and MUST validate after generation that all items carry exactly one annotation before declaring the step complete.
+
+#### Scenario: AI-verifiable item receives FR reference annotation
+- GIVEN `mspec-checklist-auditor` が `checklist.md` を生成している
+- WHEN あるチェックリスト項目が Delta Spec の特定の FR（例: `fr-011`）の E2E シナリオによって検証可能である
+- THEN その項目の末尾に `<!-- verify: fr-011 -->` というインラインコメントが付与される
+- AND 1 項目に付与される `verify:` アノテーションは 1 つである
+
+#### Scenario: Human-review item receives human annotation
+- GIVEN `mspec-checklist-auditor` が `checklist.md` を生成している
+- WHEN あるチェックリスト項目が Constitution 準拠・設計判断・外部観察など自動検証できない性質のものである
+- THEN その項目の末尾に `<!-- verify: human -->` というインラインコメントが付与される
+
+#### Scenario: Auditor self-validates that no item is left unannotated
+- GIVEN `mspec-checklist-auditor` が `checklist.md` の全項目を書き終えた
+- WHEN auditor が完了宣言の前に自己検証ステップを実行する
+- THEN `checklist.md` 内に `verify:` アノテーションを持たないチェックボックス行が 0 件であることを確認する
+- AND アノテーションなし行が検出された場合は、その行に適切なアノテーションを付与してから完了を宣言する
+
+### Requirement: FR-012 — implement skill auto-checks checklist items when task reaches GREEN
+
+When a task transitions to GREEN (all associated tests pass) during the `mspec-implement` step, the system SHALL read the task's anchor (`Requirements implemented: FR-NNN`) to resolve the corresponding FR IDs, then locate checklist items annotated with `<!-- verify: fr-NNN -->` and update them from `- [ ]` to `- [x]`.
+
+#### Scenario: Test suite goes GREEN, corresponding checklist item is auto-checked
+- GIVEN `mspec-implement` が `task-003` のテストを実行している
+- WHEN `task-003` の全テストが RED から GREEN になる
+- AND `task-003` のアンカーに `Requirements implemented: FR-011` が記録されている
+- THEN `checklist.md` 内の `<!-- verify: fr-011 -->` が末尾に付与されているチェックボックスが `- [x]` に更新される
+- AND 他の `verify:` アノテーションを持つチェックボックスは変更されない
+
+#### Scenario: No matching verify annotation — checklist unchanged
+- GIVEN `mspec-implement` が `task-005` のテストを実行している
+- WHEN `task-005` が GREEN になる
+- AND `task-005` のアンカーに `Requirements implemented: FR-013` が記録されている
+- AND `checklist.md` に `<!-- verify: fr-013 -->` が付与された項目が存在しない
+- THEN `checklist.md` は変更されない
+
+### Requirement: FR-013 — implement step reports unchecked items after all tasks complete
+
+When all tasks in `tasks.md` have reached GREEN and the `mspec-implement` step concludes, the system SHALL inspect `checklist.md` for remaining unchecked items and, if any exist, SHALL report them to the user grouped by annotation type: items with `<!-- verify: human -->` requiring manual verification, and any items with `<!-- verify: fr-NNN -->` that were not auto-checked (indicating a gap between tasks and checklist coverage). Where no unchecked items remain, the system SHALL declare implementation complete without an additional report.
+
+#### Scenario: Unchecked human items reported at end of implement
+- GIVEN `mspec-implement` が `tasks.md` の全タスクを GREEN にした
+- WHEN `checklist.md` に `<!-- verify: human -->` の未チェック項目が 1 件以上残っている
+- THEN スキルはその項目の一覧をユーザーに提示する
+- AND 人間によるレビューを求めるメッセージを出力し、ユーザーの確認を待つ
+
+#### Scenario: Unchecked fr-annotated items trigger gap warning
+- GIVEN `mspec-implement` が全タスクを GREEN にした
+- WHEN `checklist.md` に `<!-- verify: fr-NNN -->` の未チェック項目が残っている
+- THEN スキルは対象項目と対応 FR 番号をユーザーに報告する
+- AND チェックリストとタスクの `Requirements implemented` アンカー間の対応関係にギャップがある旨を説明する
+- AND ユーザーの確認を待つ（警告 + ブロック）
+
+#### Scenario: All items checked — implementation declared complete
+- GIVEN `mspec-implement` が全タスクを GREEN にした
+- WHEN `checklist.md` の全項目が `- [x]` にチェックされている
+- THEN スキルは未チェック項目の報告を行わず、実装完了を宣言する
+
+### Requirement: FR-014 — Runtime skill files and CLI template files are kept in sync
+
+The system MUST update both the runtime asset files (`.claude/skills/mspec-implement/SKILL.md`, `.claude/agents/mspec-checklist-auditor.md`) and their corresponding CLI template sources (`packages/cli/templates/claude/skills/mspec-implement/SKILL.md`, `packages/cli/templates/claude/agents/mspec-checklist-auditor.md`) whenever the `verify:` annotation procedure or auto-check logic is modified, ensuring that projects installed via `mspec init` and existing projects that update manually produce identical behavior.
+
+#### Scenario: Template and runtime skill contain identical verify procedure
+- GIVEN `mspec-checklist-auditor.md` のランタイムファイルが `verify:` アノテーション手順を含む形に更新された
+- WHEN `packages/cli/templates/claude/agents/mspec-checklist-auditor.md` を確認する
+- THEN 同一の `verify:` メタデータ付与手順が存在する
+- AND ランタイムファイルとテンプレートファイルの内容に差異がない
+
+### Requirement: FR-015 — Each mspec skill step updates readme.md Artifacts checkbox on completion
+
+When a mspec skill step produces its designated artifact(s), the system SHALL immediately update the corresponding `- [ ]` entry in the `## Artifacts` section of `changes/<change-dir>/readme.md` to `- [x]`, reflecting that the artifact has been produced.
+
+#### Scenario: Proposal step marks its artifact as done
+- GIVEN `changes/2026-05-15-example/readme.md` の `## Artifacts` 節に `- [ ] proposal.md` が存在する
+- WHEN `mspec-proposal` スキルが `proposal.md` の書き込みを完了する
+- THEN `readme.md` の `## Artifacts` 節の該当行が `- [x] proposal.md` に更新される
+- AND 他の artifact 行（例: `- [ ] design.md`）は変更されない
+
+#### Scenario: Delta step marks its specs artifact as done
+- GIVEN `readme.md` の `## Artifacts` 節に `- [ ] specs/*/spec.md` が存在する
+- WHEN `mspec-delta` スキルが全 capability の `spec.md` を生成し終える
+- THEN 対応する行が `- [x] specs/*/spec.md` に更新される
+
+### Requirement: FR-016 — mspec-implement updates tasks.md task checkbox when task reaches GREEN
+
+When a task in `tasks.md` transitions to GREEN (all associated tests pass) during the `mspec-implement` step, the system SHALL update the task's checkbox from `- [ ] TNNN` to `- [x] TNNN` in `tasks.md`, where TNNN is the task's identifier.
+
+#### Scenario: Task goes GREEN, tasks.md checkbox is checked
+- GIVEN `tasks.md` に `- [ ] T003: …` というタスク行が存在する
+- WHEN `mspec-implement` が T003 に対応するテストスイートを実行し、全テストが GREEN になる
+- THEN `tasks.md` の該当行が `- [x] T003: …` に更新される
+- AND 他の未完了タスクのチェックボックスは変更されない
+
+#### Scenario: Partial task completion does not mark checkbox
+- GIVEN `tasks.md` に `- [ ] T004: …` というタスク行が存在する
+- WHEN `mspec-implement` が T004 のテストを実行し、1 件以上のテストが FAIL のままである
+- THEN `tasks.md` の T004 行は `- [ ] T004: …` のまま変更されない
+
+### Requirement: FR-017 — Skill files SHALL reference next-step commands in colon format only
+
+The system SHALL use only the colon-separated command format (`/mspec:<step>`) when referring to next-step slash commands inside skill prompt files (`.claude/skills/mspec-*/` and `.claude/agents/mspec-*`). Hyphen-separated references (e.g. `mspec-continue`, `mspec-proposal`) MUST NOT appear in any skill or agent file.
+
+#### Scenario: Skill instructs user to run next step in colon format
+- GIVEN `.claude/skills/mspec-proposal/SKILL.md` の手順末尾にユーザーへの指示が記載されている
+- WHEN ユーザーがその指示を読む
+- THEN 指示に含まれるコマンド名はすべて `/mspec:continue` 等のコロン形式である
+- AND `mspec-continue` 等のハイフン形式の文字列は一切含まれない
+
+#### Scenario: grep で残存ゼロを確認
+- GIVEN 全スキル・エージェントファイルが修正済みである
+- WHEN `grep -r "mspec-" .claude/` を実行する
+- THEN ハイフン形式のコマンド参照がヒットしない
+
+### Requirement: FR-018 — mspec:new skill infers mode from request text and stores it in readme.md
+
+`/mspec:new` に渡された説明文からスキルがモード（`typo` / `minor` / `bugfix`）を AI 推定し、ユーザーに確認を取ってから `readme.md` のブロッククォート行として `> Mode: <value>` を追記する SHALL。`--mode <value>` 引数が明示指定された場合は AI 推定をスキップして直接書き込む。
+
+#### Scenario: 説明文からモードが AI 推定され確認後に readme.md に書き込まれる
+
+- GIVEN ユーザーが `/mspec:new コメント内の typo を修正したい` を実行した
+- WHEN mspec-new スキルが説明文を解析する
+- THEN スキルは「typo モードと判断しました。正しいですか？」と確認する
+- AND ユーザーが承認する
+- AND `readme.md` のフロントマターに `> Mode: typo` が含まれる
+
+#### Scenario: AI 推定が誤っていた場合にユーザーが訂正できる
+
+- GIVEN スキルが説明文から `minor` と推定した
+- WHEN ユーザーが「bugfix が正しい」と訂正する
+- THEN `readme.md` に `> Mode: bugfix` が書き込まれる
+
+#### Scenario: --mode 引数で明示指定した場合は AI 推定をスキップする
+
+- GIVEN ユーザーが `/mspec:new --mode bugfix ログ出力が欠落している問題を修正したい` を実行した
+- WHEN mspec-new スキルが引数を解析する
+- THEN スキルは AI 推定をスキップし、確認なしで `> Mode: bugfix` を readme.md に書き込む
+
+#### Scenario: フルフロー対象の説明文では Mode フィールドを書き込まない
+
+- GIVEN ユーザーが `/mspec:new 新しいダッシュボード機能を追加したい` を実行した
+- WHEN スキルが説明文を解析してモードに該当しないと判断した
+- THEN `readme.md` に `> Mode:` フィールドは含まれない（フルフロー実行）
+
+### Requirement: FR-019 — ワークフローエンジンはモードに基づいてステップを自動スキップする
+
+`mspec continue` 実行時、システムは `readme.md` の `Mode:` フィールドを読み取り、現在のステップ ID がそのモードのスキップリストに含まれる場合、システム SHALL そのステップを `skipped` 状態として扱い成果物を生成せずに次のステップへ進み、`readme.md` の `## Skipped Steps` セクションにスキップ記録を追記する。スキルは起動されない（lazy engine skip）。
+
+有効なモードとスキップリスト:
+- `typo`: `proposal`, `quickstart` をスキップ
+- `minor`: `proposal`, `quickstart` をスキップ
+- `bugfix`: `proposal`, `quickstart` をスキップ（research は強制、FR-020 参照）
+
+#### Scenario: typo モードで /mspec:proposal が自動スキップされる
+
+- GIVEN `readme.md` に `> Mode: typo` が記録されている
+- WHEN `/mspec:proposal` スキルが起動する
+- THEN エンジンは proposal ステップを `skipped` として扱い、スキルは起動されない
+- AND `proposal.md` は生成されない
+- AND `readme.md` の `## Skipped Steps` に `- proposal: typo モードのため自動スキップ` が追記される
+
+#### Scenario: minor モードで /mspec:quickstart が自動スキップされる
+
+- GIVEN `readme.md` に `> Mode: minor` が記録されている
+- WHEN `/mspec:quickstart` スキルが起動する
+- THEN エンジンは quickstart ステップを `skipped` として扱い、スキルは起動されない
+- AND `readme.md` の `## Skipped Steps` にスキップ記録が追記される
+
+#### Scenario: bugfix モードで /mspec:proposal が自動スキップされる
+
+- GIVEN `readme.md` に `> Mode: bugfix` が記録されている
+- WHEN `/mspec:proposal` スキルが起動する
+- THEN スキルは proposal ステップをスキップすると宣言して終了する
+- AND `readme.md` の `## Skipped Steps` にスキップ記録が追記される
+
+#### Scenario: モード未指定チェンジではスキップが発生しない
+
+- GIVEN `readme.md` に `Mode:` フィールドが存在しない
+- WHEN `/mspec:proposal` スキルが起動する
+- THEN スキルは通常どおり proposal ステップを実行する
+
+### Requirement: FR-020 — bugfix モードは research ステップを強制する
+
+`bugfix` モードのチェンジにおいて、システム SHALL `mspec:research` スキル起動時にモードを確認し、`bugfix` であれば research ステップをスキップ不可として扱い、ユーザーがスキップを試みた場合は拒否してその旨を通知する。
+
+#### Scenario: bugfix モードで /mspec:research がスキップ不可になる
+
+- GIVEN `readme.md` に `> Mode: bugfix` が記録されている
+- WHEN ユーザーが research ステップをスキップしようとする
+- THEN スキルは「bugfix モードでは research は必須です」と通知してスキップを拒否する
+- AND research ステップを通常どおり開始する
+
+#### Scenario: bugfix モードで research が正常完了した場合は次ステップへ進む
+
+- GIVEN `readme.md` に `> Mode: bugfix` が記録されている
+- WHEN `/mspec:research` スキルが起動し、`research.md` が正常に生成される
+- THEN 次のステップ（delta）へ通常どおり進む
+
+
+
+
+

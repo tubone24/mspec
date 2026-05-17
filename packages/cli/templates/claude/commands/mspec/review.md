@@ -1,3 +1,6 @@
+<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/cli-core/spec.md -->
+<!-- Requirements implemented: FR-001 -->
+<!-- Change: fix-command-name-consistency -->
 ---
 description: Run the self-review step via mspec-self-reviewer subagent
 ---
@@ -12,4 +15,4 @@ You are in the **self-review** step of the mspec workflow.
 4. The subagent returns review notes; append them as a `## Self-Review` section to `design.md` (no new files; `produces: []`).
 5. Re-check Constitution Check tables across all artifacts.
 6. Run `mspec validate --change <change-dir>`.
-7. Since `block: true`, stop and instruct the user to run `/mspec-continue`.
+7. Since `block: true`, stop and instruct the user to run `/mspec:continue`.

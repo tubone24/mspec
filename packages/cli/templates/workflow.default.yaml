@@ -1,3 +1,6 @@
+# @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/cli-core/spec.md
+# Requirements implemented: FR-001
+# Change: fix-command-name-consistency
 # .mspec/workflow.yaml
 version: 1
 name: mspec-default
@@ -5,7 +8,7 @@ description: むぎぼースペックの標準パイプライン
 
 steps:
   - id: new
-    command: /mspec-new
+    command: /mspec:new
     skill: mspec-new
     produces: [readme.md]
     block: true
@@ -13,7 +16,7 @@ steps:
     ask_questions: false
 
   - id: proposal
-    command: /mspec-proposal
+    command: /mspec:proposal
     skill: mspec-proposal
     requires: [readme.md]
     produces: [proposal.md]
@@ -24,7 +27,7 @@ steps:
     constitution_check: true
 
   - id: delta
-    command: /mspec-delta
+    command: /mspec:delta
     skill: mspec-delta
     requires: [proposal.md]
     produces: [specs/*/spec.md]
@@ -34,7 +37,7 @@ steps:
     enforce_fr_ids: true
 
   - id: research
-    command: /mspec-research
+    command: /mspec:research
     skill: mspec-research
     requires: [proposal.md, specs/*/spec.md]
     produces: [research.md]
@@ -46,7 +49,7 @@ steps:
     skippable: true
 
   - id: design
-    command: /mspec-design
+    command: /mspec:design
     skill: mspec-design
     requires: [research.md]
     produces: [design.md, architecture-overview.md]
@@ -56,7 +59,7 @@ steps:
     constitution_check: true
 
   - id: quickstart
-    command: /mspec-quickstart
+    command: /mspec:quickstart
     skill: mspec-quickstart
     requires: [design.md]
     produces: [quickstart.md]
@@ -65,7 +68,7 @@ steps:
     skippable: true
 
   - id: checklist
-    command: /mspec-checklist
+    command: /mspec:checklist
     skill: mspec-checklist
     requires: [specs/*/spec.md, design.md]
     produces: [checklist.md]
@@ -75,7 +78,7 @@ steps:
     skippable: true
 
   - id: self-review
-    command: /mspec-review
+    command: /mspec:review
     skill: mspec-review
     requires: [checklist.md, design.md, architecture-overview.md, quickstart.md]
     produces: []
@@ -87,7 +90,7 @@ steps:
     skippable: true
 
   - id: tasks
-    command: /mspec-tasks
+    command: /mspec:tasks
     skill: mspec-tasks
     requires: [design.md, checklist.md]
     produces: [tasks.md]
@@ -96,7 +99,7 @@ steps:
     constitution_check: true
 
   - id: implement
-    command: /mspec-implement
+    command: /mspec:implement
     skill: mspec-implement
     requires: [tasks.md]
     produces: []
@@ -109,9 +112,23 @@ steps:
     constitution_check: false
 
   - id: archive
-    command: /mspec-archive
+    command: /mspec:archive
     skill: mspec-archive
     requires: [tasks.md]
     produces: []
     block: false
     removable: false
+
+# @mspec-delta 2026-05-16-170347-lightweight-change-mode/specs/cli-workflow-engine/spec.md
+# Requirements implemented: FR-019, FR-021
+# Change: lightweight-change-mode
+modes:
+  typo:
+    skip: [proposal, quickstart]
+    force: []
+  minor:
+    skip: [proposal, quickstart]
+    force: []
+  bugfix:
+    skip: [proposal, quickstart]
+    force: [research]

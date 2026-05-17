@@ -1,7 +1,12 @@
+// @mspec-delta 2026-05-16-052329-artifact-language-config/specs/language-config/spec.md
+// Requirements implemented: FR-003
+// Change: artifact-language-config
+
 import { readFile } from 'node:fs/promises';
 import pc from 'picocolors';
 import { loadWorkflow } from '../workflow/loader.js';
 import { projectPaths } from '../workflow/paths.js';
+import { loadConfig } from '../workflow/config-loader.js';
 import { findChange, listChanges, resolveProduces } from '../lib/change-discovery.js';
 import { validateArtifact } from '../lib/artifact-validator.js';
 import { checkEnforcement } from '../lib/enforce.js';
@@ -17,6 +22,21 @@ export interface ValidateOptions {
 export async function validateCommand(opts: ValidateOptions): Promise<void> {
   const paths = projectPaths(process.cwd());
   const workflow = await loadWorkflow(paths.workflowFile);
+
+  // FR-003: detect unsupported locale and exit 1 with stderr message
+  try {
+    const config = await loadConfig(paths.configFile);
+    if (config.resolvedLocale.unsupported) {
+      const code = config.resolvedLocale.requested;
+      const list = [...config.resolvedLocale.supported].join(', ');
+      process.stderr.write(pc.red(`unsupported locale: ${code}\n`));
+      process.stderr.write(`supported: ${list}\n`);
+      process.exitCode = 1;
+      return;
+    }
+  } catch {
+    // config.yaml missing or invalid — let the workflow handle it
+  }
 
   const targets: { name: string; dir: string }[] = [];
   if (opts.all) {

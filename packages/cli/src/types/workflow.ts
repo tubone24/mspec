@@ -1,4 +1,14 @@
+// @mspec-delta 2026-05-16-170347-lightweight-change-mode/specs/cli-workflow-engine/spec.md
+// Requirements implemented: FR-019, FR-021
+// Change: lightweight-change-mode
+
 import { z } from 'zod';
+
+export const ModeRuleSchema = z.object({
+  skip: z.array(z.string()).default([]),
+  force: z.array(z.string()).default([]),
+});
+export type ModeRule = z.infer<typeof ModeRuleSchema>;
 
 export const StepSchema = z.object({
   id: z.string().regex(/^[a-z][a-z0-9-]*$/, 'step id must be kebab-case'),
@@ -25,6 +35,7 @@ export const WorkflowSchema = z.object({
   name: z.string(),
   description: z.string().optional(),
   steps: z.array(StepSchema).min(1),
+  modes: z.record(ModeRuleSchema).optional(),
 });
 export type Workflow = z.infer<typeof WorkflowSchema>;
 

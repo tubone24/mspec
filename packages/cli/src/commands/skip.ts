@@ -1,4 +1,8 @@
-import { appendFile, mkdir, writeFile } from 'node:fs/promises';
+// @mspec-delta 2026-05-16-170347-lightweight-change-mode/specs/cli-workflow-engine/spec.md
+// Requirements implemented: FR-021
+// Change: lightweight-change-mode
+
+import { appendFile, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import pc from 'picocolors';
 import { loadWorkflow } from '../workflow/loader.js';
@@ -6,17 +10,19 @@ import { projectPaths } from '../workflow/paths.js';
 import { findChange, listChanges, fileExists, resolveProduces } from '../lib/change-discovery.js';
 import { recordSkip } from '../lib/skip-log.js';
 import { SKIPPED_PLACEHOLDER_MARKER } from '../lib/artifact-validator.js';
+import { parseMode } from '../lib/readme-parser.js';
 
 export interface SkipOptions {
   change?: string;
   reason?: string;
+  cwd?: string;
 }
 
 export async function skipCommand(stepId: string, opts: SkipOptions): Promise<void> {
   if (!opts.reason || opts.reason.trim().length < 10) {
     throw new Error('--reason <text> is required (min 10 chars)');
   }
-  const paths = projectPaths(process.cwd());
+  const paths = projectPaths(opts.cwd ?? process.cwd());
   const workflow = await loadWorkflow(paths.workflowFile);
   const step = workflow.steps.find((s) => s.id === stepId);
   if (!step) throw new Error(`step "${stepId}" not found in workflow`);
@@ -28,6 +34,21 @@ export async function skipCommand(stepId: string, opts: SkipOptions): Promise<vo
   const change = await findChange(paths, changeName);
   if (!change || change.isArchived) {
     throw new Error(`active change "${changeName}" not found`);
+  }
+
+  // Force check: bugfix mode cannot skip steps in modes.bugfix.force
+  const readmePath = join(change.dir, 'readme.md');
+  if (await fileExists(readmePath)) {
+    const readmeContent = await readFile(readmePath, 'utf8');
+    const mode = parseMode(readmeContent);
+    if (mode && workflow.modes) {
+      const modeRule = workflow.modes[mode];
+      if (modeRule?.force.includes(stepId)) {
+        throw new Error(
+          `${mode} モードでは "${stepId}" は必須ステップです（スキップ不可）`,
+        );
+      }
+    }
   }
 
   // Generate placeholder MDs for each `produces` (skip globs that won't expand without files)

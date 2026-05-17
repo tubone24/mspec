@@ -30,6 +30,15 @@ export function validateArtifact(input: ValidateArtifactInput): string[] {
     return issues;
   }
 
+  // architecture-overview.md: Mermaid fenced block is MUST (FR-017, non-strict hard fail)
+  if (filePath.endsWith('/architecture-overview.md')) {
+    if (!hasMermaidFence(contents)) {
+      issues.push(
+        `architecture-overview.md must contain at least one mermaid fenced code block in ${filePath}`,
+      );
+    }
+  }
+
   // Constitution Check requirement for relevant artifacts
   if (constitutionRequired && !hasConstitutionCheck(contents)) {
     issues.push(
@@ -42,6 +51,10 @@ export function validateArtifact(input: ValidateArtifactInput): string[] {
 
 function hasConstitutionCheck(contents: string): boolean {
   return /^##\s+Constitution Check\b/m.test(contents);
+}
+
+function hasMermaidFence(contents: string): boolean {
+  return /^(`{3,}|~{3,})\s*mermaid(\b|$)/m.test(contents);
 }
 
 export { SKIPPED_PLACEHOLDER_MARKER };

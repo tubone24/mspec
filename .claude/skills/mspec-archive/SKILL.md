@@ -1,8 +1,11 @@
 ---
 name: mspec-archive
 description: archive step of mspec workflow — deterministic merge into SoT spec and archive move
-when_to_use: User runs /mspec-archive, or workflow auto-continues to archive
----
+when_to_use: User runs /mspec:archive, or workflow auto-continues to archive
+---<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
+<!-- Requirements implemented: FR-017 -->
+<!-- Change: fix-command-name-consistency -->
+
 
 ## Procedure
 

@@ -1,3 +1,7 @@
+---
+doc_type: Explanation
+---
+
 # Proposal: <タイトル>
 
 ## Why

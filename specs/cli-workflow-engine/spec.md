@@ -200,3 +200,110 @@ The system MUST provide `mspec schema show` to render the loaded workflow defini
 - GIVEN `.mspec/workflow.yaml` の `block` フィールドが boolean 以外の値を持つ
 - WHEN ユーザーが `mspec schema validate` を実行する
 - THEN コマンドは非ゼロの終了コードで中断する
+
+### Requirement: FR-015 — `mspec continue` エンベロープに `upstream_skipped[]` を含める
+<!-- 注: `upstream_skipped` フィールドは現行 CLI に実装済み。本 FR はその挙動を Delta Spec として正式化し、リグレッション固定の E2E を追加するもの。実装変更は伴わない。 -->
+システムは `mspec continue` が返す JSON エンベロープに `upstream_skipped` 配列を含め、当該 change で skip 記録されている workflow ステップのうち現在のステップよりも順序上前にあるステップの ID を列挙 MUST。これにより下流のエージェントが欠落を加味してプロンプトとコンテキストを調整できる。
+
+#### Scenario: skip 済みの research ステップが upstream リストに現れる
+- GIVEN `research` ステップが skip 記録されている change で、現在のステップが `design` に解決される
+- WHEN ユーザーが `mspec continue --change <name> --json` を実行する
+- THEN 出力エンベロープには `"upstream_skipped": ["research"]` が含まれる
+
+#### Scenario: skip が無い場合は空配列が返る
+- GIVEN skip ステップが存在しない change
+- WHEN ユーザーが `mspec continue --change <name> --json` を実行する
+- THEN 出力エンベロープには `"upstream_skipped": []` が含まれる
+
+### Requirement: FR-016 — `mspec continue` エンベロープに `constitution_principles[]` を含める
+システムは `mspec continue` が返す JSON エンベロープに `constitution_principles` 配列を含め、現在のステップの workflow 宣言で Constitution Check が有効化されている場合、各エントリは原則の ID・名称・評価対象フェーズを公開 MUST。これによりエージェントが憲法ファイルを再読込せずに Constitution Check 表をレンダリングできる。
+
+#### Scenario: design ステップが全宣言原則を列挙する
+- GIVEN テスト用フィクスチャの憲法ファイルが H3 見出し形式で 2 つの原則 (`### I. <名称A>` と `### II. <名称B>`) を宣言し、workflow の `design` ステップで Constitution Check が有効化されている
+- WHEN 現在のステップが `design` の状態で `mspec continue --change <name> --json` を実行する
+- THEN エンベロープは 2 エントリの `constitution_principles` 配列を持ち、各エントリの `id` は `I` と `II`、`name` はフィクスチャ憲法の H3 見出しと一致する
+
+#### Scenario: Constitution Check が無効なステップでは空配列が返る
+- GIVEN workflow の `new` ステップで Constitution Check が無効化されている
+- WHEN 現在のステップが `new` の状態で `mspec continue --change <name> --json` を実行する
+- THEN エンベロープは `"constitution_principles": []` を含む
+
+### Requirement: FR-017 — `architecture-overview.md` での Mermaid 図の必須化
+システムは、`mermaid` タグ付きのフェンス付きコードブロックが少なくとも 1 つ存在しない `architecture-overview.md` に対して validate エラーを報告 MUST。これにより design ステップのアーキテクチャ図要件が機械的に強制される。
+
+#### Scenario: Mermaid ブロック欠落で validate が失敗する
+- GIVEN `architecture-overview.md` が散文と `text` タグの単一フェンス付きコードブロックのみを含む change
+- WHEN ユーザーが `mspec validate --change <name>` を実行する
+- THEN コマンドは `architecture-overview.md` を Mermaid フェンス欠落として報告し、プロセスは非ゼロで終了する
+
+#### Scenario: Mermaid ブロックがあれば要件を満たす
+- GIVEN `architecture-overview.md` が info string が `mermaid` で始まるフェンス付きコードブロックを 1 つ含む change
+- WHEN ユーザーが `mspec validate --change <name>` を実行する
+- THEN 当該 artifact の validation は Mermaid 関連の問題を一切報告しない
+
+### Requirement: FR-018 — produces レスステップからの skippable 除去
+
+The `workflow.yaml` MUST NOT carry `skippable: true` on steps where `produces: []` and `removable: false` (mandatory produce-less steps: `self-review`, `implement`, `archive`). Done transition for these steps SHALL be handled exclusively by `.mspec/cache/done-log.json` via `mspec done`.
+
+#### Scenario: workflow.yaml の skippable フラグ削除
+- GIVEN `implement`・`archive`・`self-review` ステップに `skippable: true` が設定されている
+- WHEN 本チェンジが archive される
+- THEN これらのステップの `skippable: true` が削除され、done への遷移は `mspec done` コマンドのみで行われる
+
+### Requirement: FR-019 — workflow.yaml に modes セクションを追加
+
+システムは `.mspec/workflow.yaml` において `modes` キーを受け付け、モード名をスキップするステップ ID の配列にマップする定義を SHALL 受け入れる。アクティブなチェンジの `Mode:` フィールドがモード名と一致するとき、システムはそのモードのスキップリストに含まれるステップを `skipped` 状態として扱う。
+
+#### Scenario: workflow.yaml の modes 定義が typo モードのスキップを制御する
+
+- GIVEN `.mspec/workflow.yaml` に以下が定義されている:
+  ```yaml
+  modes:
+    typo:
+      skip: [proposal, quickstart]
+    minor:
+      skip: [proposal, quickstart]
+    bugfix:
+      skip: [proposal, quickstart]
+      force: [research]
+  ```
+- WHEN `mspec continue` が `> Mode: typo` を持つ `readme.md` のチェンジを処理する
+- THEN `proposal` ステップと `quickstart` ステップは `skipped` 状態として扱われる
+- AND それ以外のステップは通常どおり実行される
+
+#### Scenario: modes 未定義のモード値は全ステップを実行する
+
+- GIVEN `.mspec/workflow.yaml` に `modes.foobar` が定義されていない
+- WHEN `readme.md` に `> Mode: foobar` が記載されている
+- THEN システムは警告を出力し、全ステップをスキップなしで実行する
+
+### Requirement: FR-020 — Mode フィールドなしの既存チェンジは後方互換のままフルフローを実行
+
+システムは `readme.md` に `Mode:` フィールドが存在しないチェンジを `mode: full`（全ステップ実行）と同等に MUST 扱い、既存の動作を変更してはならない。
+
+#### Scenario: Mode フィールドなしで全ステップが実行される
+
+- GIVEN `readme.md` に `Mode:` フィールドが存在しない
+- WHEN `mspec continue` がチェンジを処理する
+- THEN 全ワークフローステップがスキップなしで順番に実行される
+- AND 既存チェンジの動作に変化はない
+
+### Requirement: FR-021 — workflow.yaml の modes は force リストを受け付ける
+
+システムは `.mspec/workflow.yaml` の各モード定義において `force` キー（ステップ ID の配列）を SHALL 受け付け、`force` リストに含まれるステップを当該モードのチェンジでスキップ不可として扱う。`skip` リストと `force` リストに同一ステップが含まれる場合は `force` を優先する。
+
+#### Scenario: bugfix モードで force リストの research がスキップ不可になる
+
+- GIVEN `.mspec/workflow.yaml` の `modes.bugfix.force` に `research` が含まれている
+- AND `readme.md` に `> Mode: bugfix` が記録されている
+- WHEN `mspec continue` が research ステップを処理する
+- THEN システムは research ステップへの skip コマンドをランタイムに拒否し、エラーを返す
+
+#### Scenario: force と skip に同じステップが指定された場合は force が優先される
+
+- GIVEN `.mspec/workflow.yaml` のモード定義で `skip: [research]` と `force: [research]` が両方指定されている
+- WHEN `mspec continue` が該当モードのチェンジを処理する
+- THEN `force` が優先され research ステップはスキップ不可となる
+
+
+

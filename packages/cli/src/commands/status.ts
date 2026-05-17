@@ -1,8 +1,12 @@
+// @mspec-delta 2026-05-14-131906-fix-special-step-produces/specs/cli-state-engine/spec.md
+// Requirements implemented: FR-001, FR-002
+// Change: fix-special-step-produces
 import pc from 'picocolors';
 import { loadWorkflow } from '../workflow/loader.js';
 import { projectPaths } from '../workflow/paths.js';
 import { findChange, listChanges } from '../lib/change-discovery.js';
 import { loadSkipLog } from '../lib/skip-log.js';
+import { loadDoneLog } from '../lib/done-log.js';
 import { computeStatus } from '../lib/state-engine.js';
 import type { Status, StepState } from '../types/index.js';
 
@@ -14,7 +18,7 @@ export interface StatusOptions {
 export async function statusCommand(opts: StatusOptions): Promise<void> {
   const paths = projectPaths(process.cwd());
   const workflow = await loadWorkflow(paths.workflowFile);
-  const skipLog = await loadSkipLog(paths);
+  const [skipLog, doneLog] = await Promise.all([loadSkipLog(paths), loadDoneLog(paths)]);
 
   const changeName = await resolveChangeName(paths, opts.change);
   const change = await findChange(paths, changeName);
@@ -22,7 +26,7 @@ export async function statusCommand(opts: StatusOptions): Promise<void> {
     throw new Error(`change "${changeName}" not found in changes/ or changes/archive/`);
   }
 
-  const status = await computeStatus({ workflow, change, skipLog });
+  const status = await computeStatus({ workflow, change, skipLog, doneLog });
   if (opts.json) {
     process.stdout.write(JSON.stringify(status, null, 2) + '\n');
     return;

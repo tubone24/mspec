@@ -1,3 +1,7 @@
+---
+doc_type: Reference
+---
+
 # Design: <タイトル>
 
 ## Summary

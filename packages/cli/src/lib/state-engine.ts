@@ -1,3 +1,11 @@
+// @mspec-delta 2026-05-14-131906-fix-special-step-produces/specs/cli-state-engine/spec.md
+// Requirements implemented: FR-001, FR-002
+// Change: fix-special-step-produces
+
+// @mspec-delta 2026-05-16-170347-lightweight-change-mode/specs/cli-workflow-engine/spec.md
+// Requirements implemented: FR-019, FR-020
+// Change: lightweight-change-mode
+
 import { readFile } from 'node:fs/promises';
 import type {
   Status,
@@ -6,19 +14,32 @@ import type {
   StepStatus,
   Workflow,
 } from '../types/index.js';
+import type { ModeRule } from '../types/workflow.js';
 import { resolveProduces, fileExists } from './change-discovery.js';
 import type { ChangeLocation } from './change-discovery.js';
 import { isSkipped, type SkipLog } from './skip-log.js';
+import { isDone, type DoneLog } from './done-log.js';
 import { validateArtifact } from './artifact-validator.js';
 
 export interface ComputeStatusInput {
   workflow: Workflow;
   change: ChangeLocation;
   skipLog: SkipLog;
+  doneLog?: DoneLog;
+  mode?: string | null;
+}
+
+function isModeDrivenSkip(
+  mode: string | null | undefined,
+  stepId: string,
+  modes: Record<string, ModeRule> | undefined,
+): boolean {
+  if (!mode || !modes) return false;
+  return modes[mode]?.skip.includes(stepId) ?? false;
 }
 
 export async function computeStatus(input: ComputeStatusInput): Promise<Status> {
-  const { workflow, change, skipLog } = input;
+  const { workflow, change, skipLog, doneLog = {}, mode } = input;
   const blockers: string[] = [];
   const stepStatuses: StepStatus[] = [];
 
@@ -30,8 +51,11 @@ export async function computeStatus(input: ComputeStatusInput): Promise<Status> 
       step,
       change,
       skipLog,
+      doneLog,
       prevReady,
       blockers,
+      mode,
+      modes: workflow.modes,
     });
     stepStatuses.push({
       id: step.id,
@@ -56,13 +80,19 @@ interface EvaluateInput {
   step: Step;
   change: ChangeLocation;
   skipLog: SkipLog;
+  doneLog: DoneLog;
   prevReady: boolean;
   blockers: string[];
+  mode?: string | null;
+  modes?: Record<string, ModeRule>;
 }
 
 async function evaluateStep(input: EvaluateInput): Promise<StepState> {
-  const { step, change, skipLog, prevReady, blockers } = input;
+  const { step, change, skipLog, doneLog, prevReady, blockers, mode, modes } = input;
 
+  if (isModeDrivenSkip(mode, step.id, modes)) {
+    return 'skipped';
+  }
   if (isSkipped(skipLog, change.name, step.id)) {
     return 'skipped';
   }
@@ -72,8 +102,7 @@ async function evaluateStep(input: EvaluateInput): Promise<StepState> {
 
   const produces = step.produces ?? [];
   if (produces.length === 0) {
-    // Steps with no concrete files (e.g. implement, archive) are considered ready
-    // when prev is ready; downstream judgement is up to the user.
+    if (isDone(doneLog, change.name, step.id)) return 'done';
     return 'ready';
   }
 

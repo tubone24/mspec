@@ -6,6 +6,7 @@ import { statusCommand } from './commands/status.js';
 import { validateCommand } from './commands/validate.js';
 import { continueCommand } from './commands/continue.js';
 import { skipCommand } from './commands/skip.js';
+import { doneCommand } from './commands/done.js';
 import { deltaInitCommand } from './commands/delta-init.js';
 import { anchorCheckCommand } from './commands/anchor-check.js';
 import { testExpectRed, testExpectGreen } from './commands/test.js';
@@ -16,6 +17,9 @@ import { anchorListCommand } from './commands/anchor-list.js';
 import { constitutionInitCommand, constitutionShowCommand } from './commands/constitution.js';
 import { schemaShowCommand, schemaValidateCommand } from './commands/schema.js';
 import { specLintCommand } from './commands/spec-lint.js';
+import { specListCapabilitiesCommand } from './commands/spec-list-capabilities.js';
+import { specListRequirementsCommand } from './commands/spec-list-requirements.js';
+import { specGrepCommand } from './commands/spec-grep.js';
 
 const program = new Command();
 
@@ -66,6 +70,12 @@ program
   .option('--change <name>', 'Target change directory name')
   .option('--reason <text>', 'Reason for skipping (required, min 10 chars)')
   .action(skipCommand);
+
+program
+  .command('done <step-id>')
+  .description('Mark a produces-less step as done')
+  .option('--change <name>', 'Target change directory name')
+  .action(doneCommand);
 
 program
   .command('archive <change-name>')
@@ -153,6 +163,23 @@ spec
   .action((glob: string | undefined, opts: { json?: boolean; allow?: string[] }) =>
     specLintCommand(glob, { json: opts.json, allow: opts.allow }),
   );
+spec
+  .command('list-capabilities')
+  .description('List capability names under specs/ (spec.md-based, alphabetical)')
+  .option('--json', 'Output JSON')
+  .action((opts: { json?: boolean }) => specListCapabilitiesCommand({ json: opts.json }));
+spec
+  .command('list-requirements [glob]')
+  .description('List ### Requirement: headings grouped by capability')
+  .option('--json', 'Output JSON')
+  .action((glob: string | undefined, opts: { json?: boolean }) =>
+    specListRequirementsCommand(glob, { json: opts.json }),
+  );
+spec
+  .command('grep <fr-id>')
+  .description('Search for a FR-NNN block across SoT and Delta Specs')
+  .option('--json', 'Output JSON')
+  .action((frId: string, opts: { json?: boolean }) => specGrepCommand(frId, { json: opts.json }));
 
 program
   .command('questions')

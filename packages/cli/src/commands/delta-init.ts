@@ -1,3 +1,7 @@
+// @mspec-delta 2026-05-14-063708-diataxis-artifact-structure/specs/cli-delta-spec/spec.md
+// Requirements implemented: FR-011
+// Change: diataxis-artifact-structure
+
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import pc from 'picocolors';
@@ -10,13 +14,14 @@ const KEBAB_RE = /^[a-z][a-z0-9-]*$/;
 export interface DeltaInitOptions {
   capability?: string;
   change?: string;
+  cwd?: string;
 }
 
 export async function deltaInitCommand(opts: DeltaInitOptions): Promise<void> {
   if (!opts.capability || !KEBAB_RE.test(opts.capability)) {
     throw new Error('--capability <kebab-name> is required');
   }
-  const paths = projectPaths(process.cwd());
+  const paths = projectPaths(opts.cwd ?? process.cwd());
   const changeName = opts.change ?? (await singleActiveChange(paths));
   const change = await findChange(paths, changeName);
   if (!change) throw new Error(`change "${changeName}" not found`);
@@ -66,7 +71,7 @@ function buildDeltaSkeleton(capability: string, firstFr: string): string {
 ## ADDED Requirements
 
 ### Requirement: ${firstFr} — <Short Title>
-The system MUST <behavior>.
+The system SHALL <behavior>.
 
 #### Scenario: <Scenario Name>
 - GIVEN <前提>

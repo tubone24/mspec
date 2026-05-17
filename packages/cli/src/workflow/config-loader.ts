@@ -1,10 +1,28 @@
+// @mspec-delta 2026-05-16-052329-artifact-language-config/specs/language-config/spec.md
+// Requirements implemented: FR-001, FR-002, FR-003
+// Change: artifact-language-config
+
 import { readFile } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { parse as parseYaml } from 'yaml';
 import { ConfigSchema, type Config } from '../types/index.js';
+import { resolveLocale, scanSupportedLocales, type ResolvedLocale } from '../lib/locale-resolver.js';
 
 export class ConfigError extends Error {}
 
-export async function loadConfig(path: string): Promise<Config> {
+export interface LoadedConfig extends Config {
+  resolvedLocale: ResolvedLocale;
+}
+
+function defaultTemplatesArtifactsDir(): string {
+  const here = dirname(fileURLToPath(import.meta.url));
+  return here.endsWith('workflow')
+    ? join(here, '..', '..', 'templates', 'artifacts')
+    : join(here, '..', 'templates', 'artifacts');
+}
+
+export async function loadConfig(path: string): Promise<LoadedConfig> {
   let raw: string;
   try {
     raw = await readFile(path, 'utf8');
@@ -27,5 +45,11 @@ export async function loadConfig(path: string): Promise<Config> {
         .join('\n')}`,
     );
   }
-  return result.data;
+
+  const config = result.data;
+  const tplDir = defaultTemplatesArtifactsDir();
+  const supported = await scanSupportedLocales(tplDir);
+  const resolvedLocale = resolveLocale(config, supported);
+
+  return { ...config, resolvedLocale };
 }

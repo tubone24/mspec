@@ -1,3 +1,6 @@
+<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/cli-core/spec.md -->
+<!-- Requirements implemented: FR-001 -->
+<!-- Change: fix-command-name-consistency -->
 ---
 description: Run the research step via mspec-researcher subagent
 ---
@@ -13,4 +16,4 @@ You are in the **research** step of the mspec workflow.
 5. Use AskUserQuestion to resolve any remaining Open Choices (1 question per call).
 6. Append the `## Constitution Check` Phase 0 table to `research.md`.
 7. Run `mspec validate --change <change-dir>`.
-8. Since `block: true`, stop and instruct the user to run `/mspec-continue`.
+8. Since `block: true`, stop and instruct the user to run `/mspec:continue`.

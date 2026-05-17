@@ -1,3 +1,9 @@
+---
+doc_type: Reference
+---
+
+<!-- 用語定義は glossary.md を参照 -->
+
 # Research: <タイトル>
 
 ## Decisions

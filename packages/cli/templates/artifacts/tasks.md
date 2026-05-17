@@ -1,3 +1,7 @@
+---
+doc_type: Reference
+---
+
 # Tasks: <タイトル>
 
 ## Phase 1: Setup

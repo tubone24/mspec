@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import type { AnchorBlock } from '../types/index.js';
+import { blankOutFences, blankOutHtmlComments } from '../lib/text-mask.js';
 
 const PATH_RE =
   /^\s*[#/*]*\s*@mspec-delta\s+(?<change_dir>\d{4}-\d{2}-\d{2}-\d{6}-[a-z0-9-]+)\/specs\/(?<capability>[a-z0-9-]+)\/spec\.md\s*$/;
@@ -34,15 +35,27 @@ export function parseAnchors(
   contents: string,
   sourceFile: string,
 ): { anchors: ParsedAnchor[]; warnings: string[] } {
+  // FR-015: mask fenced code blocks and HTML comments so @mspec-delta examples are invisible
+  const masked = blankOutHtmlComments(blankOutFences(contents));
+
   const lines = contents.split(/\r?\n/);
+  const maskedLines = masked.split(/\r?\n/);
   const limit = Math.min(lines.length, SCAN_LINES_MAX);
   const anchors: ParsedAnchor[] = [];
   const warnings: string[] = [];
 
   for (let i = 0; i < limit; i++) {
-    const cleaned = stripCommentPrefix(lines[i] ?? '');
-    if (!cleaned.includes('@mspec-delta')) continue;
+    const maskedCleaned = stripCommentPrefix(maskedLines[i] ?? '');
+    if (!maskedCleaned.includes('@mspec-delta')) continue;
 
+    // FR-017/FR-005 MODIFIED: only process block-shaped context.
+    // A mention is block-shaped when the line immediately after (comment-stripped)
+    // starts with "Requirements implemented:", indicating intent to form a 3-line block.
+    const nextCleaned = stripCommentPrefix(maskedLines[i + 1] ?? '');
+    const isBlockShaped = nextCleaned.startsWith('Requirements implemented:');
+    if (!isBlockShaped) continue;
+
+    const cleaned = stripCommentPrefix(lines[i] ?? '');
     const pathMatch = PATH_RE.exec(cleaned);
     if (!pathMatch?.groups) {
       warnings.push(`${sourceFile}:${i + 1}: malformed @mspec-delta path line`);

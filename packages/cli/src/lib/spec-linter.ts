@@ -1,10 +1,11 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs';
-import { join, relative, sep } from 'node:path';
+import { basename, dirname, join, relative, sep } from 'node:path';
 import {
   DEFAULT_FORBIDDEN_RULES,
   type ForbiddenCategory,
   type ForbiddenRule,
 } from './spec-forbidden.js';
+import { blankOutHtmlComments, blankOutFences } from './text-mask.js';
 
 /**
  * A single lint violation produced by the SoT-spec linter.
@@ -59,7 +60,7 @@ export function lintSpecContent(
   // length. Preserving offsets keeps line/column reporting accurate against
   // the original `content`.
   let scrubbed = content;
-  if (ignoreComments) scrubbed = blankOutRegex(scrubbed, /<!--[\s\S]*?-->/g);
+  if (ignoreComments) scrubbed = blankOutHtmlComments(scrubbed);
   if (ignoreFences) scrubbed = blankOutFences(scrubbed);
 
   const violations: LintViolation[] = [];
@@ -158,50 +159,12 @@ export function collectSotSpecs(specsDir: string): string[] {
 }
 
 /**
- * Replace every match of `re` in `input` with whitespace of equal length so
- * line/column offsets are preserved.
+ * Return capability names (directory names) for all capabilities that have
+ * a `spec.md` file under `specsDir`. Names are alphabetically sorted
+ * (inherits the sort from `collectSotSpecs`). Synchronous.
  */
-function blankOutRegex(input: string, re: RegExp): string {
-  return input.replace(re, (chunk) =>
-    chunk
-      .split('')
-      .map((ch) => (ch === '\n' ? '\n' : ' '))
-      .join(''),
-  );
-}
-
-/**
- * Blank out fenced code blocks. Supports ``` and ~~~ fences. The fence lines
- * themselves are also blanked so their language hint is not lint-scanned.
- */
-function blankOutFences(input: string): string {
-  const lines = input.split('\n');
-  let inFence = false;
-  let fenceChar: '`' | '~' | null = null;
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i] ?? '';
-    const open = line.match(/^(\s*)(`{3,}|~{3,})/);
-    if (open) {
-      const marker = open[2]![0] as '`' | '~';
-      if (!inFence) {
-        inFence = true;
-        fenceChar = marker;
-        lines[i] = blankLine(line);
-        continue;
-      } else if (marker === fenceChar) {
-        inFence = false;
-        fenceChar = null;
-        lines[i] = blankLine(line);
-        continue;
-      }
-    }
-    if (inFence) lines[i] = blankLine(line);
-  }
-  return lines.join('\n');
-}
-
-function blankLine(line: string): string {
-  return ' '.repeat(line.length);
+export function listCapabilityNames(specsDir: string): string[] {
+  return collectSotSpecs(specsDir).map((p) => basename(dirname(p)));
 }
 
 /**
