@@ -101,7 +101,7 @@ Why it matters: the reader of `design.md` arrives knowing "this is Reference, I 
 mspec is one repo, one `npm link`. There is no published npm package yet (alpha).
 
 ```bash
-git clone https://github.com/<your-org>/mspec.git ~/tools/mspec
+git clone https://github.com/tubone24/mspec.git ~/tools/mspec
 cd ~/tools/mspec/packages/cli
 npm install
 npm run build

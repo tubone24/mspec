@@ -9,7 +9,7 @@ This tutorial walks you from a clean machine to a fully archived change. It assu
 ## 1. Install the CLI globally
 
 ```bash
-git clone https://github.com/<your-org>/mspec.git ~/tools/mspec
+git clone https://github.com/tubone24/mspec.git ~/tools/mspec
 cd ~/tools/mspec/packages/cli
 npm install
 npm run build
