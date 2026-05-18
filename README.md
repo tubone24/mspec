@@ -2,7 +2,7 @@
 <!-- Requirements implemented: FR-002 -->
 <!-- Change: fix-command-name-consistency -->
 
-#  mspec(むぎぼースペック)
+#  mspec
 
 ![logo](./docs/public/images/logo.png)
 
