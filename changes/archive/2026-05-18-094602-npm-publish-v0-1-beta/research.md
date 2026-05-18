@@ -10,7 +10,7 @@ doc_type: AI-Internal
 |------|--------|--------|------|
 | パッケージ名 | `@mspec/cli` のまま変更しない | `mspec`（unscoped）を追加 publish | `bin` エントリが単一（`"mspec"`）の場合、npm exec はバイナリ名でそのまま解決する。`npx @mspec/cli init` → `mspec init` が実行される。unscoped 名は名前スカッティングリスクと二重メンテコストがある。**ユーザー確認済: `@mspec/cli` のみ** |
 | `publishConfig.access` | `"publishConfig": { "access": "public" }` を package.json に**追加** | なし（追加必須） | スコープ付きパッケージは初回 publish 時にデフォルトで private 扱い。未設定だと 402 Forbidden エラーになる |
-| npm tag 戦略 | `npm publish --tag beta` | `latest` tag で publish | semver pre-release（`0.1.0-beta.1`）を `latest` にすると `npm install @mspec/cli` でベータが引かれる。`--tag beta` なら誤インストールを防ぐ |
+| npm tag 戦略 | `npm publish --tag beta` | `latest` tag で publish | semver pre-release（`0.1.0`）を `latest` にすると `npm install @mspec/cli` でベータが引かれる。`--tag beta` なら誤インストールを防ぐ |
 | バージョン管理 | `src/index.ts` で `package.json` から動的参照 | 手動 2 箇所 bump | `import { version } from '../package.json'` で一元管理。**ユーザー確認済: 動的参照** |
 | GitHub Actions トリガー | `on: push: tags: ['v*']` + `on: release: types: [released]` 併用 | `push: tags` のみ | FR-001（tag push）と FR-003（GitHub Release）を両方カバー。`released` は Draft → Publish フローで安全 |
 | CI の `working-directory` | 全ステップに `defaults.run.working-directory: packages/cli` | 各ステップに個別指定 | ルートに `package.json` がない monorepo 構成。全ステップが `packages/cli` で動く |
@@ -32,7 +32,7 @@ doc_type: AI-Internal
 
 ## Codebase Findings
 
-- `packages/cli/package.json:1` — `"name": "@mspec/cli"`, `"version": "0.1.0-alpha.1"`. publish 前に `0.1.0-beta.1` へ bump が必要。`publishConfig` フィールドは**未設定**（追加必須）
+- `packages/cli/package.json:1` — `"name": "@mspec/cli"`, `"version": "0.1.0-alpha.1"`. publish 前に `0.1.0` へ bump が必要。`publishConfig` フィールドは**未設定**（追加必須）
 - `packages/cli/package.json:6-8` — `bin: { "mspec": "./dist/index.js" }` が単一エントリで設定済み。`npx @mspec/cli` は追加変更なしで動作する
 - `packages/cli/package.json:10-13` — `files: ["dist", "templates"]` が設定済み。変更不要
 - `packages/cli/package.json:15-22` — `scripts` に `build`・`test` あり。CI で利用可能

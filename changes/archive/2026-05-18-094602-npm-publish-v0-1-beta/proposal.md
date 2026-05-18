@@ -12,7 +12,7 @@ mspec は現在ローカルビルド + `npm link` でのみ使用可能な状態
 
 ## Goals
 
-1. `@mspec/cli@0.1.0-beta.1` を npm registry に publish する
+1. `@mspec/cli@0.1.0` を npm registry に publish する
 2. `npx @mspec/cli init` で既存の `init` コマンドが動作する
 3. `npm install -g @mspec/cli` 後に `mspec init` / `mspec new` / `mspec status` などの全コマンドが動作する
 4. git tag（`v*`）プッシュまたは GitHub Release 作成時に GitHub Actions が自動で npm publish する

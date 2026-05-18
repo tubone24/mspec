@@ -38,7 +38,7 @@ doc_type: Reference
 
 ### Requirement: FR-003 — ベータバージョンでの npm tag 管理
 
-npm publish を実行する場合、このシステムは SHALL バージョン `0.1.0-beta.1`（semver pre-release）を `--tag beta` で公開し、`latest` タグを更新しない.
+npm publish を実行する場合、このシステムは SHALL バージョン `0.1.0`（semver pre-release）を `--tag beta` で公開し、`latest` タグを更新しない.
 
 #### Scenario: beta tag でのインストール
 
@@ -48,7 +48,7 @@ npm publish を実行する場合、このシステムは SHALL バージョン 
 
 #### Scenario: latest tag が汚染されない
 
-- GIVEN `@mspec/cli@0.1.0-beta.1` が `--tag beta` で公開されている
+- GIVEN `@mspec/cli@0.1.0` が `--tag beta` で公開されている
 - WHEN `npm install -g @mspec/cli` を実行する（tag 指定なし）
 - THEN `latest` タグが存在しないためインストールされないか、以前の `latest` バージョンがインストールされる
 

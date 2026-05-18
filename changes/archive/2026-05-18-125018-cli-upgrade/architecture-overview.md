@@ -39,10 +39,10 @@ sequenceDiagram
 
     User->>CLI: mspec upgrade
     CLI->>Upgrade: upgradeCommand({ yes: false })
-    Upgrade->>Upgrade: getCurrentVersion() → "0.1.0-beta.1"
+    Upgrade->>Upgrade: getCurrentVersion() → "0.1.0"
     Upgrade->>Registry: GET /\@mspec/cli/latest (timeout: 10s)
     Registry-->>Upgrade: { version: "1.0.0" }
-    Upgrade->>User: 現在のバージョン: 0.1.0-beta.1\n最新バージョン:   1.0.0
+    Upgrade->>User: 現在のバージョン: 0.1.0\n最新バージョン:   1.0.0
     Upgrade->>Prompt: ask('アップグレードしますか？ [y/N] ')
     Prompt->>User: prompt表示
     User->>Prompt: "y"
@@ -63,8 +63,8 @@ sequenceDiagram
 
     User->>Upgrade: mspec upgrade
     Upgrade->>Registry: GET /\@mspec/cli/latest
-    Registry-->>Upgrade: { version: "0.1.0-beta.1" }
-    Upgrade->>User: すでに最新バージョンです (0.1.0-beta.1)
+    Registry-->>Upgrade: { version: "0.1.0" }
+    Upgrade->>User: すでに最新バージョンです (0.1.0)
     Note over Upgrade: process.exit(0)
 ```
 
@@ -95,7 +95,7 @@ sequenceDiagram
     User->>Upgrade: mspec upgrade --yes
     Upgrade->>Registry: GET /\@mspec/cli/latest
     Registry-->>Upgrade: { version: "1.0.0" }
-    Upgrade->>User: 現在のバージョン: 0.1.0-beta.1\n最新バージョン:   1.0.0
+    Upgrade->>User: 現在のバージョン: 0.1.0\n最新バージョン:   1.0.0
     Note over Upgrade: --yes のため ask() をスキップ
     Upgrade->>NPM: spawnSync npm install -g @mspec/cli@latest
     NPM-->>Upgrade: status: 0

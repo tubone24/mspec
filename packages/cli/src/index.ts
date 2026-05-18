@@ -33,7 +33,7 @@ const program = new Command();
 
 program
   .name('mspec')
-  .description('むぎぼースペック (mspec) - Spec-Driven Development framework CLI')
+  .description('mspec - Spec-Driven Development framework CLI')
   .version(version);
 
 program

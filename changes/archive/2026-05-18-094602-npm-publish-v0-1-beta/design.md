@@ -14,7 +14,7 @@ doc_type: Reference
 
 ## Summary
 
-`@mspec/cli` を npm registry に `0.1.0-beta.1` として publish し、`npx @mspec/cli init` および `npm install -g @mspec/cli && mspec init` が動作する状態にする。加えて、git tag プッシュまたは GitHub Release 作成時に GitHub Actions が自動で npm publish する CI/CD パイプラインを構築する。
+`@mspec/cli` を npm registry に `0.1.0` として publish し、`npx @mspec/cli init` および `npm install -g @mspec/cli && mspec init` が動作する状態にする。加えて、git tag プッシュまたは GitHub Release 作成時に GitHub Actions が自動で npm publish する CI/CD パイプラインを構築する。
 
 変更対象は以下の 3 つ：
 1. `packages/cli/package.json` — `publishConfig` 追加・バージョン bump
@@ -28,7 +28,7 @@ doc_type: Reference
 | 項目 | 現状 | 変更後 |
 |------|------|--------|
 | パッケージ名 | `@mspec/cli` | `@mspec/cli`（変更なし） |
-| バージョン | `0.1.0-alpha.1` | `0.1.0-beta.1` |
+| バージョン | `0.1.0-alpha.1` | `0.1.0` |
 | npm tag | 未 publish | `beta`（`latest` は更新しない） |
 | `publishConfig` | 未設定 | `{ "access": "public" }` |
 | バージョン参照 | `index.ts` にハードコード | `package.json` から動的 import |
@@ -62,7 +62,7 @@ mspec/
 ```json
 {
   "name": "@mspec/cli",
-  "version": "0.1.0-beta.1",
+  "version": "0.1.0",
   "bin": {
     "mspec": "./dist/index.js"
   },
@@ -80,7 +80,7 @@ mspec/
 
 **受け入れ基準（cli-distribution FR-001 Scenario 対応）:**
 - `npm pack` の tarball に `src/`・`.claude/` が含まれないこと
-- `npm install -g @mspec/cli@beta` 後に `mspec --version` が `0.1.0-beta.1` を出力すること
+- `npm install -g @mspec/cli@beta` 後に `mspec --version` が `0.1.0` を出力すること
 
 ---
 

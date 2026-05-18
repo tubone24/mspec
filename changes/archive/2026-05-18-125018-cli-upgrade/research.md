@@ -26,7 +26,7 @@ doc_type: AI-Internal
 
 ## Codebase Findings
 
-- `packages/cli/package.json` — パッケージ名は `@mspec/cli`、現在バージョン `0.1.0-beta.1`。`type: module` (ESM)、`engines.node: >=18.0.0`
+- `packages/cli/package.json` — パッケージ名は `@mspec/cli`、現在バージョン `0.1.0`。`type: module` (ESM)、`engines.node: >=18.0.0`
 - `packages/cli/package.json` — `bin.mspec` は `./dist/index.js` を指す。グローバルインストール後のエントリポイント
 - `packages/cli/src/index.ts:28-29` — バージョン取得パターン: `const require = createRequire(import.meta.url); const { version } = require('../../package.json')` — ESM 内で `package.json` を同期 require する実績パターン
 - `packages/cli/src/index.ts:31-36` — Commander.js (`commander@^12.1.0`) を使用。`program.name('mspec').version(version)` でトップレベルコマンド定義

@@ -20,9 +20,9 @@ describe('FR-001: npm パッケージ公開設定 (package.json)', () => {
     expect(pkg.publishConfig.access).toBe('public');
   });
 
-  it('package.json の version が 0.1.0-beta.1 であること', async () => {
+  it('package.json の version が 0.1.0 であること', async () => {
     const pkg = JSON.parse(await readFile(join(CLI_ROOT, 'package.json'), 'utf8'));
-    expect(pkg.version).toBe('0.1.0-beta.1');
+    expect(pkg.version).toBe('0.1.0');
   });
 
   it('package.json の files フィールドに dist と templates が含まれること', async () => {

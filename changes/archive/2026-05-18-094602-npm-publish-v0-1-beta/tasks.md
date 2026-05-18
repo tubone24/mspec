@@ -35,7 +35,7 @@ anchor:
 ### T-003: [Impl] package.json に publishConfig 追加・バージョン bump
 
 `packages/cli/package.json` を以下のように変更する：
-- `"version"` を `"0.1.0-beta.1"` に変更
+- `"version"` を `"0.1.0"` に変更
 - `"publishConfig": { "access": "public" }` を追加
 
 ```
@@ -47,7 +47,7 @@ anchor:
 
 ### T-004: [E2E] `mspec --version` 動的参照テスト（赤）
 
-現状の `src/index.ts` で `mspec --version` を実行し、`0.1.0-alpha.1` が出力されることを確認する。T-005 実装後に `0.1.0-beta.1` が出力されることを検証するためのベースラインを記録する。
+現状の `src/index.ts` で `mspec --version` を実行し、`0.1.0-alpha.1` が出力されることを確認する。T-005 実装後に `0.1.0` が出力されることを検証するためのベースラインを記録する。
 
 ```
 anchor:
@@ -71,7 +71,7 @@ const { version } = require('../../package.json');
 program.version(version);
 ```
 
-変更後に `npm run build && node dist/index.js --version` で `0.1.0-beta.1` が出力されることを確認する。
+変更後に `npm run build && node dist/index.js --version` で `0.1.0` が出力されることを確認する。
 
 ```
 anchor:
@@ -154,7 +154,7 @@ anchor:
 ### T-009: [E2E] beta tag 管理の確認（publish 後）
 
 publish 後に以下を確認する：
-- `npm view @mspec/cli dist-tags` に `beta: 0.1.0-beta.1` が含まれること
+- `npm view @mspec/cli dist-tags` に `beta: 0.1.0` が含まれること
 - `latest` タグが存在しないか古いバージョンのままであること
 
 ```

@@ -9,7 +9,7 @@ doc_type: Reference
 ```mermaid
 graph TD
     subgraph Developer["開発者フロー"]
-        A[git tag v0.1.0-beta.1] -->|git push --tags| B[GitHub]
+        A[git tag v0.1.0] -->|git push --tags| B[GitHub]
         C[gh release create] -->|released event| B
     end
 
@@ -24,7 +24,7 @@ graph TD
     end
 
     subgraph NPM["npm registry"]
-        I -->|@mspec/cli@0.1.0-beta.1\ntag: beta| K[npm registry]
+        I -->|@mspec/cli@0.1.0\ntag: beta| K[npm registry]
     end
 
     subgraph User["ユーザーフロー"]
@@ -44,7 +44,7 @@ sequenceDiagram
     participant GHA as GitHub Actions
     participant NPM as npm registry
 
-    Dev->>GH: git push --tags (v0.1.0-beta.1)
+    Dev->>GH: git push --tags (v0.1.0)
     GH->>GHA: push.tags トリガー発火
     GHA->>GHA: actions/checkout
     GHA->>GHA: actions/setup-node (Node 20, registry-url)
@@ -68,7 +68,7 @@ sequenceDiagram
 block-beta
     columns 2
     A["変更前\n―\nversion: 0.1.0-alpha.1\n(publishConfig なし)\n(src/index.ts: ハードコード)"]
-    B["変更後\n―\nversion: 0.1.0-beta.1\npublishConfig.access: public\n(src/index.ts: 動的参照)"]
+    B["変更後\n―\nversion: 0.1.0\npublishConfig.access: public\n(src/index.ts: 動的参照)"]
     A --> B
 ```
 

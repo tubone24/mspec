@@ -23,7 +23,7 @@ npx @mspec/cli@beta init
 
 ```bash
 npm install -g @mspec/cli@beta
-mspec --version   # 0.1.0-beta.1 と表示されることを確認
+mspec --version   # 0.1.0 と表示されることを確認
 ```
 
 ---
@@ -66,7 +66,7 @@ mspec status
 ```bash
 # バージョン確認
 mspec --version
-# → 0.1.0-beta.1
+# → 0.1.0
 
 # ヘルプ表示
 mspec --help

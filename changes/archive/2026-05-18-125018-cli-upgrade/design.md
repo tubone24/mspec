@@ -79,7 +79,7 @@ export async function upgradeCommand(opts: UpgradeOptions): Promise<void>
 
 ### D-02: バージョン表示フォーマット
 ```
-現在のバージョン: 0.1.0-beta.1
+現在のバージョン: 0.1.0
 最新バージョン:   1.0.0
 ```
 2 行表示で両バージョンを並べる。受け入れ基準: 「現在のバージョン: x.y.z」「最新バージョン: a.b.c」の形式が表示される（cli-upgrade FR-002 Scenario: バージョン情報が表示される）。

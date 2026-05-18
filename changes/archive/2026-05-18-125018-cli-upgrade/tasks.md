@@ -161,9 +161,9 @@ anchor:
 ### T-010: [E2E] cli-upgrade FR-002 — バージョン表示フォーマットテスト（赤）
 
 `upgrade.test.ts` に追加:
-- GIVEN: `getCurrentVersion()` が `"0.1.0-beta.1"` を返す、`fetchLatestVersion()` が `"1.0.0"` を返す
+- GIVEN: `getCurrentVersion()` が `"0.1.0"` を返す、`fetchLatestVersion()` が `"1.0.0"` を返す
 - WHEN: `upgradeCommand({ yes: true })` を呼ぶ
-- THEN: stdout に `現在のバージョン: 0.1.0-beta.1` と `最新バージョン:   1.0.0` の 2 行が出力されること
+- THEN: stdout に `現在のバージョン: 0.1.0` と `最新バージョン:   1.0.0` の 2 行が出力されること
 
 ```
 anchor:

@@ -9,7 +9,7 @@ doc_type: AI-Internal
 ### cli-distribution
 
 - [x] **FR-001 — npm パッケージ公開設定**: `npm pack` で生成した tarball に `src/`・`node_modules/`・`.claude/` が含まれず、`dist/` と `templates/` のみが含まれること <!-- verify: fr-001 -->
-- [x] **FR-001 — npm パッケージ公開設定**: `npm install -g @mspec/cli@beta` 後に `mspec --version` が `0.1.0-beta.1` を出力し、終了コード 0 で終了すること <!-- verify: fr-001 -->
+- [x] **FR-001 — npm パッケージ公開設定**: `npm install -g @mspec/cli@beta` 後に `mspec --version` が `0.1.0` を出力し、終了コード 0 で終了すること <!-- verify: fr-001 -->
 - [ ] **FR-001 — npm パッケージ公開設定**: `package.json` の `bin`・`files`・`publishConfig` が design.md D-001 の仕様どおりに設定されていること <!-- verify: human -->
 - [x] **FR-002 — npx 実行サポート**: グローバルインストールなし環境で `npx @mspec/cli init` を実行し、`init` コマンドが正常に起動してプロジェクトが初期化されること <!-- verify: fr-002 -->
 - [x] **FR-003 — ベータバージョンでの npm tag 管理**: `npm install -g @mspec/cli@beta` で beta バージョンがインストールされ `mspec` コマンドが使用可能になること <!-- verify: fr-003 -->
@@ -17,7 +17,7 @@ doc_type: AI-Internal
 
 ### ci-cd
 
-- [x] **FR-001 — git tag トリガーによる自動 npm publish**: `git tag v0.1.0-beta.1 && git push --tags` 実行時に GitHub Actions が起動し、ビルド・テスト後に `@mspec/cli@0.1.0-beta.1 --tag beta` が npm に公開されること <!-- verify: fr-001 -->
+- [x] **FR-001 — git tag トリガーによる自動 npm publish**: `git tag v0.1.0 && git push --tags` 実行時に GitHub Actions が起動し、ビルド・テスト後に `@mspec/cli@0.1.0 --tag beta` が npm に公開されること <!-- verify: fr-001 -->
 - [x] **FR-001 — git tag トリガーによる自動 npm publish**: 通常の `git push origin main`（tag なし）では npm publish が実行されず、CI チェックのみ実行されること <!-- verify: fr-001 -->
 - [x] **FR-002 — publish 前の CI ゲート**: テストが 1 件以上失敗する状態でタグをプッシュした場合、ワークフローがエラーで終了し npm publish が実行されないこと <!-- verify: fr-002 -->
 - [x] **FR-002 — publish 前の CI ゲート**: 全テスト通過・ビルド成功の状態でタグをプッシュした場合、npm publish が実行されて成功ログが残ること <!-- verify: fr-002 -->

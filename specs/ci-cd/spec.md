@@ -17,8 +17,8 @@
 #### Scenario: バージョンタグのプッシュで自動リリース
 
 - GIVEN GitHub Secrets に `NPM_TOKEN` が設定されている
-- WHEN `git tag v0.1.0-beta.1 && git push --tags` を実行する
-- THEN GitHub Actions が起動し、ビルド・テスト後に `@mspec/cli@0.1.0-beta.1 --tag beta` が npm に公開される
+- WHEN `git tag v0.1.0 && git push --tags` を実行する
+- THEN GitHub Actions が起動し、ビルド・テスト後に `@mspec/cli@0.1.0 --tag beta` が npm に公開される
 
 #### Scenario: タグなしプッシュでは publish しない
 

@@ -1,7 +1,7 @@
 {
   "name": "@mspec/cli",
-  "version": "0.1.0-beta.1",
-  "description": "むぎぼースペック (mspec) - Spec-Driven Development framework CLI for Claude Code",
+  "version": "0.1.0",
+  "description": "mspec - Spec-Driven Development framework CLI for Claude Code",
   "type": "module",
   "bin": {
     "mspec": "./dist/index.js"

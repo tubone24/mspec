@@ -4,7 +4,7 @@
 # .mspec/workflow.yaml
 version: 1
 name: mspec-default
-description: むぎぼースペックの標準パイプライン
+description: mspecの標準パイプライン
 
 modes:
   typo:
