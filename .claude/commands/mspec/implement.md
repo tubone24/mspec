@@ -1,9 +1,13 @@
 ---
 description: Execute tasks.md with TDD (red→green) and anchor enforcement
----<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
+---
+
+<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
 <!-- Requirements implemented: FR-017 -->
 <!-- Change: fix-command-name-consistency -->
 
+<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/cli-core/spec.md -->
+<!-- Requirements implemented: FR-001 -->
 
 You are in the **implement** step of the mspec workflow.
 

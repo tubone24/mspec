@@ -2,7 +2,9 @@
 name: mspec-quickstart
 description: quickstart step of mspec workflow — write quickstart.md
 when_to_use: User runs /mspec:quickstart, or workflow auto-continues to quickstart
----<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
+---
+
+<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
 <!-- Requirements implemented: FR-017 -->
 <!-- Change: fix-command-name-consistency -->
 

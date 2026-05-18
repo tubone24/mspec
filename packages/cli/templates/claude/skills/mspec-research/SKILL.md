@@ -2,7 +2,9 @@
 name: mspec-research
 description: research step of mspec workflow — investigate via subagent and produce research.md
 when_to_use: User runs /mspec:research, or workflow auto-continues to research
----<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
+---
+
+<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
 <!-- Requirements implemented: FR-017 -->
 <!-- Change: fix-command-name-consistency -->
 

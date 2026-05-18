@@ -1,3 +1,9 @@
+---
+name: mspec-new
+description: new step of mspec workflow — bootstrap a change directory and readme.md
+when_to_use: User runs /mspec:new, or workflow auto-continues to new
+---
+
 <!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
 <!-- Requirements implemented: FR-017 -->
 <!-- Change: fix-command-name-consistency -->
@@ -5,11 +11,6 @@
 <!-- @mspec-delta 2026-05-16-170347-lightweight-change-mode/specs/claude-integration/spec.md -->
 <!-- Requirements implemented: FR-018 -->
 <!-- Change: lightweight-change-mode -->
----
-name: mspec-new
-description: new step of mspec workflow — bootstrap a change directory and readme.md
-when_to_use: User runs /mspec:new, or workflow auto-continues to new
----
 
 ## Procedure
 

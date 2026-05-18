@@ -19,7 +19,7 @@ import { resolveProduces, fileExists } from './change-discovery.js';
 import type { ChangeLocation } from './change-discovery.js';
 import { isSkipped, type SkipLog } from './skip-log.js';
 import { isDone, type DoneLog } from './done-log.js';
-import { validateArtifact } from './artifact-validator.js';
+import { validateArtifact, WARNING_PREFIX } from './artifact-validator.js';
 
 export interface ComputeStatusInput {
   workflow: Workflow;
@@ -111,8 +111,12 @@ async function evaluateStep(input: EvaluateInput): Promise<StepState> {
 
   // All files exist; validate them
   const issues = await validateChangeArtifacts(change.dir, step, produces);
-  if (issues.length > 0) {
-    blockers.push(...issues.map((m) => `${step.id}: ${m}`));
+  const errorIssues = issues.filter((m) => !m.startsWith(WARNING_PREFIX));
+  const warnIssues = issues.filter((m) => m.startsWith(WARNING_PREFIX));
+  // Warnings are surfaced in blockers for visibility but do not block step completion
+  blockers.push(...warnIssues.map((m) => `${step.id}: ${m}`));
+  if (errorIssues.length > 0) {
+    blockers.push(...errorIssues.map((m) => `${step.id}: ${m}`));
     return 'invalid';
   }
 

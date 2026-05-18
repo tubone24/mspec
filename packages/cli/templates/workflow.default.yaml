@@ -1,6 +1,10 @@
 # @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/cli-core/spec.md
 # Requirements implemented: FR-001
 # Change: fix-command-name-consistency
+#
+# @mspec-delta 2026-05-18-044538-revise-artifact-taxonomy/specs/cli-workflow-engine/spec.md
+# Requirements implemented: FR-022
+# Change: revise-artifact-taxonomy
 # .mspec/workflow.yaml
 version: 1
 name: mspec-default
@@ -52,7 +56,7 @@ steps:
     command: /mspec:design
     skill: mspec-design
     requires: [research.md]
-    produces: [design.md, architecture-overview.md]
+    produces: [design.md, design-rationale.md, architecture-overview.md]
     block: true
     removable: true
     ask_questions: true

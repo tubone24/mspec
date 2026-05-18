@@ -1,9 +1,13 @@
-<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/cli-core/spec.md -->
-<!-- Requirements implemented: FR-001 -->
-<!-- Change: fix-command-name-consistency -->
 ---
 description: Run the self-review step via mspec-self-reviewer subagent
 ---
+
+<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
+<!-- Requirements implemented: FR-017 -->
+<!-- Change: fix-command-name-consistency -->
+
+<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/cli-core/spec.md -->
+<!-- Requirements implemented: FR-001 -->
 
 You are in the **self-review** step of the mspec workflow.
 

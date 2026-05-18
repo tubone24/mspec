@@ -1,9 +1,13 @@
-<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/cli-core/spec.md -->
-<!-- Requirements implemented: FR-001 -->
-<!-- Change: fix-command-name-consistency -->
 ---
 description: Run the design step (design.md + architecture-overview.md, Phase 0/1 Constitution Check)
 ---
+
+<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
+<!-- Requirements implemented: FR-017 -->
+<!-- Change: fix-command-name-consistency -->
+
+<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/cli-core/spec.md -->
+<!-- Requirements implemented: FR-001 -->
 
 You are in the **design** step of the mspec workflow.
 

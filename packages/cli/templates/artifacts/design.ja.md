@@ -2,6 +2,11 @@
 doc_type: Reference
 ---
 
+<!-- See also: ./design-rationale.md for採用理由・代替案 -->
+<!-- @mspec-delta 2026-05-18-044538-revise-artifact-taxonomy/specs/artifact-taxonomy/spec.md -->
+<!-- Requirements implemented: FR-006 -->
+<!-- Change: revise-artifact-taxonomy -->
+
 # Design: <タイトル>
 
 ## Summary
@@ -31,12 +36,6 @@ doc_type: Reference
 - 新規: `path/to/new.ts`
 - 修正: `path/to/existing.ts`
 - 削除: `path/to/old.ts`
-
-## Decisions
-### <意思決定 1>
-- 採用: ...
-- 代替: ...
-- トレードオフ: ...
 
 ## Constitution Check (Phase 1, 計画詳細後)
 

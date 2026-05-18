@@ -1,9 +1,13 @@
 ---
 description: Generate the Delta Spec skeleton with auto-numbered FR-NNN
----<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
+---
+
+<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
 <!-- Requirements implemented: FR-017 -->
 <!-- Change: fix-command-name-consistency -->
 
+<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/cli-core/spec.md -->
+<!-- Requirements implemented: FR-001 -->
 
 You are in the **delta** step of the mspec workflow.
 

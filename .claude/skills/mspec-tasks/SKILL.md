@@ -2,7 +2,9 @@
 name: mspec-tasks
 description: tasks step of mspec workflow — produce tasks.md with anchor blocks
 when_to_use: User runs /mspec:tasks, or workflow auto-continues to tasks
----<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
+---
+
+<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
 <!-- Requirements implemented: FR-017 -->
 <!-- Change: fix-command-name-consistency -->
 

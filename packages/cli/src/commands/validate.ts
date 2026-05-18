@@ -8,7 +8,7 @@ import { loadWorkflow } from '../workflow/loader.js';
 import { projectPaths } from '../workflow/paths.js';
 import { loadConfig } from '../workflow/config-loader.js';
 import { findChange, listChanges, resolveProduces } from '../lib/change-discovery.js';
-import { validateArtifact } from '../lib/artifact-validator.js';
+import { validateArtifact, WARNING_PREFIX } from '../lib/artifact-validator.js';
 import { checkEnforcement } from '../lib/enforce.js';
 import { lintSotSpecs } from '../lib/spec-linter.js';
 import type { Workflow } from '../types/index.js';
@@ -52,12 +52,19 @@ export async function validateCommand(opts: ValidateOptions): Promise<void> {
   let totalIssues = 0;
   for (const tgt of targets) {
     const issues = await validateOne(tgt.name, tgt.dir, workflow, opts.strict ?? false);
-    if (issues.length === 0) {
+    const errors = issues.filter((i) => !i.startsWith(WARNING_PREFIX));
+    const warnings = issues.filter((i) => i.startsWith(WARNING_PREFIX));
+    if (errors.length === 0 && warnings.length === 0) {
       console.log(`${pc.green('✓')} ${tgt.name}`);
     } else {
-      totalIssues += issues.length;
-      console.log(`${pc.red('✗')} ${tgt.name}`);
-      for (const i of issues) console.log(`  - ${i}`);
+      if (errors.length > 0) {
+        totalIssues += errors.length;
+        console.log(`${pc.red('✗')} ${tgt.name}`);
+        for (const i of errors) console.log(`  - ${i}`);
+      } else {
+        console.log(`${pc.yellow('⚠')} ${tgt.name}`);
+      }
+      for (const w of warnings) console.log(`  - ${w}`);
     }
   }
 
@@ -110,6 +117,7 @@ async function validateOne(
           contents,
           produces: p,
           constitutionRequired,
+          strict,
         });
         issues.push(...fileIssues);
       }

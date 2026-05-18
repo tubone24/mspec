@@ -2,13 +2,16 @@
 name: mspec-implement
 description: implement step of mspec workflow — write code/tests with TDD red→green and anchors
 when_to_use: User runs /mspec:implement, or workflow auto-continues to implement
----<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
+---
+
+<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
 <!-- Requirements implemented: FR-017 -->
 <!-- Change: fix-command-name-consistency -->
 
 <!-- @mspec-delta 2026-05-14-105021-checklist-ai-driven-verification/specs/claude-integration/spec.md -->
 <!-- Requirements implemented: FR-012, FR-013, FR-014 -->
 <!-- Change: checklist-ai-driven-verification -->
+
 <!-- @mspec-delta 2026-05-15-040857-step-checkbox-update/specs/claude-integration/spec.md -->
 <!-- Requirements implemented: FR-016 -->
 <!-- Change: step-checkbox-update -->

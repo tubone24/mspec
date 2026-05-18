@@ -2,7 +2,9 @@
 name: mspec-delta
 description: delta step of mspec workflow — generate Delta Spec with auto-numbered FR-NNN
 when_to_use: User runs /mspec:delta, or workflow auto-continues to delta
----<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
+---
+
+<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
 <!-- Requirements implemented: FR-017 -->
 <!-- Change: fix-command-name-consistency -->
 

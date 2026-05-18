@@ -2,7 +2,9 @@
 name: mspec-proposal
 description: proposal step of mspec workflow — clarify intent and write proposal.md
 when_to_use: User runs /mspec:proposal, or workflow auto-continues to proposal
----<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
+---
+
+<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
 <!-- Requirements implemented: FR-017 -->
 <!-- Change: fix-command-name-consistency -->
 

@@ -2,6 +2,11 @@
 doc_type: Reference
 ---
 
+<!-- See also: ./design-rationale.md for rationale / alternatives -->
+<!-- @mspec-delta 2026-05-18-044538-revise-artifact-taxonomy/specs/artifact-taxonomy/spec.md -->
+<!-- Requirements implemented: FR-006 -->
+<!-- Change: revise-artifact-taxonomy -->
+
 # Design: <title>
 
 ## Summary
@@ -15,15 +20,6 @@ doc_type: Reference
 | File | Operation | Description |
 |------|-----------|-------------|
 | `path/to/file` | new/modify/delete | ... |
-
-## Decisions
-
-### D-1: <Decision Name>
-
-<Rationale>
-
-Acceptance criteria (mapped to Delta Spec Scenarios):
-- ...
 
 ## Constitution Check
 

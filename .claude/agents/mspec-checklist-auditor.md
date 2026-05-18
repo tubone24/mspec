@@ -2,9 +2,11 @@
 name: mspec-checklist-auditor
 description: Checklist auditor subagent for the mspec checklist step. Produces checklist.md with regression risk highlighted.
 ---
+
 <!-- @mspec-delta 2026-05-14-105021-checklist-ai-driven-verification/specs/claude-integration/spec.md -->
 <!-- Requirements implemented: FR-011, FR-014 -->
 <!-- Change: checklist-ai-driven-verification -->
+
 <!-- @mspec-delta 2026-05-15-040857-step-checkbox-update/specs/claude-integration/spec.md -->
 <!-- Requirements implemented: FR-011 -->
 <!-- Change: step-checkbox-update -->

@@ -79,8 +79,8 @@ async function setupProject(): Promise<Env> {
   // Create upstream artifacts so new/proposal/delta/tasks are all "done"
   const changeDir = join(root, 'changes', changeName);
   await mkdir(join(changeDir, 'specs', 'test-cap'), { recursive: true });
-  await writeFile(join(changeDir, 'readme.md'), '---\ndoc_type: Reference\n---\n# readme\n', 'utf8');
-  await writeFile(join(changeDir, 'proposal.md'), '---\ndoc_type: Proposal\n---\n# proposal\n', 'utf8');
+  await writeFile(join(changeDir, 'readme.md'), '---\ndoc_type: Tutorial\n---\n# readme\n', 'utf8');
+  await writeFile(join(changeDir, 'proposal.md'), '---\ndoc_type: Explanation\n---\n# proposal\n', 'utf8');
   await writeFile(
     join(changeDir, 'specs', 'test-cap', 'spec.md'),
     '# Delta Spec: test-cap\n\n## ADDED Requirements\n\n### Requirement: FR-001 — Test\nBody.\n\n#### Scenario: test\n- GIVEN x\n- WHEN y\n- THEN z\n',

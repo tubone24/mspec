@@ -2,15 +2,25 @@
 name: mspec-archive
 description: archive step of mspec workflow — deterministic merge into SoT spec and archive move
 when_to_use: User runs /mspec:archive, or workflow auto-continues to archive
----<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
+---
+
+<!-- @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/claude-integration/spec.md -->
 <!-- Requirements implemented: FR-017 -->
 <!-- Change: fix-command-name-consistency -->
-
+<!-- @mspec-delta 2026-05-18-044538-revise-artifact-taxonomy/specs/claude-integration/spec.md -->
+<!-- Requirements implemented: FR-023 -->
+<!-- Change: revise-artifact-taxonomy -->
 
 ## Procedure
 
 1. Run `mspec status --change <change-dir> --json` and confirm all prior steps are `done` or `skipped`.
 2. Run `mspec archive <change-dir> --dry-run` and show the diff to the user.
+3b. Read the full content of the change directory — all artifacts (proposal, research, design, design-rationale, checklist, tasks) and the confirmed Delta Spec requirements. Generate a `## Summary (Lessons / Next Steps)` section with:
+   - `### Lessons` — 3-5 bullet points (1-2 lines each) summarizing: what was learned, what worked well, what was surprising, Constitution Check ⚠️/❌ items and their resolution.
+   - `### Next Steps` — 2-4 bullet points (1 line + related FR-ID link) identifying: follow-up changes needed, open choices left unresolved, RENAMED requirements deferred.
+   Keep total length ≤ 30 lines / 1,500 characters.
+   Replace the placeholder comment `<!-- archive ステップで AI が生成 -->` (or `<!-- archive step will auto-fill -->`) in `changes/<change-dir>/readme.md` with this generated content.
+   This step MUST complete before step 3 (the `mspec archive -y` call) so that the filled readme is present when the CLI validates and moves the change directory.
 3. On confirmation, run `mspec archive <change-dir> -y`. The CLI:
    - Validates the change.
    - Parses the Delta Spec sections and applies ADDED / MODIFIED / REMOVED / RENAMED to `specs/<capability>/spec.md` (no LLM involved).

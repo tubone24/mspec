@@ -1,6 +1,10 @@
 ---
-doc_type: Reference
+doc_type: AI-Internal
 ---
+
+<!-- @mspec-delta 2026-05-18-044538-revise-artifact-taxonomy/specs/artifact-taxonomy/spec.md -->
+<!-- Requirements implemented: FR-001, FR-004 -->
+<!-- Change: revise-artifact-taxonomy -->
 
 # Tasks: <タイトル>
 

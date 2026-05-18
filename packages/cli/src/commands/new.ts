@@ -9,6 +9,10 @@
 // Requirements implemented: FR-001, FR-002, FR-004
 // Change: artifact-language-config
 
+// @mspec-delta 2026-05-18-044538-revise-artifact-taxonomy/specs/artifact-taxonomy/spec.md
+// Requirements implemented: FR-005
+// Change: revise-artifact-taxonomy
+
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -121,6 +125,7 @@ ${request ?? '<ユーザーの元の要求を 1-3 行で要約>'}
 - [ ] specs/<capability>/spec.md (Delta Spec)
 - [ ] research.md
 - [ ] design.md / architecture-overview.md
+- [ ] design-rationale.md
 - [ ] quickstart.md
 - [ ] checklist.md
 - [ ] tasks.md
@@ -128,6 +133,10 @@ ${request ?? '<ユーザーの元の要求を 1-3 行で要約>'}
 ## Skipped Steps
 
 <!-- \`mspec skip <step-id> --reason "..."\` 実行時に追記される -->
+
+## Summary (Lessons / Next Steps)
+
+<!-- archive ステップで AI が生成 -->
 `;
 }
 
