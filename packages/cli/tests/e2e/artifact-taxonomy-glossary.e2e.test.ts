@@ -2,6 +2,10 @@
 // Requirements implemented: FR-003
 // Change: diataxis-artifact-structure
 
+// @mspec-delta 2026-05-17-214224-fix-locale-spec-language/specs/artifact-templates-i18n/spec.md
+// Requirements implemented: FR-005
+// Change: fix-locale-spec-language
+
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mkdtemp, mkdir, writeFile, rm, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -9,10 +13,7 @@ import { tmpdir } from 'node:os';
 import { newCommand } from '../../src/commands/new.js';
 import { parseFrontmatter } from '../../src/parser/frontmatter.js';
 
-const MSPEC_CONFIG = `integrations:
-  claude:
-    enabled: true
-`;
+const MSPEC_CONFIG = `version: 1\nlocale: "ja"\n`;
 
 interface Env {
   root: string;
@@ -83,7 +84,7 @@ describe('FR-003: research.md template refers to glossary.md', () => {
     const { dirname, join: pjoin } = await import('node:path');
     const { fileURLToPath } = await import('node:url');
     const __dirname = dirname(fileURLToPath(import.meta.url));
-    const templatePath = pjoin(__dirname, '../../templates/artifacts/research.md');
+    const templatePath = pjoin(__dirname, '../../templates/artifacts/research.ja.md');
     const content = await readFile(templatePath, 'utf8');
     expect(content.toLowerCase()).toMatch(/glossary/);
   });

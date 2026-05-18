@@ -3,7 +3,7 @@
 ## ADDED Requirements
 
 ### Requirement: FR-005 — <Short Title>
-The system SHALL <behavior>.
+このシステムは SHALL <behavior>.
 
 #### Scenario: <Scenario Name>
 - GIVEN <前提>

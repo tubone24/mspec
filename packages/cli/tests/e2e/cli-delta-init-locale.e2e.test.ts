@@ -1,3 +1,6 @@
+// @mspec-delta 2026-05-17-214224-fix-locale-spec-language/specs/artifact-templates-i18n/spec.md
+// Requirements implemented: FR-005
+// Change: fix-locale-spec-language
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mkdtemp, mkdir, writeFile, rm, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -49,7 +52,7 @@ describe('delta init: locale 設定で Delta Spec スケルトンの本文が切
     const deltaPath = join(env.root, 'changes', env.change, 'specs', 'search', 'spec.md');
     const content = await readFile(deltaPath, 'utf8');
 
-    expect(content).toContain('The system SHALL');
+    expect(content).toContain('このシステムは SHALL');
     expect(content).toContain('<前提>');
     expect(content).toContain('<操作>');
     expect(content).toContain('<結果>');

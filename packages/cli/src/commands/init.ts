@@ -1,6 +1,11 @@
 // @mspec-delta 2026-05-15-063805-fix-command-name-consistency/specs/cli-core/spec.md
 // Requirements implemented: FR-001
 // Change: fix-command-name-consistency
+
+// @mspec-delta 2026-05-17-100328-init-link-global-bin/specs/cli-init-command/spec.md
+// Requirements implemented: FR-001, FR-002, FR-003
+// Change: init-link-global-bin
+import { spawnSync } from 'node:child_process';
 import { mkdir, readFile, writeFile, access, readdir, appendFile, stat } from 'node:fs/promises';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -125,6 +130,31 @@ function applyConstitutionTransforms(raw: string): string {
   return raw.split('__TODAY__').join(today);
 }
 
+export async function ensureGlobalLink(): Promise<void> {
+  const here = dirname(fileURLToPath(import.meta.url));
+  const pkgCliDir = resolve(here, '..');
+  const isDevMode =
+    (await pathExists(join(pkgCliDir, 'package.json'))) &&
+    (await pathExists(join(pkgCliDir, 'tsconfig.json')));
+  if (!isDevMode) return;
+
+  console.log(pc.cyan('dev-mode:'), 'building and linking mspec globally...');
+
+  const build = spawnSync('npm', ['run', 'build'], { cwd: pkgCliDir, stdio: 'inherit' });
+  if (build.status !== 0 || build.error) {
+    console.warn(pc.yellow('warn:'), 'build failed; skipping npm link. Run `npm run build && npm link` manually.');
+    return;
+  }
+
+  const link = spawnSync('npm', ['link'], { cwd: pkgCliDir, stdio: 'inherit' });
+  if (link.status !== 0 || link.error) {
+    console.warn(pc.yellow('warn:'), 'npm link failed. Run `cd packages/cli && npm link` manually.');
+    return;
+  }
+
+  console.log(pc.green('  ✓'), 'mspec linked globally');
+}
+
 export async function initCommand(opts: InitOptions = {}): Promise<void> {
   const tools = opts.tools ?? 'claude';
   const subagents = opts.subagents !== false; // default true
@@ -235,6 +265,8 @@ export async function initCommand(opts: InitOptions = {}): Promise<void> {
 
   // 6) Append `.mspec/cache/` to .gitignore if not already present.
   await ensureGitignoreEntry(root, '.mspec/cache/');
+
+  await ensureGlobalLink();
 
   console.log();
   console.log(pc.green('mspec init: done.'));

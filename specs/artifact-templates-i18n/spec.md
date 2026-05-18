@@ -42,3 +42,17 @@ The system MUST preserve YAML frontmatter structural keys (e.g., `doc_type`) ver
 - WHEN それぞれを読み込んで frontmatter を比較する
 - THEN `doc_type` 等の構造的キー名は両ロケールで一致しており、値も同一の英字識別子のままである
 
+### Requirement: FR-005 — 全成果物テンプレートの ja/en バリアント完備
+このシステムは SHALL `readme`・`glossary`・`proposal`・`research`・`design`・`architecture-overview`・`quickstart`・`checklist`・`tasks` の各成果物テンプレートに対して `.ja.md` および `.en.md` バリアントを提供し、`locale: ja` または `locale: en` 設定時に "missing template" フォールバック警告が発生しないことを保証する。
+
+#### Scenario: locale=ja で mspec new を実行しても警告が出ない
+- GIVEN `config.yaml` に `locale: ja` が設定されており、全成果物の `.ja.md` テンプレートが存在する
+- WHEN `mspec new <feature>` を実行する
+- THEN stderr に "missing template" を含む行が一切出力されない
+
+#### Scenario: locale=en でも警告が出ない
+- GIVEN `config.yaml` に `locale: en` が設定されており、全成果物の `.en.md` テンプレートが存在する
+- WHEN `mspec new <feature>` を実行する
+- THEN stderr に "missing template" を含む行が一切出力されない
+
+

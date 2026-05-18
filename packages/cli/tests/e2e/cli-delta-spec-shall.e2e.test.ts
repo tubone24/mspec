@@ -19,7 +19,10 @@ steps:
     removable: false
 `;
 
-const MSPEC_CONFIG = `integrations:\n  claude:\n    enabled: true\n`;
+// @mspec-delta 2026-05-17-214224-fix-locale-spec-language/specs/artifact-templates-i18n/spec.md
+// Requirements implemented: FR-005
+// Change: fix-locale-spec-language
+const MSPEC_CONFIG = `version: 1\nlocale: "en"\n`;
 
 interface Env {
   root: string;

@@ -42,3 +42,25 @@ Where a user provides additional locale resources keyed by ISO 639-1 codes under
 - WHEN `config.yaml` で `locale: zh` を指定して `mspec new` を実行する
 - THEN ソースコード改修なしで `zh` ロケール用テンプレートが解決され、成果物が中国語見出しで生成される
 
+### Requirement: FR-005 — status --json へのアクティブロケール公開
+`mspec status --json` を実行したとき、このシステムは SHALL 解決済みアクティブロケールを `"locale"` フィールドとして JSON 出力に含める。
+
+#### Scenario: locale: ja 設定時に status が locale を返す
+- GIVEN `config.yaml` に `locale: ja` が設定されたリポジトリで、アクティブな change が存在する
+- WHEN `mspec status --change <dir> --json` を実行する
+- THEN 出力 JSON の最上位に `"locale": "ja"` が含まれる
+
+#### Scenario: locale 未設定時はデフォルト値が返る
+- GIVEN `config.yaml` に `locale` キーが存在しない
+- WHEN `mspec status --change <dir> --json` を実行する
+- THEN 出力 JSON に `"locale": "ja"` が含まれる（デフォルトロケール適用）
+
+### Requirement: FR-006 — continue --json へのアクティブロケール公開
+`mspec continue --json` を実行したとき、このシステムは SHALL 解決済みアクティブロケールを `"locale"` フィールドとして JSON 出力に含める。
+
+#### Scenario: continue --json も locale を返す
+- GIVEN `config.yaml` に `locale: ja` が設定されたリポジトリで、アクティブな change が存在する
+- WHEN `mspec continue --change <dir> --json` を実行する
+- THEN 出力 JSON の最上位に `"locale": "ja"` が含まれる
+
+

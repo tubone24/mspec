@@ -6,6 +6,17 @@ version: 1
 name: mspec-default
 description: むぎぼースペックの標準パイプライン
 
+modes:
+  typo:
+    skip: [proposal, quickstart]
+    force: []
+  minor:
+    skip: [proposal, quickstart]
+    force: []
+  bugfix:
+    skip: [proposal, quickstart]
+    force: [research]
+
 steps:
   - id: new
     command: /mspec:new

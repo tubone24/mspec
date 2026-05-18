@@ -2,6 +2,10 @@
 // Requirements implemented: FR-019, FR-020
 // Change: lightweight-change-mode
 
+// @mspec-delta 2026-05-17-214224-fix-locale-spec-language/specs/language-config/spec.md
+// Requirements implemented: FR-006
+// Change: fix-locale-spec-language
+
 import { describe, it, expect } from 'vitest';
 import { mkdtemp, writeFile, mkdir } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -11,11 +15,16 @@ import { continueCommand } from './continue.js';
 async function setupProject(opts: {
   readmeContent?: string;
   workflowModes?: Record<string, { skip: string[]; force: string[] }>;
+  configYaml?: string;
 }): Promise<string> {
   const cwd = await mkdtemp(join(tmpdir(), 'mspec-continue-test-'));
 
   // Create .mspec directory
   await mkdir(join(cwd, '.mspec'), { recursive: true });
+
+  if (opts.configYaml !== undefined) {
+    await writeFile(join(cwd, '.mspec', 'config.yaml'), opts.configYaml);
+  }
 
   // Write minimal workflow.yaml
   const modes = opts.workflowModes
@@ -106,5 +115,29 @@ describe('continueCommand — mode-driven skip', () => {
 
     const result = JSON.parse(capturedJson);
     expect(result.current_step).toBe('proposal');
+  });
+});
+
+describe('continueCommand — locale フィールド (FR-006)', () => {
+  it('JSON 出力に "locale": "ja" が含まれる（config.yaml に locale: ja 設定時）', async () => {
+    const cwd = await setupProject({
+      readmeContent: '# Test\n\n> Status: active\n',
+      configYaml: 'version: 1\nlocale: "ja"\n',
+    });
+
+    let capturedJson = '';
+    const origWrite = process.stdout.write.bind(process.stdout);
+    process.stdout.write = (chunk: string | Uint8Array) => {
+      if (typeof chunk === 'string') capturedJson += chunk;
+      return true;
+    };
+    try {
+      await continueCommand({ change: '2026-01-01-test-change', json: true, cwd });
+    } finally {
+      process.stdout.write = origWrite;
+    }
+
+    const result = JSON.parse(capturedJson);
+    expect(result).toHaveProperty('locale', 'ja');
   });
 });

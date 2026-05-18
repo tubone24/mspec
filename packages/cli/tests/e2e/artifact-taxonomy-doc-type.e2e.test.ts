@@ -2,6 +2,10 @@
 // Requirements implemented: FR-001, FR-002
 // Change: diataxis-artifact-structure
 
+// @mspec-delta 2026-05-17-214224-fix-locale-spec-language/specs/artifact-templates-i18n/spec.md
+// Requirements implemented: FR-005
+// Change: fix-locale-spec-language
+
 import { describe, it, expect } from 'vitest';
 import { readFile } from 'node:fs/promises';
 import { join, dirname } from 'node:path';
@@ -14,15 +18,24 @@ const TEMPLATES_DIR = join(__dirname, '../../templates/artifacts');
 const VALID_DOC_TYPES = ['Reference', 'Explanation', 'How-to', 'Tutorial'] as const;
 
 const EXPECTED_DOC_TYPES: Record<string, string> = {
-  'proposal.md': 'Explanation',
-  'research.md': 'Reference',
-  'design.md': 'Reference',
-  'tasks.md': 'Reference',
-  'checklist.md': 'Reference',
-  'quickstart.md': 'How-to',
-  'architecture-overview.md': 'Reference',
-  'readme.md': 'Reference',
-  'glossary.md': 'Reference',
+  'proposal.ja.md': 'Explanation',
+  'proposal.en.md': 'Explanation',
+  'research.ja.md': 'Reference',
+  'research.en.md': 'Reference',
+  'design.ja.md': 'Reference',
+  'design.en.md': 'Reference',
+  'tasks.ja.md': 'Reference',
+  'tasks.en.md': 'Reference',
+  'checklist.ja.md': 'Reference',
+  'checklist.en.md': 'Reference',
+  'quickstart.ja.md': 'How-to',
+  'quickstart.en.md': 'How-to',
+  'architecture-overview.ja.md': 'Reference',
+  'architecture-overview.en.md': 'Reference',
+  'readme.ja.md': 'Reference',
+  'readme.en.md': 'Reference',
+  'glossary.ja.md': 'Reference',
+  'glossary.en.md': 'Reference',
 };
 
 // FR-001: All artifact templates MUST declare doc_type in YAML frontmatter

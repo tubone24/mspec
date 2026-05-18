@@ -6,6 +6,10 @@
 // Requirements implemented: FR-019, FR-020
 // Change: lightweight-change-mode
 
+// @mspec-delta 2026-05-17-214224-fix-locale-spec-language/specs/language-config/spec.md
+// Requirements implemented: FR-006
+// Change: fix-locale-spec-language
+
 import { readFile } from 'node:fs/promises';
 import pc from 'picocolors';
 import { loadWorkflow } from '../workflow/loader.js';
@@ -16,6 +20,8 @@ import { loadDoneLog } from '../lib/done-log.js';
 import { computeStatus } from '../lib/state-engine.js';
 import { extractPrinciples } from '../lib/constitution-principles.js';
 import { parseMode } from '../lib/readme-parser.js';
+import { loadConfig } from '../workflow/config-loader.js';
+import { DEFAULT_LOCALE } from '../lib/locale-resolver.js';
 import type { Status, Step, Workflow } from '../types/index.js';
 
 export interface ContinueOptions {
@@ -33,6 +39,7 @@ export interface ConstitutionPrinciple {
 
 export interface ContinueOutput {
   change: string;
+  locale: string;
   current_step: string | null;
   next_action: 'execute' | 'wait_user' | 'validate_failed' | 'complete';
   skill: string | null;
@@ -63,9 +70,15 @@ export async function continueCommand(opts: ContinueOptions): Promise<void> {
     mode = parseMode(readmeContent);
   }
 
+  let locale = DEFAULT_LOCALE;
+  try {
+    const config = await loadConfig(paths.configFile);
+    locale = config.resolvedLocale.locale;
+  } catch { /* config.yaml 欠損時はデフォルトロケールを使用 */ }
+
   const status = await computeStatus({ workflow, change, skipLog, doneLog, mode });
   const principles = await loadConstitutionPrinciples(paths.constitutionFile);
-  const out = buildContinue(status, workflow, change.dir, skippedSteps(skipLog, change.name), principles);
+  const out = buildContinue(status, workflow, change.dir, skippedSteps(skipLog, change.name), principles, locale);
 
   if (opts.json) {
     process.stdout.write(JSON.stringify(out, null, 2) + '\n');
@@ -93,20 +106,21 @@ function buildContinue(
   changeDir: string,
   upstreamSkipped: string[],
   allPrinciples: ConstitutionPrinciple[],
+  locale: string = DEFAULT_LOCALE,
 ): ContinueOutput {
   const invalid = status.steps.find((s) => s.state === 'invalid');
   if (invalid) {
-    return baseEmpty(status, 'validate_failed');
+    return baseEmpty(status, 'validate_failed', locale);
   }
 
   const nextReady = status.steps.find((s) => s.state === 'ready');
   if (!nextReady) {
-    return baseEmpty(status, 'complete');
+    return baseEmpty(status, 'complete', locale);
   }
 
   const step = workflow.steps.find((s) => s.id === nextReady.id);
   if (!step) {
-    return baseEmpty(status, 'wait_user');
+    return baseEmpty(status, 'wait_user', locale);
   }
 
   const required = (step.requires ?? []).map((p) => ({
@@ -123,6 +137,7 @@ function buildContinue(
 
   return {
     change: status.change,
+    locale,
     current_step: step.id,
     next_action: 'execute',
     skill: step.skill,
@@ -138,9 +153,10 @@ function buildContinue(
   };
 }
 
-function baseEmpty(status: Status, action: ContinueOutput['next_action']): ContinueOutput {
+function baseEmpty(status: Status, action: ContinueOutput['next_action'], locale: string = DEFAULT_LOCALE): ContinueOutput {
   return {
     change: status.change,
+    locale,
     current_step: status.current_step,
     next_action: action,
     skill: null,

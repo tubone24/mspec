@@ -3,7 +3,7 @@
 ## ADDED Requirements
 
 ### Requirement: {{FIRST_FR}} — <短いタイトル>
-The system SHALL <振る舞い>.
+このシステムは SHALL <振る舞い>.
 
 #### Scenario: <シナリオ名>
 - GIVEN <前提>
