@@ -1,6 +1,9 @@
+// @mspec-delta 2026-05-18-120853-fix-anchor-change-dir-lookup/specs/cli-anchor/spec.md
+// Requirements implemented: FR-018
+// Change: fix-anchor-change-dir-lookup
 import { readFile } from 'node:fs/promises';
 import type { AnchorBlock } from '../types/index.js';
-import { blankOutFences, blankOutHtmlComments } from '../lib/text-mask.js';
+import { blankOutFences, blankOutHtmlComments, blankOutStringLiterals } from '../lib/text-mask.js';
 
 const PATH_RE =
   /^\s*[#/*]*\s*@mspec-delta\s+(?<change_dir>\d{4}-\d{2}-\d{2}-\d{6}-[a-z0-9-]+)\/specs\/(?<capability>[a-z0-9-]+)\/spec\.md\s*$/;
@@ -36,7 +39,7 @@ export function parseAnchors(
   sourceFile: string,
 ): { anchors: ParsedAnchor[]; warnings: string[] } {
   // FR-015: mask fenced code blocks and HTML comments so @mspec-delta examples are invisible
-  const masked = blankOutHtmlComments(blankOutFences(contents));
+  const masked = blankOutStringLiterals(blankOutHtmlComments(blankOutFences(contents)));
 
   const lines = contents.split(/\r?\n/);
   const maskedLines = masked.split(/\r?\n/);

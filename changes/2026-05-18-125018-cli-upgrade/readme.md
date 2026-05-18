@@ -6,26 +6,26 @@ doc_type: Tutorial
 <!-- Requirements implemented: FR-005 -->
 <!-- Change: revise-artifact-taxonomy -->
 
-# fix-anchor-change-dir-lookup
+# cli-upgrade
 
-> Status: new
+> Status: in-progress
 > Created: 2026-05-18
-> Mode: bugfix
 
 ## Request
 
-`packages/cli/src/parser/anchor.test.ts:7` において、`change_dir "2026-05-14-093015-apply-css" not found` というエラーが発生している。
-アンカーパーサーのテストで参照している change_dir が見つからない問題を修正したい。
+インストール後に mspec CLI を最新バージョンへアップグレードできるコマンドを追加してほしい。
+`mspec upgrade` のようなサブコマンドを実装し、ユーザーが手動で再インストールしなくても最新版に更新できるようにする。
 
 ## Artifacts
 
-- [ ] proposal.md
+- [x] proposal.md
 - [x] specs/<capability>/spec.md (Delta Spec)
 - [x] research.md
-- [x] design.md / design-rationale.md / architecture-overview.md
+- [ ] design.md / architecture-overview.md
+- [ ] design-rationale.md
 - [ ] quickstart.md
-- [x] checklist.md
-- [x] tasks.md
+- [ ] checklist.md
+- [ ] tasks.md
 
 ## Skipped Steps
 

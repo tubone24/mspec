@@ -10,7 +10,7 @@ All commands are emitted by `packages/cli/src/index.ts` (commander). Run `mspec 
 
 | Flag | Description |
 |---|---|
-| `--version` | Print package version (currently `0.1.0-alpha.1`). |
+| `--version` | Print package version (currently `0.1.0`). |
 | `--help` | Standard commander help. |
 
 ## Project bootstrap
@@ -24,7 +24,7 @@ Initialize mspec in the current project.
 | `--no-subagents` | false | Skip placing `.claude/agents/`. |
 | `--force` | false | Overwrite existing files. |
 
-Writes `.mspec/`, `memory/constitution.md`, `.claude/{commands,skills,agents}/`, and appends `.mspec/cache/` to `.gitignore`. When run from inside the mspec source repo it also builds and `npm link`s the CLI.
+Writes `.mspec/`, `memory/constitution.md`, `.claude/{commands,skills,agents}/`, and appends `.mspec/cache/` to `.gitignore`. When run from inside the mspec source repo (contributor mode), it also builds and `npm link`s the CLI automatically.
 
 ### `mspec new <feature-kebab>`
 Create a new change directory.

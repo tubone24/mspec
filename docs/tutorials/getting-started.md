@@ -9,20 +9,26 @@ This tutorial walks you from a clean machine to a fully archived change. It assu
 ## 1. Install the CLI globally
 
 ```bash
-git clone https://github.com/tubone24/mspec.git ~/tools/mspec
-cd ~/tools/mspec/packages/cli
-npm install
-npm run build
-npm link            # exposes `mspec` on your PATH
+npm install -g @mspec/cli
 ```
-
-> `mspec init` will run `npm run build && npm link` for you automatically when invoked from inside this repo (see `packages/cli/src/commands/init.ts:133`), so for *first-party* development you can skip the explicit `npm link` step.
 
 Verify:
 
 ```bash
-mspec --version     # 0.1.0-alpha.1
+mspec --version     # 0.1.0
 ```
+
+> **For contributors developing on mspec itself:** clone the repo and use `npm link` instead.
+>
+> ```bash
+> git clone https://github.com/tubone24/mspec.git ~/tools/mspec
+> cd ~/tools/mspec/packages/cli
+> npm install
+> npm run build
+> npm link            # exposes `mspec` on your PATH
+> ```
+>
+> Running `mspec init` from inside the mspec source repo will run `npm run build && npm link` for you automatically (see `packages/cli/src/commands/init.ts:133`).
 
 ## 2. Initialize a project
 

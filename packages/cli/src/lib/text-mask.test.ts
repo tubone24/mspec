@@ -1,5 +1,8 @@
+// @mspec-delta 2026-05-18-120853-fix-anchor-change-dir-lookup/specs/cli-anchor/spec.md
+// Requirements implemented: FR-018
+// Change: fix-anchor-change-dir-lookup
 import { describe, it, expect } from 'vitest';
-import { blankOutFences, blankOutHtmlComments } from './text-mask.js';
+import { blankOutFences, blankOutHtmlComments, blankOutStringLiterals } from './text-mask.js';
 
 describe('blankOutFences', () => {
   it('blanks backtick fenced block including fence lines', () => {
@@ -86,5 +89,43 @@ describe('blankOutHtmlComments', () => {
     expect(result.split('\n').length).toBe(4);
     expect(result.split('\n')[0]).toBe('x');
     expect(result.split('\n')[3]).toBe('y');
+  });
+});
+
+describe('blankOutStringLiterals', () => {
+  it('blanks @mspec-delta inside backtick template literal', () => {
+    const input =
+      'const src = `\n@mspec-delta foo/specs/bar/spec.md\nRequirements implemented: FR-001\n`;\n';
+    const result = blankOutStringLiterals(input);
+    expect(result).not.toContain('@mspec-delta');
+    expect(result.split('\n').length).toBe(input.split('\n').length);
+  });
+
+  it('does NOT mask @mspec-delta in a line comment', () => {
+    const input = '// @mspec-delta foo/specs/bar/spec.md\n';
+    const result = blankOutStringLiterals(input);
+    expect(result).toBe(input);
+  });
+
+  it('preserves newlines inside template literal', () => {
+    const input = '`\nline1\nline2\n`';
+    const result = blankOutStringLiterals(input);
+    expect(result.split('\n').length).toBe(input.split('\n').length);
+  });
+
+  it('handles escaped backtick inside template literal without closing it', () => {
+    const input = '`hello \\` world` after';
+    const result = blankOutStringLiterals(input);
+    // everything between the outer backticks is masked; 'after' is outside
+    expect(result.endsWith(' after')).toBe(true);
+    expect(result).not.toContain('hello');
+    expect(result).not.toContain('world');
+  });
+
+  it('preserves text outside template literals unchanged', () => {
+    const input = 'before `masked` after';
+    const result = blankOutStringLiterals(input);
+    expect(result.startsWith('before ')).toBe(true);
+    expect(result.endsWith(' after')).toBe(true);
   });
 });

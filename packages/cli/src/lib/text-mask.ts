@@ -55,3 +55,44 @@ function blankOutRegex(input: string, re: RegExp): string {
 function blankLine(line: string): string {
   return ' '.repeat(line.length);
 }
+
+/**
+ * Blank out JS/TS template literal contents (backtick strings).
+ * Newlines within the literal are preserved; all other characters become spaces.
+ * Opening and closing backticks are kept so offset counting stays valid.
+ */
+export function blankOutStringLiterals(input: string): string {
+  let result = '';
+  let inTemplate = false;
+  let escaped = false;
+
+  for (let i = 0; i < input.length; i++) {
+    const ch = input[i]!;
+    if (escaped) {
+      result += inTemplate ? (ch === '\n' ? '\n' : ' ') : ch;
+      escaped = false;
+      continue;
+    }
+    if (inTemplate) {
+      if (ch === '\\') {
+        escaped = true;
+        result += ' ';
+        continue;
+      }
+      if (ch === '`') {
+        inTemplate = false;
+        result += ch;
+        continue;
+      }
+      result += ch === '\n' ? '\n' : ' ';
+    } else {
+      if (ch === '`') {
+        inTemplate = true;
+        result += ch;
+      } else {
+        result += ch;
+      }
+    }
+  }
+  return result;
+}

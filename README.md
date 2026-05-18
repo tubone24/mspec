@@ -12,7 +12,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Node](https://img.shields.io/badge/node-%E2%89%A518.0.0-brightgreen)
-![Status](https://img.shields.io/badge/status-v0.1--alpha-blue)
+![Status](https://img.shields.io/badge/status-v0.1.0-blue)
 
 **[📖 Documentation](https://tubone24.github.io/mspec/)** — tutorials, how-to guides, reference, and explanation
 
@@ -98,23 +98,27 @@ Why it matters: the reader of `design.md` arrives knowing "this is Reference, I 
 
 ## Install
 
-mspec is one repo, one `npm link`. There is no published npm package yet (alpha).
-
 ```bash
-git clone https://github.com/tubone24/mspec.git ~/tools/mspec
-cd ~/tools/mspec/packages/cli
-npm install
-npm run build
-npm link             # exposes `mspec` on your PATH
+npm install -g @mspec/cli
 ```
 
 Verify:
 
 ```bash
-mspec --version      # 0.1.0-alpha.1
+mspec --version      # 0.1.0
 ```
 
-> Running `mspec init` from inside the mspec source repo will run `npm run build && npm link` for you automatically (see `packages/cli/src/commands/init.ts:133`). When developing on mspec itself, that single command is the install path.
+> **For contributors developing on mspec itself:** clone the repo and use `npm link` instead.
+>
+> ```bash
+> git clone https://github.com/tubone24/mspec.git ~/tools/mspec
+> cd ~/tools/mspec/packages/cli
+> npm install
+> npm run build
+> npm link             # exposes `mspec` on your PATH
+> ```
+>
+> Running `mspec init` from inside the mspec source repo will run `npm run build && npm link` for you automatically (see `packages/cli/src/commands/init.ts:133`).
 
 ## Use
 
@@ -269,7 +273,7 @@ Organized with Diátaxis — pick by intent:
 
 ## Project status
 
-- **Version**: `0.1.0-alpha.1`. Single tooling target: Claude Code.
+- **Version**: `0.1.0`. Single tooling target: Claude Code.
 - **Tests**: 336 passing across 64 files (`cd packages/cli && npm test`).
 - **Runtime**: Node.js ≥ 18, TypeScript 5.6+, ES2022.
 - **Major deps**: commander, zod, remark/unified, yaml, gray-matter, picocolors.

@@ -1,6 +1,5 @@
 {
   "name": "mspec-docs",
-  "private": true,
   "type": "module",
   "scripts": {
     "docs:dev": "vitepress dev docs",

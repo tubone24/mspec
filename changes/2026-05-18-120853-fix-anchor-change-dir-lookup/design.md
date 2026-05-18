@@ -65,7 +65,7 @@ export function blankOutStringLiterals(input: string): string
 | NORMAL | `` ` `` | IN_TEMPLATE | `` ` `` （そのまま） |
 | NORMAL | その他 | NORMAL | そのまま |
 | IN_TEMPLATE | `\` | IN_TEMPLATE (escaped=true) | ` `（空白） |
-| IN_TEMPLATE (escaped) | 任意 | IN_TEMPLATE (escaped=false) | `\n` → `\n`、その他 → ` ` |
+| IN_TEMPLATE (escaped) | 任意（`` \` `` を含む） | IN_TEMPLATE (escaped=false) | `\n` → `\n`、`` \` `` → ` `（空白、リテラルを閉じない）、その他 → ` ` |
 | IN_TEMPLATE | `` ` `` | NORMAL | `` ` `` （そのまま） |
 | IN_TEMPLATE | `\n` | IN_TEMPLATE | `\n` （保持） |
 | IN_TEMPLATE | その他 | IN_TEMPLATE | ` `（空白） |
@@ -111,3 +111,37 @@ parseAnchors(contents, sourceFile):
 ### Complexity Tracking
 
 None
+
+## Self-Review
+
+> Reviewed by: mspec-self-reviewer subagent
+> Date: 2026-05-18
+
+### Findings
+
+| # | 種別 | 対象 | 内容 |
+|---|------|------|------|
+| 1 | ✅ 修正済み | `specs/cli-anchor/spec.md:7` | FR-018 要件文が「シングル/ダブルクォートも対象」と書いていたが、実装はバッククォートのみ。self-review 指摘により要件文をバッククォート限定に修正済み |
+| 2 | ✅ OK | `design-rationale.md:51-59` | Phase 1 Constitution Check テーブルが存在することを確認。checklist 項目は充足 |
+| 3 | ✅ OK | `architecture-overview.md:9-55` | Mermaid System Diagram・Sequence・State Machine の3種揃い、要件充足 |
+| 4 | ✅ OK | `specs/cli-anchor/spec.md:9-19` | FR-018 に Scenario 2つ（テストデータ無視 / 実アンカー保持）が記載され `design.md:D-01` と対応 |
+| 5 | ✅ OK | `checklist.md:20-38` / `design.md:73-74` | `//`-comment-with-backtick リスクが FR-001/005/014/017 の Medium として checklist に記載、design および rationale でも文書化済み |
+| 6 | ✅ OK | 全設計ファイル | Phase 0 / Phase 1 Constitution Check（5原則）が3ファイルすべてで完備 |
+| 7 | ✅ OK | `anchor.ts:39` | 根本原因（`blankOutStringLiterals` 未適用）が正確に特定されている |
+| 8 | nit 修正済み | `design.md` ステート遷移表 | `IN_TEMPLATE (escaped)` の `` \` `` ケースを明示的に追記済み |
+
+### Constitution Re-Evaluation
+
+| Principle | Phase 0 | Phase 1 | 独立評価 |
+|-----------|---------|---------|---------|
+| I ステップ独立性 | OK | OK | 合意 — `text-mask.ts` への純粋追加、破壊的変更なし |
+| II 決定論的マージ | OK | OK | 合意 — 状態マシンは参照透明、副作用なし |
+| III 質問駆動の要件確定 | OK | OK | 合意 — Option B をユーザーと合意済み、research.md に記録あり |
+| IV 双方向アンカー | OK | OK | 合意 — 実装時に `anchor.test.ts` へ FR-018 アンカーブロックを追加する計画が設計に明記 |
+| V 強制ステップと拡張ステップの分離 | OK | OK | 合意 — bugfix モードの強制ステップ（research）実施済み、quickstart スキップも正当 |
+
+### Verdict
+
+**PASS WITH NOTES（修正対応済み）**
+
+設計・チェックリスト・アーキテクチャ概要はいずれも一貫しており、FR-018 の両シナリオは網羅されている。Constitution Check は3ファイルすべてで完備。self-review で指摘された Delta Spec の要件文スコープ齟齬は即座に修正済み。実装に進んで良い。

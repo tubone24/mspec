@@ -1,3 +1,6 @@
+// @mspec-delta 2026-05-18-120853-fix-anchor-change-dir-lookup/specs/cli-anchor/spec.md
+// Requirements implemented: FR-018
+// Change: fix-anchor-change-dir-lookup
 import { describe, it, expect } from 'vitest';
 import { parseAnchors } from './anchor.js';
 
@@ -97,5 +100,34 @@ fn apply_css() {}
     expect(anchors).toHaveLength(2);
     expect(anchors[0]?.capability).toBe('cap-a');
     expect(anchors[1]?.capability).toBe('cap-b');
+  });
+
+  it('ignores @mspec-delta inside template literal — FR-018 Scenario 1', () => {
+    const src = [
+      'const src = `',
+      ' * @mspec-delta 2026-05-14-093015-apply-css/specs/theme-engine/spec.md',
+      ' * Requirements implemented: FR-005',
+      ' * Change: apply-css',
+      '`;',
+    ].join('\n');
+    const { anchors, warnings } = parseAnchors(src, 'anchor.test.ts');
+    expect(anchors).toHaveLength(0);
+    expect(warnings).toHaveLength(0);
+  });
+
+  it('detects real line-comment anchor but ignores fake template literal anchor — FR-018 Scenario 2', () => {
+    const src = [
+      '// @mspec-delta 2026-05-14-093015-apply-css/specs/theme-engine/spec.md',
+      '// Requirements implemented: FR-005',
+      '// Change: apply-css',
+      'const fake = `',
+      ' @mspec-delta 2026-05-14-093015-apply-css/specs/other/spec.md',
+      ' Requirements implemented: FR-999',
+      ' Change: apply-css',
+      '`;',
+    ].join('\n');
+    const { anchors } = parseAnchors(src, 'test.ts');
+    expect(anchors).toHaveLength(1);
+    expect(anchors[0]?.capability).toBe('theme-engine');
   });
 });
