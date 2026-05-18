@@ -4,14 +4,14 @@
 
 ### FR-018 — JS/TS文字列リテラル内のアンカー出現をスキャン対象外にする
 
-- [ ] `anchor.test.ts` がテンプレートリテラル内に `@mspec-delta` を含む状態で `mspec anchor-check` を実行したとき、`change_dir not found` エラーが報告されない <!-- verify: fr-018 -->
-- [ ] `archive.test.ts` 先頭の `// @mspec-delta ...` 行コメントアンカーが `mspec anchor-check` で正常に認識され、検証対象として扱われる <!-- verify: fr-018 -->
-- [ ] `blankOutStringLiterals` がバッククォートで囲まれた内容を空白化し、その中の `@mspec-delta` が認識されないこと（`text-mask.test.ts` のユニットテストで確認） <!-- verify: fr-018 -->
-- [ ] `blankOutStringLiterals` が行コメント内の `@mspec-delta` をマスクしないこと（`text-mask.test.ts` のユニットテストで確認） <!-- verify: fr-018 -->
-- [ ] `blankOutStringLiterals` がテンプレートリテラル内の改行を保持すること（`text-mask.test.ts` のユニットテストで確認） <!-- verify: fr-018 -->
-- [ ] `blankOutStringLiterals` がエスケープされたバッククォート（`` \` ``）を正しく処理すること（`text-mask.test.ts` のユニットテストで確認） <!-- verify: fr-018 -->
-- [ ] `parseAnchors` のマスクチェーン順が `blankOutFences` → `blankOutHtmlComments` → `blankOutStringLiterals` になっていること <!-- verify: fr-018 -->
-- [ ] `anchor.test.ts` の先頭に FR-018 を指す `@mspec-delta` アンカーブロックが追記されていること <!-- verify: fr-018 -->
+- [x] `anchor.test.ts` がテンプレートリテラル内に `@mspec-delta` を含む状態で `mspec anchor-check` を実行したとき、`change_dir not found` エラーが報告されない <!-- verify: fr-018 -->
+- [x] `archive.test.ts` 先頭の `// @mspec-delta ...` 行コメントアンカーが `mspec anchor-check` で正常に認識され、検証対象として扱われる <!-- verify: fr-018 -->
+- [x] `blankOutStringLiterals` がバッククォートで囲まれた内容を空白化し、その中の `@mspec-delta` が認識されないこと（`text-mask.test.ts` のユニットテストで確認） <!-- verify: fr-018 -->
+- [x] `blankOutStringLiterals` が行コメント内の `@mspec-delta` をマスクしないこと（`text-mask.test.ts` のユニットテストで確認） <!-- verify: fr-018 -->
+- [x] `blankOutStringLiterals` がテンプレートリテラル内の改行を保持すること（`text-mask.test.ts` のユニットテストで確認） <!-- verify: fr-018 -->
+- [x] `blankOutStringLiterals` がエスケープされたバッククォート（`` \` ``）を正しく処理すること（`text-mask.test.ts` のユニットテストで確認） <!-- verify: fr-018 -->
+- [x] `parseAnchors` のマスクチェーン順が `blankOutFences` → `blankOutHtmlComments` → `blankOutStringLiterals` になっていること <!-- verify: fr-018 -->
+- [x] `anchor.test.ts` の先頭に FR-018 を指す `@mspec-delta` アンカーブロックが追記されていること <!-- verify: fr-018 -->
 
 ## Source-of-Truth Regression
 

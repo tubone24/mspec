@@ -24,9 +24,10 @@ import { specLintCommand } from './commands/spec-lint.js';
 import { specListCapabilitiesCommand } from './commands/spec-list-capabilities.js';
 import { specListRequirementsCommand } from './commands/spec-list-requirements.js';
 import { specGrepCommand } from './commands/spec-grep.js';
+import { upgradeCommand } from './commands/upgrade.js';
 
 const require = createRequire(import.meta.url);
-const { version } = require('../../package.json') as { version: string };
+const { version } = require('../package.json') as { version: string };
 
 const program = new Command();
 
@@ -194,6 +195,12 @@ program
   .option('--phase <step-id>', 'Step ID (e.g. proposal)')
   .option('--json', 'Output JSON')
   .action(questionsCommand);
+
+program
+  .command('upgrade')
+  .description('Upgrade mspec CLI to the latest version')
+  .option('-y, --yes', 'Skip confirmation prompt')
+  .action((opts: { yes?: boolean }) => upgradeCommand({ yes: opts.yes }));
 
 program.parseAsync(process.argv).catch((err) => {
   console.error(pc.red('Error:'), err instanceof Error ? err.message : err);

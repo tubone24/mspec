@@ -186,3 +186,20 @@ The system MUST allow a single source or test file to contain more than one 3-li
 - WHEN ユーザーが `mspec anchor check` を実行する
 - THEN 当該ファイルは不正形アンカー候補として報告される (FR-002 / FR-005 のブロック形状での挙動契約は維持される)
 
+### Requirement: FR-018 — JS/TS文字列リテラル内のアンカー出現をスキャン対象外にする
+
+JS/TSファイルをスキャンする際、このシステムは SHALL テンプレートリテラル（バッククォート文字列）の内部に出現する `@mspec-delta` をアンカーブロックとして認識しない。シングルクォート・ダブルクォート文字列は複数行にまたがれないため、3行ブロックを偽造できず対象外とする。
+
+#### Scenario: テストファイル内のテストデータアンカーを無視する
+
+- GIVEN `anchor.test.ts` がテストデータとしてテンプレートリテラル内に `@mspec-delta` アンカーブロックを含んでいる
+- WHEN `mspec anchor-check` を実行する
+- THEN そのテンプレートリテラル由来のアンカーはスキャン結果に含まれず、`change_dir not found` エラーは報告されない
+
+#### Scenario: テストファイル先頭の実アンカーは引き続きスキャンされる
+
+- GIVEN `archive.test.ts` がファイル先頭の行コメント（`// @mspec-delta ...`）として実アンカーを持っている
+- WHEN `mspec anchor-check` を実行する
+- THEN その行コメントのアンカーは正常に認識され、検証の対象となる
+
+

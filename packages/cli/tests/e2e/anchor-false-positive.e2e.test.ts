@@ -1,6 +1,9 @@
 // @mspec-delta 2026-05-14-022259-claude-core-completion/specs/cli-anchor/spec.md
 // Requirements implemented: FR-005, FR-015, FR-016, FR-017
 // Change: claude-core-completion
+// @mspec-delta 2026-05-18-120853-fix-anchor-change-dir-lookup/specs/cli-anchor/spec.md
+// Requirements implemented: FR-018
+// Change: fix-anchor-change-dir-lookup
 
 import { describe, it, expect } from 'vitest';
 import { mkdtemp, writeFile, mkdir } from 'node:fs/promises';
