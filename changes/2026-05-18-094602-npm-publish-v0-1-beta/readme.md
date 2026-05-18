@@ -6,25 +6,26 @@ doc_type: Tutorial
 <!-- Requirements implemented: FR-005 -->
 <!-- Change: revise-artifact-taxonomy -->
 
-# docs-github-pages
+# npm-publish-v0-1-beta
 
 > Status: new
 > Created: 2026-05-18
 
 ## Request
 
-`docs/` 配下のマークダウン（mspec のドキュメント）を GitHub Pages として公開し、見やすい Web サイトとして閲覧できるようにする。GitHub への push で自動的にビルド・デプロイされる構成を、最適な静的サイトジェネレータ（MkDocs / Docusaurus / VitePress 等）の調査を踏まえて構築する。
+mspec を 0.1beta として npm に publish し、`npm install -g mspec` 後に `mspec` コマンドが使えるようにする。
+`mspec init` のような init コマンドも openspec と同様に動作することを目指す。
 
 ## Artifacts
 
 - [x] proposal.md
-- [x] specs/docs-site/spec.md (Delta Spec)
+- [x] specs/<capability>/spec.md (Delta Spec)
 - [x] research.md
-- [ ] design.md / architecture-overview.md
+- [x] design.md / design-rationale.md / architecture-overview.md
 - [ ] design-rationale.md
-- [ ] quickstart.md
-- [ ] checklist.md
-- [ ] tasks.md
+- [x] quickstart.md
+- [x] checklist.md
+- [x] tasks.md
 
 ## Skipped Steps
 

@@ -1,3 +1,7 @@
+// @mspec-delta 2026-05-18-094602-npm-publish-v0-1-beta/specs/cli-distribution/spec.md
+// Requirements implemented: FR-001
+// Change: npm-publish-v0-1-beta
+import { createRequire } from 'module';
 import { Command } from 'commander';
 import pc from 'picocolors';
 import { initCommand } from './commands/init.js';
@@ -21,12 +25,15 @@ import { specListCapabilitiesCommand } from './commands/spec-list-capabilities.j
 import { specListRequirementsCommand } from './commands/spec-list-requirements.js';
 import { specGrepCommand } from './commands/spec-grep.js';
 
+const require = createRequire(import.meta.url);
+const { version } = require('../../package.json') as { version: string };
+
 const program = new Command();
 
 program
   .name('mspec')
   .description('むぎぼースペック (mspec) - Spec-Driven Development framework CLI')
-  .version('0.1.0-alpha.1');
+  .version(version);
 
 program
   .command('init')

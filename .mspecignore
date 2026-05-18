@@ -1,0 +1,2 @@
+# JSON files cannot carry @mspec-delta anchor comments
+*.json

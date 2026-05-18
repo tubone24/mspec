@@ -4,7 +4,7 @@
 
 #  mspec(むぎぼースペック)
 
-![logo](./docs/images/logo.png)
+![logo](./docs/public/images/logo.png)
 
 > **A spec-driven development framework for Claude Code that keeps LLM-authored specs and LLM-authored code locked together with machine-checkable links.**
 >
@@ -13,6 +13,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Node](https://img.shields.io/badge/node-%E2%89%A518.0.0-brightgreen)
 ![Status](https://img.shields.io/badge/status-v0.1--alpha-blue)
+
+**[📖 Documentation](https://tubone24.github.io/mspec/)** — tutorials, how-to guides, reference, and explanation
 
 ---
 

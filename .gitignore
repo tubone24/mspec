@@ -7,3 +7,5 @@ dist/
 coverage/
 *.tsbuildinfo
 .mspec/cache/
+docs/.vitepress/dist
+docs/.vitepress/cache
