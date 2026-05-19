@@ -89,9 +89,12 @@ The thing to watch for in `proposal.md` is the **`## Impact on existing requirem
 - FR-001, FR-002 — unaffected.
 ```
 
-**What to review:**
-- Every existing FR that this change will touch is **named explicitly** under impact, with the planned section (`MODIFIED` / `REMOVED`). This is what prevents accidental silent regressions later.
-- Capabilities are still **just `task-list`** — if you suddenly need a second capability, that's a sign to split the change.
+**What to verify — same lens as the first tutorial, plus one new thing:**
+
+Re-use the proposal review lens from the first tutorial (`## Why` matches your intent, `## Goals` / `## Non-Goals` are aligned, constitution rows are left to the Step 8 sweep). The *new* concern when you already have a SoT is the impact list:
+
+- **Every existing FR that this change will touch is named explicitly** under `## Impact on existing requirements`, with the planned section (`MODIFIED` / `REMOVED`). A missing FR here turns into a silent regression at archive time.
+- **Capabilities are still just `task-list`.** A second capability appearing on a follow-up change is a strong split-the-change signal.
 
 `/mspec:continue`.
 
@@ -141,10 +144,12 @@ The system SHALL persist each task's `{ text, done }` shape to localStorage and 
 | `## MODIFIED` | — | FR-003 |
 | FR-NNN starting number | 001 | 004 (continues from the SoT — IDs are never reused) |
 
-**What to review:**
-- Every FR in `## MODIFIED` exists verbatim in the SoT (`mspec spec grep FR-003` from §1). If you renumber by accident, the archive merge will abort.
-- The full restated requirement text under `## MODIFIED` is the **complete new wording** — it *replaces* the SoT version on archive. Do not write a "diff against the old text"; write what the requirement should say after this change.
-- New FR IDs (FR-004, FR-005) continue from the SoT's max + 1. `mspec delta init` handles this automatically — if you see numbering go back to FR-001, something's wrong.
+**What to verify — the EARS / Gherkin discipline from the first tutorial still applies. What's new here is the merge contract:**
+
+- **Every FR in `## MODIFIED` exists verbatim in the SoT** (`mspec spec grep FR-003` from §1). A renumber here aborts the archive merge.
+- **The full restated requirement text under `## MODIFIED` is the complete new wording** — it *replaces* the SoT version on archive. Don't write a diff; write what the requirement should say after this change. (Why parser-only: see the `If stuck` link below.)
+- **New FR IDs continue from the SoT's max + 1.** `mspec delta init` handles this — numbering snapping back to FR-001 means something is wrong.
+- **The Gherkin scenarios under MODIFIED are still observable** and still match the *new* wording. A scenario inherited from the old FR text is a common pitfall here.
 
 **If stuck:**
 - ID continuation logic: [`../reference/cli.md`](../reference/cli.md) `### mspec delta init`.
@@ -184,8 +189,13 @@ The interesting wrinkle is the anchor block for the task that touches the existi
   -->
 ```
 
-**What to review:**
-- The MODIFIED-FR task (T-002) lists the **new** change dir, not the archived one. That's how `mspec anchor check` knows this change actually delivered the modification.
+**What to verify — `tasks.md` is still the AI's work queue, skim it:**
+
+The only thing worth a careful look this time is the anchor target on tasks that touch existing files:
+
+- **The MODIFIED-FR task (T-002) lists the *new* change dir**, not the archived one. That's how `mspec anchor check` knows this change actually delivered the modification.
+
+Everything else (task ordering, FR coverage by E2E tasks) is the same review you did in the first tutorial — and the same "skim now, only dig in if implement gets stuck" rule applies.
 
 ## 7. Implement — multiple anchors per file are fine
 
@@ -218,10 +228,11 @@ mspec test expect-red  T-002
 mspec test expect-green T-002
 ```
 
-**What to review:**
+**What to verify — same TDD / `verify: human` discipline as the first tutorial; the new concern is anchor coexistence:**
 - `mspec anchor check` reports **0 errors** and **0 orphans** — both old (`task-add`) and new (`task-complete`) anchors should resolve.
 - Every FR-ID in the *new* Delta Spec (FR-003 in MODIFIED, FR-004 and FR-005 in ADDED) is anchored from at least one file.
 - FR-001 and FR-002 still have their anchors from the first change in `src/store.ts` — you didn't accidentally delete them while editing.
+- The end-of-implement `verify: human` sweep (Step 10) runs the same way it did last time — walk through the checklist with the running app, including a regression pass over the first change's Golden Path.
 
 **If stuck:**
 - If you see `[orphan]` after archive, walk through Case 5 in [`../how-to/fix-anchor-errors.md`](../how-to/fix-anchor-errors.md) (`## Error catalog` → `### Case 5 — [orphan] appears in anchor list`).
