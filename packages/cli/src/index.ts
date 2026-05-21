@@ -1,6 +1,9 @@
 // @mspec-delta 2026-05-18-094602-npm-publish-v0-1-beta/specs/cli-distribution/spec.md
 // Requirements implemented: FR-001
 // Change: npm-publish-v0-1-beta
+// @mspec-delta 2026-05-21-055911-ui-visual-mock-workflow/specs/cli-core/spec.md
+// Requirements implemented: FR-004
+// Change: ui-visual-mock-workflow
 import { createRequire } from 'module';
 import { Command } from 'commander';
 import pc from 'picocolors';
@@ -25,6 +28,7 @@ import { specListCapabilitiesCommand } from './commands/spec-list-capabilities.j
 import { specListRequirementsCommand } from './commands/spec-list-requirements.js';
 import { specGrepCommand } from './commands/spec-grep.js';
 import { upgradeCommand } from './commands/upgrade.js';
+import { mockCommand } from './commands/mock.js';
 
 const require = createRequire(import.meta.url);
 const { version } = require('../package.json') as { version: string };
@@ -195,6 +199,13 @@ program
   .option('--phase <step-id>', 'Step ID (e.g. proposal)')
   .option('--json', 'Output JSON')
   .action(questionsCommand);
+
+program
+  .command('mock')
+  .description('Generate a visual UI mock and collect feedback')
+  .option('--change <name>', 'Target change directory name')
+  .option('--port <port>', 'Preferred port for the mock server', (v) => parseInt(v, 10))
+  .action((opts: { change?: string; port?: number }) => mockCommand(opts));
 
 program
   .command('upgrade')

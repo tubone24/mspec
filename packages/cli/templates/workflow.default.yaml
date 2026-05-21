@@ -5,6 +5,10 @@
 # @mspec-delta 2026-05-18-044538-revise-artifact-taxonomy/specs/cli-workflow-engine/spec.md
 # Requirements implemented: FR-022
 # Change: revise-artifact-taxonomy
+#
+# @mspec-delta 2026-05-21-055911-ui-visual-mock-workflow/specs/cli-workflow-engine/spec.md
+# Requirements implemented: FR-023
+# Change: ui-visual-mock-workflow
 # .mspec/workflow.yaml
 version: 1
 name: mspec-default
@@ -29,6 +33,16 @@ steps:
     ask_questions: true
     subagent: false
     constitution_check: true
+
+  - id: visual-mock
+    command: /mspec:mock
+    skill: mspec-visual-mock
+    subagent: true
+    requires: [proposal.md]
+    produces: [mock-feedback.md]
+    block: true
+    removable: true
+    skippable: true
 
   - id: delta
     command: /mspec:delta
