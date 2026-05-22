@@ -1,7 +1,12 @@
 // @mspec-delta 2026-05-18-125018-cli-upgrade/specs/cli-upgrade/spec.md
 // Requirements implemented: FR-001, FR-002, FR-003, FR-004
 // Change: cli-upgrade
-import { createRequire } from 'node:module';
+// @mspec-delta 2026-05-21-215113-fix-upgrade-package-json-path/specs/upgrade-command/spec.md
+// Requirements implemented: FR-001, FR-002
+// Change: fix-upgrade-package-json-path
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import pc from 'picocolors';
 import { ask } from '../lib/prompt.js';
@@ -27,9 +32,20 @@ export async function fetchLatestVersion(
 }
 
 export function getCurrentVersion(): string {
-  const require = createRequire(import.meta.url);
-  const pkg = require('../../package.json') as { version: string };
-  return pkg.version;
+  const here = dirname(fileURLToPath(import.meta.url));
+  // candidates: dist/index.js 環境と src/commands/upgrade.ts 環境の両方に対応
+  const candidates = [
+    join(here, '../package.json'),    // dist/ → packages/cli/package.json
+    join(here, '../../package.json'), // src/commands/ → packages/cli/package.json
+  ];
+  for (const c of candidates) {
+    try {
+      return (JSON.parse(readFileSync(c, 'utf8')) as { version: string }).version;
+    } catch {
+      // 次の候補を試す
+    }
+  }
+  throw new Error('Cannot resolve package.json from getCurrentVersion()');
 }
 
 export async function upgradeCommand(opts: UpgradeOptions = {}): Promise<void> {

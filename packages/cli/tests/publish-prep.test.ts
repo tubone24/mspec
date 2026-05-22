@@ -1,6 +1,9 @@
 // @mspec-delta 2026-05-19-022600-prepare-npm-publish-0-1-1/specs/cli-distribution/spec.md
 // Requirements implemented: FR-003
 // Change: prepare-npm-publish-0-1-1
+// @mspec-delta 2026-05-21-075242-bump-cli-version-0-1-2/specs/cli-core/spec.md
+// Requirements implemented: FR-005
+// Change: bump-cli-version-0-1-2
 
 import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
@@ -23,7 +26,7 @@ describe('T101: npm pack tarball contents', () => {
     const pkg = JSON.parse(
       readFileSync(resolve(PKG_DIR, 'package.json'), 'utf8'),
     ) as { version: string };
-    expect(pkg.version).toBe('0.1.1');
+    expect(pkg.version).toBe('0.1.2');
 
     expect(files.some((p) => p === 'package.json')).toBe(true);
     expect(files.some((p) => p === 'README.md')).toBe(true);

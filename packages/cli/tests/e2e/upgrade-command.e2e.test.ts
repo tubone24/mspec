@@ -4,6 +4,9 @@
 // @mspec-delta 2026-05-18-125018-cli-upgrade/specs/version-check/spec.md
 // Requirements implemented: FR-001, FR-002, FR-003
 // Change: cli-upgrade
+// @mspec-delta 2026-05-21-215113-fix-upgrade-package-json-path/specs/upgrade-command/spec.md
+// Requirements implemented: FR-001, FR-002
+// Change: fix-upgrade-package-json-path
 import { describe, it, expect } from 'vitest';
 import { upgradeCommand, fetchLatestVersion, getCurrentVersion } from '../../src/commands/upgrade.js';
 import { vi, beforeEach } from 'vitest';
