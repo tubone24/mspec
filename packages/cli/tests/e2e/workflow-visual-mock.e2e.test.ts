@@ -29,7 +29,7 @@ async function setupProjectWithRealWorkflow(): Promise<string> {
   // proposal.md needs doc_type frontmatter + ## Constitution Check (constitution_check: true in real workflow)
   await writeFile(
     join(changeDir, 'proposal.md'),
-    '---\ndoc_type: AI-Internal\n---\n\n# Proposal\n\n## Goals\n\nTest goals.\n\n## Constitution Check\n\n| Principle | Phase 0 |\n|-----------|--------|\n| I | ✅ |\n',
+    '---\ndoc_type: Explanation\n---\n\n# Proposal\n\n## Goals\n\nTest goals.\n\n## Constitution Check\n\n| Principle | Phase 0 |\n|-----------|--------|\n| I | ✅ |\n',
   );
 
   return cwd;

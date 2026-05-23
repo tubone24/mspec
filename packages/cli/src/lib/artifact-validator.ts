@@ -10,6 +10,12 @@
 // @mspec-delta 2026-05-18-074640-rename-fr-002-doc-type-title/specs/artifact-taxonomy/spec.md
 // Requirements implemented: FR-002
 // Change: rename-fr-002-doc-type-title
+// @mspec-delta 2026-05-23-060726-deprecate-ai-internal-doc-type/specs/artifact-taxonomy/spec.md
+// Requirements implemented: FR-001, FR-002
+// Change: deprecate-ai-internal-doc-type
+// @mspec-delta 2026-05-23-060726-deprecate-ai-internal-doc-type/specs/cli-spec-lint/spec.md
+// Requirements implemented: FR-015
+// Change: deprecate-ai-internal-doc-type
 
 import { basename } from 'node:path';
 import { parseDeltaSpec } from '../parser/delta-spec.js';
@@ -29,7 +35,6 @@ export const VALID_DOC_TYPES = [
   'Explanation',
   'How-to',
   'Tutorial',
-  'AI-Internal',
 ] as const;
 
 export type ValidDocType = (typeof VALID_DOC_TYPES)[number];

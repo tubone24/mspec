@@ -1,10 +1,13 @@
 ---
-doc_type: AI-Internal
+doc_type: Reference
 ---
 
 <!-- @mspec-delta 2026-05-18-044538-revise-artifact-taxonomy/specs/artifact-taxonomy/spec.md -->
-<!-- Requirements implemented: FR-001, FR-004 -->
+<!-- Requirements implemented: FR-001 -->
 <!-- Change: revise-artifact-taxonomy -->
+<!-- @mspec-delta 2026-05-23-060726-deprecate-ai-internal-doc-type/specs/artifact-taxonomy/spec.md -->
+<!-- Requirements implemented: FR-001, FR-007 -->
+<!-- Change: deprecate-ai-internal-doc-type -->
 
 # Tasks: <タイトル>
 

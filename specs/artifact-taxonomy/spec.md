@@ -12,33 +12,32 @@
 
 ### Requirement: FR-001 — Declare doc_type in YAML frontmatter of all artifact templates
 
-The system SHALL include a `doc_type:` field in the YAML frontmatter of every artifact template file (e.g. `proposal.md`, `research.md`, `design.md`, `design-rationale.md`, `quickstart.md`, `checklist.md`, `tasks.md`, `glossary.md`, `readme.md`), whose value MUST be one of `Reference`, `Explanation`, `How-to`, `Tutorial`, or `AI-Internal` — the four Diátaxis types extended with a fifth `AI-Internal` type for artifacts whose primary consumer is the AI agent rather than a human reviewer.
+The system SHALL include a `doc_type:` field in the YAML frontmatter of every artifact template file (e.g. `proposal.md`, `research.md`, `design.md`, `design-rationale.md`, `quickstart.md`, `checklist.md`, `tasks.md`, `glossary.md`, `readme.md`), whose value MUST be one of `Reference`, `Explanation`, `How-to`, or `Tutorial` — the four Diátaxis types. The previously permitted fifth type `AI-Internal` is abolished and MUST NOT be used in any artifact.
 
 #### Scenario: design-rationale.md template contains doc_type frontmatter
 - GIVEN mspec の artifact テンプレートディレクトリに `design-rationale.md` テンプレートが存在する
 - WHEN テンプレートの先頭を確認する
 - THEN `---` で囲まれた YAML フロントマターが存在し、`doc_type: Explanation` フィールドを含む
 
-#### Scenario: tasks.md template declares AI-Internal
+#### Scenario: tasks.md template declares Reference not AI-Internal
 - GIVEN mspec の artifact テンプレートディレクトリに `tasks.md` テンプレートが存在する
 - WHEN テンプレートの YAML frontmatter を確認する
-- THEN `doc_type: AI-Internal` フィールドが存在する
-- AND `doc_type` の値は 5 種（`Reference`, `Explanation`, `How-to`, `Tutorial`, `AI-Internal`）のいずれかである
+- THEN `doc_type: Reference` フィールドが存在する
+- AND `doc_type` の値は 4 種（`Reference`, `Explanation`, `How-to`, `Tutorial`）のいずれかである
+- AND `AI-Internal` は使用されていない
 
-### Requirement: FR-002 — doc_type value is constrained to the five permitted types
+### Requirement: FR-002 — doc_type value is constrained to the four permitted Diátaxis types
 
-The system MUST treat exactly the set defined by FR-001 — `Reference`, `Explanation`, `How-to`, `Tutorial`, and `AI-Internal` — as valid values for the `doc_type:` field in any mspec artifact; no custom or compound type (e.g. `Mixed`, `Tutorial-Reference`, `Reference+AI`) SHALL be used.
+The system MUST treat exactly the four Diátaxis types — `Reference`, `Explanation`, `How-to`, and `Tutorial` — as valid values for the `doc_type:` field in any mspec artifact; no custom or compound type (e.g. `Mixed`, `Tutorial-Reference`, `Reference+AI`, `AI-Internal`) SHALL be used.
 
-> 注: 本 Requirement のタイトル文字列は歴史的に「four Diátaxis types」と命名されているが、本 change による改訂後の許容値は `AI-Internal` を含む 5 種である。タイトル改名は後続の change で RENAMED として扱う。
-
-#### Scenario: Valid doc_type values are the five types defined in FR-001
+#### Scenario: Valid doc_type values are the four Diátaxis types
 - GIVEN mspec プロジェクトのいずれかの成果物を作成する条件
 - WHEN 成果物の YAML フロントマターを読む
-- THEN `doc_type` の値は `Reference`, `Explanation`, `How-to`, `Tutorial`, `AI-Internal` のいずれかである
-- AND それ以外の値（例: `Mixed`, `Tutorial-Reference`）は一切使用されない
+- THEN `doc_type` の値は `Reference`, `Explanation`, `How-to`, `Tutorial` のいずれかである
+- AND それ以外の値（例: `Mixed`, `Tutorial-Reference`, `AI-Internal`）は一切使用されない
 
-#### Scenario: Invalid doc_type values are rejected by validate
-- GIVEN テンプレートまたは change 内成果物の YAML frontmatter に `doc_type: Mixed` が設定されている
+#### Scenario: AI-Internal doc_type is rejected by validate
+- GIVEN テンプレートまたは change 内成果物の YAML frontmatter に `doc_type: AI-Internal` が設定されている
 - WHEN `mspec validate` を実行する
 - THEN validate は doc_type 値の不正をエラーとして報告する
 - AND 終了コード非ゼロで終了する
@@ -58,15 +57,6 @@ The system SHALL produce a `glossary.md` file as part of every change directory 
 - WHEN `research.md` のテンプレートを確認する
 - THEN 用語の参照先として `glossary.md` へのリンクまたは言及がテンプレートに含まれる
 
-### Requirement: FR-004 — `tasks.md` テンプレートの doc_type は `AI-Internal` である
-
-`tasks.md` がテンプレートとして提供される場合、このシステムは SHALL その YAML frontmatter で `doc_type: AI-Internal` を宣言する。`tasks.md` の粒度は AI による機械的消費を前提としており、人間読者が直接通読するのに適さないため、Reference / Explanation / How-to / Tutorial のいずれにも当てはまらない。
-
-#### Scenario: tasks.md template は AI-Internal として分類される
-- GIVEN mspec の artifact テンプレートディレクトリに `tasks.md` テンプレートが存在する
-- WHEN テンプレートの YAML frontmatter を確認する
-- THEN `doc_type: AI-Internal` が宣言されている
-- AND `doc_type` の値はそれ以外（Reference, Explanation, How-to, Tutorial）でない
 
 ### Requirement: FR-005 — `readme.md` テンプレートの doc_type は `Tutorial` で、末尾に「まとめ」セクションの雛型を含む
 
@@ -89,5 +79,16 @@ The system SHALL produce a `glossary.md` file as part of every change directory 
 - THEN `changes/<id>/design.md` と `changes/<id>/design-rationale.md` の両方が存在する
 - AND `design.md` の YAML frontmatter は `doc_type: Reference` を宣言する
 - AND `design-rationale.md` の YAML frontmatter は `doc_type: Explanation` を宣言する
+
+### Requirement: FR-007 — `tasks.md` テンプレートの doc_type は `Reference` である
+
+`tasks.md` がテンプレートとして提供される場合、このシステムは SHALL その YAML frontmatter で `doc_type: Reference` を宣言する。`tasks.md` は番号付きタスクリストとアンカーブロックを提供する参照用成果物であり、Diátaxis フレームワークの `Reference` 象限に分類される。
+
+#### Scenario: tasks.md テンプレートは Reference として分類される
+- GIVEN mspec の artifact テンプレートディレクトリに `tasks.md` テンプレートが存在する
+- WHEN テンプレートの YAML frontmatter を確認する
+- THEN `doc_type: Reference` が宣言されている
+- AND `doc_type` の値は `AI-Internal` ではない
+
 
 

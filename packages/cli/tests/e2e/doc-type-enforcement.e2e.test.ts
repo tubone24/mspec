@@ -7,6 +7,12 @@
 // @mspec-delta 2026-05-18-074640-rename-fr-002-doc-type-title/specs/artifact-taxonomy/spec.md
 // Requirements implemented: FR-002
 // Change: rename-fr-002-doc-type-title
+// @mspec-delta 2026-05-23-060726-deprecate-ai-internal-doc-type/specs/artifact-taxonomy/spec.md
+// Requirements implemented: FR-002
+// Change: deprecate-ai-internal-doc-type
+// @mspec-delta 2026-05-23-060726-deprecate-ai-internal-doc-type/specs/cli-spec-lint/spec.md
+// Requirements implemented: FR-015
+// Change: deprecate-ai-internal-doc-type
 
 import { describe, it, expect } from 'vitest';
 import { mkdtemp, mkdir, writeFile, rm } from 'node:fs/promises';
@@ -116,22 +122,22 @@ describe('FR-015: doc_type value enforcement (artifact-taxonomy FR-002)', () => 
       const combined = stdout + stderr;
       expect(status).not.toBe(0);
       expect(combined).toContain(
-        'Mixed is not a valid doc_type; allowed: Reference, Explanation, How-to, Tutorial, AI-Internal',
+        'Mixed is not a valid doc_type; allowed: Reference, Explanation, How-to, Tutorial',
       );
     } finally {
       await rm(root, { recursive: true, force: true });
     }
   });
 
-  it('accepts a template declaring doc_type: AI-Internal (exit 0)', async () => {
+  it('rejects a template declaring doc_type: AI-Internal (exit non-zero)', async () => {
     const { root, changeId } = await scaffoldProject({
       readmeContent: ['---', 'doc_type: AI-Internal', '---', '', '# readme', ''].join('\n'),
     });
     try {
       const { status, stdout, stderr } = runValidate(root, changeId);
       const combined = stdout + stderr;
-      expect(combined).not.toContain('is not a valid doc_type');
-      expect(status).toBe(0);
+      expect(combined).toContain('AI-Internal is not a valid doc_type');
+      expect(status).not.toBe(0);
     } finally {
       await rm(root, { recursive: true, force: true });
     }

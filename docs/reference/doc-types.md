@@ -47,4 +47,4 @@ The mspec team has had ongoing discussion on a few entries:
 
 ## Roadmap
 
-A 5th `doc_type` (e.g. `AI-Internal`) for AI-only operational artifacts has been discussed but is **not** part of the current spec. Adopting it would require a new Delta Spec (`mspec new add-ai-internal-doctype`) that modifies `artifact-taxonomy` FR-002.
+~~A 5th `doc_type` (e.g. `AI-Internal`) for AI-only operational artifacts has been discussed.~~ **`AI-Internal` was introduced and then abolished** (change `deprecate-ai-internal-doc-type`, 2026-05-23) because classifying artifacts by consumer identity (AI vs. human) violates the Diátaxis philosophy. The allowed set is permanently fixed to the four Diátaxis types. `tasks.md` uses `Reference` as its canonical type.
