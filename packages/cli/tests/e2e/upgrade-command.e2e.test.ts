@@ -7,6 +7,9 @@
 // @mspec-delta 2026-05-21-215113-fix-upgrade-package-json-path/specs/upgrade-command/spec.md
 // Requirements implemented: FR-001, FR-002
 // Change: fix-upgrade-package-json-path
+// @mspec-delta 2026-05-22-050359-cli-output-english/specs/cli-upgrade/spec.md
+// Requirements implemented: FR-002, FR-004
+// Change: cli-output-english
 import { describe, it, expect } from 'vitest';
 import { upgradeCommand, fetchLatestVersion, getCurrentVersion } from '../../src/commands/upgrade.js';
 import { vi, beforeEach } from 'vitest';
@@ -31,8 +34,8 @@ describe('upgrade command e2e (FR-001, FR-002, FR-003, FR-004)', () => {
     await upgradeCommand({ fetchFn: mockFetch, spawnFn: mockSpawn as never, yes: true });
 
     const lines = logSpy.mock.calls.map((c) => c.join(''));
-    expect(lines.some((l) => l.includes('現在のバージョン:'))).toBe(true);
-    expect(lines.some((l) => l.includes('最新バージョン:'))).toBe(true);
+    expect(lines.some((l) => l.includes('Current version:'))).toBe(true);
+    expect(lines.some((l) => l.includes('Latest version:'))).toBe(true);
   });
 
   it('FR-003: runs npm install -g when newer version and --yes flag set', async () => {
@@ -62,7 +65,7 @@ describe('upgrade command e2e (FR-001, FR-002, FR-003, FR-004)', () => {
     await upgradeCommand({ fetchFn: mockFetch, spawnFn: mockSpawn as never });
 
     const lines = logSpy.mock.calls.map((c) => c.join(''));
-    expect(lines.some((l) => l.includes('すでに最新バージョンです'))).toBe(true);
+    expect(lines.some((l) => l.includes('Already up to date'))).toBe(true);
     expect(mockSpawn).not.toHaveBeenCalled();
   });
 

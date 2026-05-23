@@ -12,13 +12,14 @@ export async function findChange(
   paths: ProjectPaths,
   name: string,
 ): Promise<ChangeLocation | null> {
-  const live = join(paths.changesDir, name);
-  if (await dirExists(live)) {
-    return { name, dir: live, isArchived: false };
-  }
+  // Check archive first so that a git-restored live copy doesn't shadow an already-archived change.
   const archived = join(paths.changesArchiveDir, name);
   if (await dirExists(archived)) {
     return { name, dir: archived, isArchived: true };
+  }
+  const live = join(paths.changesDir, name);
+  if (await dirExists(live)) {
+    return { name, dir: live, isArchived: false };
   }
   return null;
 }

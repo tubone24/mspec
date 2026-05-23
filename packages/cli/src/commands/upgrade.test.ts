@@ -4,6 +4,9 @@
 // @mspec-delta 2026-05-18-125018-cli-upgrade/specs/cli-upgrade/spec.md
 // Requirements implemented: FR-001, FR-002, FR-003, FR-004
 // Change: cli-upgrade
+// @mspec-delta 2026-05-22-050359-cli-output-english/specs/cli-upgrade/spec.md
+// Requirements implemented: FR-002, FR-004
+// Change: cli-output-english
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { fetchLatestVersion, getCurrentVersion, upgradeCommand } from './upgrade.js';
 import type { UpgradeOptions } from './upgrade.js';
@@ -60,7 +63,7 @@ describe('upgradeCommand network error (FR-002)', () => {
     const mockFetch = makeFailFetch(new Error('fetch failed'));
     await upgradeCommand({ fetchFn: mockFetch, yes: true });
     expect(process.stderr.write).toHaveBeenCalledWith(
-      expect.stringContaining('バージョン情報の取得に失敗しました'),
+      expect.stringContaining('Failed to fetch version info'),
     );
     expect(process.exit).toHaveBeenCalledWith(1);
   });
@@ -80,8 +83,8 @@ describe('upgradeCommand version display (FR-001, FR-002)', () => {
     const calls = (console.log as ReturnType<typeof vi.fn>).mock.calls.map((c) =>
       c.join(''),
     );
-    expect(calls.some((line) => line.includes('現在のバージョン:'))).toBe(true);
-    expect(calls.some((line) => line.includes('最新バージョン:'))).toBe(true);
+    expect(calls.some((line) => line.includes('Current version:'))).toBe(true);
+    expect(calls.some((line) => line.includes('Latest version:'))).toBe(true);
   });
 });
 
@@ -100,7 +103,7 @@ describe('upgradeCommand already up-to-date (FR-004)', () => {
     const calls = (console.log as ReturnType<typeof vi.fn>).mock.calls.map((c) =>
       c.join(''),
     );
-    expect(calls.some((line) => line.includes('すでに最新バージョンです'))).toBe(true);
+    expect(calls.some((line) => line.includes('Already up to date'))).toBe(true);
     expect(calls.some((line) => line.includes(currentVersion))).toBe(true);
     expect(mockSpawn).not.toHaveBeenCalled();
   });

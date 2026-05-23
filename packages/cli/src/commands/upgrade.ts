@@ -4,6 +4,9 @@
 // @mspec-delta 2026-05-21-215113-fix-upgrade-package-json-path/specs/upgrade-command/spec.md
 // Requirements implemented: FR-001, FR-002
 // Change: fix-upgrade-package-json-path
+// @mspec-delta 2026-05-22-050359-cli-output-english/specs/cli-upgrade/spec.md
+// Requirements implemented: FR-002, FR-004
+// Change: cli-output-english
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -57,25 +60,25 @@ export async function upgradeCommand(opts: UpgradeOptions = {}): Promise<void> {
     latestVersion = await fetchLatestVersion(fetchFn);
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
-    process.stderr.write(`${pc.red('エラー:')} バージョン情報の取得に失敗しました: ${msg}\n`);
+    process.stderr.write(`${pc.red('Error:')} Failed to fetch version info: ${msg}\n`);
     process.exit(1);
     return; // unreachable in production; prevents test bleed when process.exit is mocked
   }
 
   const currentVersion = getCurrentVersion();
 
-  console.log(`現在のバージョン: ${pc.cyan(currentVersion)}`);
-  console.log(`最新バージョン:   ${pc.cyan(latestVersion)}`);
+  console.log(`Current version: ${pc.cyan(currentVersion)}`);
+  console.log(`Latest version:  ${pc.cyan(latestVersion)}`);
 
   if (currentVersion === latestVersion) {
-    console.log(pc.green(`すでに最新バージョンです (${currentVersion})`));
+    console.log(pc.green(`Already up to date (${currentVersion})`));
     return;
   }
 
   if (!opts.yes) {
-    const answer = await ask('アップグレードしますか？ [y/N] ');
+    const answer = await ask(`Upgrade to ${latestVersion}? [y/N] `);
     if (answer !== 'y' && answer !== 'Y') {
-      console.log('キャンセルしました。');
+      console.log('Cancelled.');
       return;
     }
   }
@@ -88,5 +91,5 @@ export async function upgradeCommand(opts: UpgradeOptions = {}): Promise<void> {
     process.exit(1);
   }
 
-  console.log(pc.green('✓ アップグレード完了'));
+  console.log(pc.green('✓ Upgrade complete'));
 }
