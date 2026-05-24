@@ -28,7 +28,7 @@ import { specListCapabilitiesCommand } from './commands/spec-list-capabilities.j
 import { specListRequirementsCommand } from './commands/spec-list-requirements.js';
 import { specGrepCommand } from './commands/spec-grep.js';
 import { upgradeCommand } from './commands/upgrade.js';
-import { mockCommand } from './commands/mock.js';
+import { prototypeCommand } from './commands/prototype.js';
 
 const require = createRequire(import.meta.url);
 const { version } = require('../package.json') as { version: string };
@@ -201,11 +201,11 @@ program
   .action(questionsCommand);
 
 program
-  .command('mock')
-  .description('Generate a visual UI mock and collect feedback')
+  .command('prototype')
+  .description('Generate a visual UI prototype and collect feedback')
   .option('--change <name>', 'Target change directory name')
-  .option('--port <port>', 'Preferred port for the mock server', (v) => parseInt(v, 10))
-  .action((opts: { change?: string; port?: number }) => mockCommand(opts));
+  .option('--port <port>', 'Preferred port for the prototype server', (v) => parseInt(v, 10))
+  .action((opts: { change?: string; port?: number }) => prototypeCommand(opts));
 
 program
   .command('upgrade')

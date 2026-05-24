@@ -1,6 +1,6 @@
-// @mspec-delta 2026-05-21-055911-ui-visual-mock-workflow/specs/cli-core/spec.md
-// Requirements implemented: FR-004
-// Change: ui-visual-mock-workflow
+// @mspec-delta 2026-05-23-085322-rename-visual-mock-to-prototype/specs/visual-mock/spec.md
+// Requirements implemented: FR-001, FR-002, FR-003
+// Change: rename-visual-mock-to-prototype
 
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -8,16 +8,16 @@ import pc from 'picocolors';
 import { projectPaths } from '../workflow/paths.js';
 import { findChange, listChanges } from '../lib/change-discovery.js';
 import { detectFramework } from '../lib/framework-detector.js';
-import { startMockServer } from '../lib/mock-server.js';
+import { startPrototypeServer } from '../lib/prototype-server.js';
 import { askMultiline } from '../lib/prompt.js';
 
-export interface MockOptions {
+export interface PrototypeOptions {
   change?: string;
   port?: number;
   cwd?: string;
 }
 
-export async function mockCommand(opts: MockOptions): Promise<void> {
+export async function prototypeCommand(opts: PrototypeOptions): Promise<void> {
   const cwd = opts.cwd ?? process.cwd();
   const paths = projectPaths(cwd);
 
@@ -27,14 +27,14 @@ export async function mockCommand(opts: MockOptions): Promise<void> {
 
   const frameworkInfo = await detectFramework(cwd);
 
-  // Prepare mock directory
-  const mockDir = join(change.dir, 'mock');
-  await mkdir(mockDir, { recursive: true });
+  // Prepare prototype directory
+  const prototypeDir = join(change.dir, 'prototype');
+  await mkdir(prototypeDir, { recursive: true });
 
-  // Announce that HTML generation should happen via mspec-visual-mock-runner subagent
+  // Announce that HTML generation should happen via mspec-visual-prototype-runner subagent
   process.stdout.write(
     pc.cyan('▸') +
-      ` Generating mock UI for change "${changeName}" (framework: ${frameworkInfo.name})...\n`,
+      ` Generating prototype UI for change "${changeName}" (framework: ${frameworkInfo.name})...\n`,
   );
   process.stdout.write(
     pc.gray(
@@ -43,23 +43,23 @@ export async function mockCommand(opts: MockOptions): Promise<void> {
   );
   process.stdout.write(
     pc.gray(
-      `  Output: ${mockDir}/index.html\n`,
+      `  Output: ${prototypeDir}/index.html\n`,
     ),
   );
 
   // Start the static file server
   const preferredPort = opts.port ?? 3737;
-  const { port, close } = await startMockServer(mockDir, preferredPort);
+  const { port, close } = await startPrototypeServer(prototypeDir, preferredPort);
 
   const url = `http://localhost:${port}`;
-  process.stdout.write('\n' + pc.green('✓') + ` Mock server started at ${pc.bold(url)}\n`);
+  process.stdout.write('\n' + pc.green('✓') + ` Prototype server started at ${pc.bold(url)}\n`);
   process.stdout.write(
     pc.gray('  Open the URL in your browser, then press ') +
       pc.bold('Ctrl+C') +
       pc.gray(' to stop and enter feedback.\n\n'),
   );
 
-  // Register SIGINT handler before server is running (per D-003)
+  // Register SIGINT handler
   let serverClosed = false;
   process.on('SIGINT', async () => {
     if (serverClosed) return;
@@ -76,7 +76,7 @@ export async function mockCommand(opts: MockOptions): Promise<void> {
     await saveFeedback(change.dir, changeName, feedback);
 
     process.stdout.write(
-      pc.green('✓') + ' Feedback saved to mock-feedback.md\n',
+      pc.green('✓') + ' Feedback saved to prototype-feedback.md\n',
     );
     process.exit(0);
   });
@@ -84,16 +84,16 @@ export async function mockCommand(opts: MockOptions): Promise<void> {
 
 async function saveFeedback(changeDir: string, changeName: string, feedback: string): Promise<void> {
   const content = [
-    '# Mock Feedback',
+    '# Prototype Feedback',
     '',
     `> Recorded: ${new Date().toISOString()}`,
-    `> Mock: changes/${changeName}/mock/index.html`,
+    `> Prototype: changes/${changeName}/prototype/index.html`,
     '',
     feedback || '(no feedback provided)',
     '',
   ].join('\n');
 
-  await writeFile(join(changeDir, 'mock-feedback.md'), content, 'utf8');
+  await writeFile(join(changeDir, 'prototype-feedback.md'), content, 'utf8');
 }
 
 async function singleActiveChange(cwd: string): Promise<string> {

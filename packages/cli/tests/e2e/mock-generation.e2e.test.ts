@@ -2,11 +2,15 @@
 // Requirements implemented: FR-001, FR-002, FR-003
 // Change: ui-visual-mock-workflow
 
+// @mspec-delta 2026-05-23-085322-rename-visual-mock-to-prototype/specs/visual-mock/spec.md
+// Requirements implemented: FR-001, FR-002, FR-003
+// Change: rename-visual-mock-to-prototype
+
 import { describe, it, expect } from 'vitest';
 import { mkdtemp, writeFile, mkdir, readFile, access } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { startMockServer } from '../../src/lib/mock-server.js';
+import { startPrototypeServer } from '../../src/lib/prototype-server.js';
 import { detectFramework } from '../../src/lib/framework-detector.js';
 
 const CHANGE = '2026-01-01-test-gen-change';
@@ -20,20 +24,20 @@ async function setupProjectWithMui(): Promise<string> {
   );
 
   const changeDir = join(cwd, 'changes', CHANGE);
-  await mkdir(join(changeDir, 'mock'), { recursive: true });
+  await mkdir(join(changeDir, 'prototype'), { recursive: true });
   await writeFile(
-    join(changeDir, 'mock', 'index.html'),
-    '<!DOCTYPE html><html><body><h1>Mock</h1></body></html>',
+    join(changeDir, 'prototype', 'index.html'),
+    '<!DOCTYPE html><html><body><h1>Prototype</h1></body></html>',
   );
 
   return cwd;
 }
 
 // FR-001 Scenario: mock ディレクトリへの生成
-describe('TASK-012: FR-001 — mock/index.html generation', () => {
-  it('mock/index.html exists and is parseable HTML', async () => {
+describe('TASK-012: FR-001 — prototype/index.html generation', () => {
+  it('prototype/index.html exists and is parseable HTML', async () => {
     const cwd = await setupProjectWithMui();
-    const indexHtml = join(cwd, 'changes', CHANGE, 'mock', 'index.html');
+    const indexHtml = join(cwd, 'changes', CHANGE, 'prototype', 'index.html');
 
     await expect(access(indexHtml)).resolves.toBeUndefined();
     const content = await readFile(indexHtml, 'utf8');
@@ -50,10 +54,10 @@ describe('TASK-012: FR-001 — mock/index.html generation', () => {
 
 // FR-002 Scenario: サーバー起動と URL 表示
 describe('TASK-013: FR-002 — HTTP server startup and URL', () => {
-  it('startMockServer() returns port >= 3737', async () => {
+  it('startPrototypeServer() returns port >= 3737', async () => {
     const cwd = await setupProjectWithMui();
-    const mockDir = join(cwd, 'changes', CHANGE, 'mock');
-    const { port, close } = await startMockServer(mockDir, 3737);
+    const mockDir = join(cwd, 'changes', CHANGE, 'prototype');
+    const { port, close } = await startPrototypeServer(mockDir, 3737);
     try {
       expect(port).toBeGreaterThanOrEqual(3737);
     } finally {
@@ -63,8 +67,8 @@ describe('TASK-013: FR-002 — HTTP server startup and URL', () => {
 
   it('http://localhost:<port> serves index.html content', async () => {
     const cwd = await setupProjectWithMui();
-    const mockDir = join(cwd, 'changes', CHANGE, 'mock');
-    const { port, close } = await startMockServer(mockDir, 3800);
+    const mockDir = join(cwd, 'changes', CHANGE, 'prototype');
+    const { port, close } = await startPrototypeServer(mockDir, 3800);
     try {
       const res = await fetch(`http://localhost:${port}/`);
       const text = await res.text();
@@ -76,9 +80,9 @@ describe('TASK-013: FR-002 — HTTP server startup and URL', () => {
 
   it('auto-increments port when preferred port is in use', async () => {
     const cwd = await setupProjectWithMui();
-    const mockDir = join(cwd, 'changes', CHANGE, 'mock');
-    const { port: port1, close: close1 } = await startMockServer(mockDir, 3900);
-    const { port: port2, close: close2 } = await startMockServer(mockDir, 3900);
+    const mockDir = join(cwd, 'changes', CHANGE, 'prototype');
+    const { port: port1, close: close1 } = await startPrototypeServer(mockDir, 3900);
+    const { port: port2, close: close2 } = await startPrototypeServer(mockDir, 3900);
     try {
       expect(port2).toBeGreaterThan(port1);
     } finally {
@@ -90,13 +94,13 @@ describe('TASK-013: FR-002 — HTTP server startup and URL', () => {
 
 // FR-003 Scenario: フィードバックの保存
 describe('TASK-014: FR-003 — feedback file saved after mock', () => {
-  it('mock-feedback.md is created with correct format', async () => {
+  it('prototype-feedback.md is created with correct format', async () => {
     const cwd = await mkdtemp(join(tmpdir(), 'mspec-feedback-test-'));
     const changeDir = join(cwd, 'changes', CHANGE);
     await mkdir(changeDir, { recursive: true });
 
-    const feedbackContent = `# Mock Feedback\n\n> Recorded: ${new Date().toISOString()}\n> Mock: changes/${CHANGE}/mock/index.html\n\nThis is my feedback.\n`;
-    const feedbackPath = join(changeDir, 'mock-feedback.md');
+    const feedbackContent = `# Mock Feedback\n\n> Recorded: ${new Date().toISOString()}\n> Mock: changes/${CHANGE}/prototype/index.html\n\nThis is my feedback.\n`;
+    const feedbackPath = join(changeDir, 'prototype-feedback.md');
     await writeFile(feedbackPath, feedbackContent);
 
     const content = await readFile(feedbackPath, 'utf8');
@@ -105,12 +109,12 @@ describe('TASK-014: FR-003 — feedback file saved after mock', () => {
     expect(content).toMatch(/This is my feedback\./);
   });
 
-  it('mock-feedback.md is overwritten on second run', async () => {
+  it('prototype-feedback.md is overwritten on second run', async () => {
     const cwd = await mkdtemp(join(tmpdir(), 'mspec-feedback-overwrite-test-'));
     const changeDir = join(cwd, 'changes', CHANGE);
     await mkdir(changeDir, { recursive: true });
 
-    const feedbackPath = join(changeDir, 'mock-feedback.md');
+    const feedbackPath = join(changeDir, 'prototype-feedback.md');
     await writeFile(feedbackPath, '# Mock Feedback\n\nFirst feedback.\n');
     await writeFile(feedbackPath, '# Mock Feedback\n\nSecond feedback.\n');
 

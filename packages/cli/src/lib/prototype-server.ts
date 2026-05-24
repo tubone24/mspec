@@ -1,6 +1,6 @@
-// @mspec-delta 2026-05-21-055911-ui-visual-mock-workflow/specs/visual-mock/spec.md
+// @mspec-delta 2026-05-23-085322-rename-visual-mock-to-prototype/specs/visual-mock/spec.md
 // Requirements implemented: FR-002
-// Change: ui-visual-mock-workflow
+// Change: rename-visual-mock-to-prototype
 
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
 import { readFile, access } from 'node:fs/promises';
@@ -22,15 +22,15 @@ export async function findFreePort(start: number): Promise<number> {
   throw new Error(`No free port found in range ${start}–${start + 9}`);
 }
 
-export async function startMockServer(
-  mockDir: string,
+export async function startPrototypeServer(
+  prototypeDir: string,
   preferredPort = 3737,
 ): Promise<{ port: number; close: () => void }> {
   const port = await findFreePort(preferredPort);
 
   const server = createServer(async (req: IncomingMessage, res: ServerResponse) => {
     const urlPath = req.url === '/' || !req.url ? '/index.html' : req.url;
-    const filePath = join(mockDir, urlPath.replace(/^\//, ''));
+    const filePath = join(prototypeDir, urlPath.replace(/^\//, ''));
 
     try {
       await access(filePath);

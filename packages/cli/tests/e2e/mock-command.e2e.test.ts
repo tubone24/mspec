@@ -2,11 +2,15 @@
 // Requirements implemented: FR-004
 // Change: ui-visual-mock-workflow
 
+// @mspec-delta 2026-05-23-085322-rename-visual-mock-to-prototype/specs/visual-mock/spec.md
+// Requirements implemented: FR-001, FR-002, FR-003
+// Change: rename-visual-mock-to-prototype
+
 import { describe, it, expect } from 'vitest';
 import { mkdtemp, writeFile, mkdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { mockCommand } from '../../src/commands/mock.js';
+import { prototypeCommand } from '../../src/commands/prototype.js';
 
 const CHANGE = '2026-01-01-test-mock-change';
 const MIN_WORKFLOW = `version: 1\nname: test\nsteps:\n  - id: new\n    command: /mspec:new\n    skill: mspec-new\n    produces: [readme.md]\n    block: true\n    removable: false\n  - id: proposal\n    command: /mspec:proposal\n    skill: mspec-proposal\n    produces: [proposal.md]\n    block: true\n    removable: false\n  - id: delta\n    command: /mspec:delta\n    skill: mspec-delta\n    produces: [specs/spec.md]\n    block: false\n    removable: false\n  - id: tasks\n    command: /mspec:tasks\n    skill: mspec-tasks\n    produces: [tasks.md]\n    block: true\n    removable: false\n  - id: implement\n    command: /mspec:implement\n    skill: mspec-implement\n    produces: []\n    block: true\n    removable: false\n  - id: archive\n    command: /mspec:archive\n    skill: mspec-archive\n    produces: []\n    block: false\n    removable: false`;
@@ -44,7 +48,7 @@ describe('TASK-010: FR-004 — mspec mock normal execution flow', () => {
 
     let threw = false;
     try {
-      await mockCommand({ change: CHANGE, cwd });
+      await prototypeCommand({ change: CHANGE, cwd });
     } catch {
       threw = true;
     } finally {
@@ -55,6 +59,42 @@ describe('TASK-010: FR-004 — mspec mock normal execution flow', () => {
     expect(threw).toBe(false);
     expect(output).toMatch(/localhost:\d+/);
     expect(output).toMatch(/feedback/i);
+  });
+});
+
+// @mspec-delta 2026-05-23-085322-rename-visual-mock-to-prototype/specs/visual-mock/spec.md
+// Requirements implemented: FR-001, FR-002
+// Change: rename-visual-mock-to-prototype
+
+// T101/T102: FR-001/FR-002 — prototypeCommand creates prototype/ directory and shows "prototype" in server URL
+describe('T101: FR-001/FR-002 — prototypeCommand creates prototype/ directory', () => {
+  it('prototype server output contains "prototype" and localhost URL', async () => {
+    const { prototypeCommand } = await import('../../src/commands/prototype.js');
+    const cwd = await setupProject({ withProposal: true });
+
+    let outputLines: string[] = [];
+    const origWrite = process.stdout.write.bind(process.stdout);
+    process.stdout.write = (chunk: string | Uint8Array): boolean => {
+      if (typeof chunk === 'string') outputLines.push(chunk);
+      return true;
+    };
+
+    let threw = false;
+    try {
+      await (prototypeCommand as (opts: { change: string; cwd: string }) => Promise<void>)({
+        change: CHANGE,
+        cwd,
+      });
+    } catch {
+      threw = true;
+    } finally {
+      process.stdout.write = origWrite;
+    }
+
+    const output = outputLines.join('');
+    expect(threw).toBe(false);
+    expect(output).toMatch(/prototype/i);
+    expect(output).toMatch(/localhost:\d+/);
   });
 });
 
@@ -83,7 +123,7 @@ describe('TASK-011: FR-004 — mspec mock no active change error', () => {
     };
 
     try {
-      await mockCommand({ cwd });
+      await prototypeCommand({ cwd });
     } catch {
       // expected
     } finally {

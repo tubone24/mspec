@@ -205,6 +205,9 @@ function buildSubagentPrompt(step: Step, change: string): string {
   ].join('\n');
 }
 
+// @mspec-delta 2026-05-23-085322-rename-visual-mock-to-prototype/specs/visual-mock/spec.md
+// Requirements implemented: FR-005
+// Change: rename-visual-mock-to-prototype
 function mapSubagentName(stepId: string): string {
   switch (stepId) {
     case 'research':
@@ -213,6 +216,8 @@ function mapSubagentName(stepId: string): string {
       return 'mspec-self-reviewer';
     case 'checklist':
       return 'mspec-checklist-auditor';
+    case 'visual-mock':
+      return 'mspec-visual-prototype-runner';
     default:
       return `mspec-${stepId}-runner`;
   }

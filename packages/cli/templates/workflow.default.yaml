@@ -35,11 +35,11 @@ steps:
     constitution_check: true
 
   - id: visual-mock
-    command: /mspec:mock
-    skill: mspec-visual-mock
+    command: /mspec:prototype
+    skill: mspec-visual-prototype
     subagent: true
     requires: [proposal.md]
-    produces: [mock-feedback.md]
+    produces: [prototype-feedback.md]
     block: true
     removable: true
     skippable: true
