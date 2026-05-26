@@ -41,3 +41,18 @@ when_to_use: User runs /mspec:tasks, or workflow auto-continues to tasks
 7a. `readme.md` の `## Artifacts` 節の `- [ ] tasks.md` を `- [x] tasks.md` に更新する。
 8. Run `mspec validate --change <change-dir>`. validate が失敗した場合は `- [x] tasks.md` を `- [ ] tasks.md` にロールバックする。
 9. `block: true` — stop and ask the user to run `/mspec:continue`.
+
+## Verification (C2)
+
+- `mspec validate --change <change>` — アーティファクト整合性チェック
+- `mspec anchor check --change <change>` — tasks.md内アンカーブロックの解決確認
+
+## Learning (C3)
+
+このスキルの実行で発生した学習候補を記録する:
+
+```
+<!-- LEARNING: <パターン説明> | source: <FR-ID> | confidence: low|medium|high -->
+```
+
+`mspec learn` コマンドが archive 済み changes からこれらを収集してpost-condition候補をproposeする。

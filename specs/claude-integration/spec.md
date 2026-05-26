@@ -385,6 +385,24 @@ The system SHALL use only the colon-separated command format (`/mspec:<step>`) w
 - WHEN `mspec validate --change <id>` を実行する
 - THEN validate が Summary 未記入を warning または error として報告する
 
+### Requirement: FR-024 — SKILL.md 3コンパートメント構造
+
+<!-- risk_tier: trivial -->
+<!-- blast_radius: local -->
+
+このシステムは SHALL 各SKILL.mdに `## Verification (C2)` セクションと `## Learning (C3)` セクションを提供する。
+
+#### Scenario: Verification セクション存在確認
+- GIVEN mspec-* スキルの SKILL.md が存在する
+- WHEN エージェントがスキルを実行した後に後処理を確認する
+- THEN `## Verification (C2)` セクションに実行すべき CLI コマンドが記述されている
+
+#### Scenario: Learning セクション存在確認
+- GIVEN mspec-* スキルの SKILL.md が存在する
+- WHEN エージェントが学習候補を記録しようとする
+- THEN `## Learning (C3)` セクションに記録フォーマットが定義されている
+
+
 
 
 

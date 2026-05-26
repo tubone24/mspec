@@ -1,9 +1,8 @@
 {
   "name": "@mspec/web-ui",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "MSPEC Web UI — visual dashboard for the mspec workflow",
   "type": "module",
-  "main": "./dist/index.js",
   "files": [
     "dist"
   ],
@@ -11,8 +10,13 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "test:e2e": "playwright test",
-    "typecheck": "tsc --noEmit"
+    "test:e2e": "playwright test tests/e2e/",
+    "screenshots": "playwright test tests/screenshots/ --project=chromium",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.62.0",
@@ -47,5 +51,25 @@
   "publishConfig": {
     "access": "public"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "author": "tubone24",
+  "homepage": "https://tubone24.github.io/mspec/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tubone24/mspec.git",
+    "directory": "packages/web-ui"
+  },
+  "bugs": {
+    "url": "https://github.com/tubone24/mspec/issues"
+  },
+  "keywords": [
+    "mspec",
+    "spec-driven-development",
+    "claude-code",
+    "dashboard",
+    "web-ui",
+    "react",
+    "tdd",
+    "workflow-visualization"
+  ]
 }

@@ -43,3 +43,18 @@ mspec agent-run record research \
 Example: `mspec agent-run record research --change 2026-05-25-my-feature --bytes 4821 --artifacts proposal.md specs/my-cap/spec.md`
 
 This appends one JSONL entry to `changes/<change>/.agent-runs.jsonl`. Do NOT include prompt text or file contents.
+
+## Verification (C2)
+
+- `mspec validate --change <change>` — アーティファクト整合性チェック
+- `mspec anchor check --change <change>` — アンカー解決確認
+
+## Learning (C3)
+
+このスキルの実行で発生した学習候補を記録する:
+
+```
+<!-- LEARNING: <パターン説明> | source: <FR-ID> | confidence: low|medium|high -->
+```
+
+`mspec learn` コマンドが archive 済み changes からこれらを収集してpost-condition候補をproposeする。

@@ -18,3 +18,18 @@ when_to_use: User runs /mspec:prototype, or workflow auto-continues to visual-mo
 5. Wait for the user to review and press Ctrl+C. Feedback is automatically saved to `prototype-feedback.md`.
 6. To skip: `mspec skip visual-mock --change <change-dir> --reason "<reason>"`.
 7. `block: true` — stop and ask the user to run `/mspec:continue`.
+
+## Verification (C2)
+
+- `mspec validate --change <change>` — アーティファクト整合性チェック
+- `mspec anchor check --change <change>` — アンカー解決確認
+
+## Learning (C3)
+
+このスキルの実行で発生した学習候補を記録する:
+
+```
+<!-- LEARNING: <パターン説明> | source: <FR-ID> | confidence: low|medium|high -->
+```
+
+`mspec learn` コマンドが archive 済み changes からこれらを収集してpost-condition候補をproposeする。

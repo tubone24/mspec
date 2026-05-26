@@ -120,6 +120,7 @@ steps:
     enforce_e2e: true
     enforce_tdd: true
     constitution_check: false
+    max_iterations: 3
 
   - id: archive
     command: /mspec:archive

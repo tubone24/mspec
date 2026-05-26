@@ -10,8 +10,10 @@ This directory is organized using the [Diátaxis](https://diataxis.fr/) framewor
 |---|---|---|
 | Learn mspec by walking through a first change end-to-end | [`tutorials/getting-started.md`](tutorials/getting-started.md) | Tutorial |
 | Ship a follow-up change against an existing spec (`MODIFIED` / `REMOVED` / FR-ID gaps) | [`tutorials/second-change.md`](tutorials/second-change.md) | Tutorial |
+| Open the Web UI and navigate all 5 pages for the first time | [`tutorials/web-ui-quickstart.md`](tutorials/web-ui-quickstart.md) | Tutorial |
 | Solve a concrete task (`typo` mode, add a locale, customize the workflow) | [`how-to/`](how-to/) | How-to |
 | Look up a CLI flag, the YAML schema, or an anchor format | [`reference/`](reference/) | Reference |
+| Look up Web UI pages, routes, themes, API endpoints, and data types | [`reference/web-ui.md`](reference/web-ui.md) | Reference |
 | Understand the *why* behind anchors, doc_type, and the constitution | [`explanation/`](explanation/) | Explanation |
 
 ## Map of pages
@@ -19,6 +21,7 @@ This directory is organized using the [Diátaxis](https://diataxis.fr/) framewor
 ### Tutorials
 - [`tutorials/getting-started.md`](tutorials/getting-started.md) — install mspec, run `mspec init`, walk one change from `new` to `archive`.
 - [`tutorials/second-change.md`](tutorials/second-change.md) — ship a second change and meet `## MODIFIED`, `## REMOVED`, and FR-ID gap preservation for the first time.
+- [`tutorials/web-ui-quickstart.md`](tutorials/web-ui-quickstart.md) — open the Web UI, navigate the Dashboard, ChangeDetail, Spec Viewer, and Test Results pages.
 
 ### How-to
 - [`how-to/lightweight-changes.md`](how-to/lightweight-changes.md) — use `typo` / `minor` / `bugfix` modes to skip steps safely.
@@ -31,6 +34,7 @@ This directory is organized using the [Diátaxis](https://diataxis.fr/) framewor
 - [`reference/configuration.md`](reference/configuration.md) — `.mspec/config.yaml` keys with defaults.
 - [`reference/workflow.md`](reference/workflow.md) — `.mspec/workflow.yaml` steps and enforcement flags.
 - [`reference/doc-types.md`](reference/doc-types.md) — Diátaxis `doc_type:` values, per-artifact mapping, and current gaps.
+- [`reference/web-ui.md`](reference/web-ui.md) — `@mspec/web-ui` pages, routes, themes, API endpoints, and TypeScript data types.
 
 ### Explanation
 - [`explanation/why-mspec.md`](explanation/why-mspec.md) — what problems mspec is trying to fix and the three axes that make it different.

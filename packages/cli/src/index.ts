@@ -33,6 +33,14 @@ import { prototypeCommand } from './commands/prototype.js';
 // Requirements implemented: FR-001
 // Change: agent-experience-manifest
 import { agentRunRecordCommand } from './commands/agent-run.js';
+// @mspec-delta 2026-05-26-131033-p1-llm-verify/specs/cli-core/spec.md
+// Requirements implemented: FR-005
+// Change: p1-llm-verify
+import { verifyLlmCommand } from './commands/verify.js';
+// @mspec-delta 2026-05-26-131825-p4-learn-command/specs/cli-core/spec.md
+// Requirements implemented: FR-006
+// Change: p4-learn-command
+import { learnCommand } from './commands/learn.js';
 
 const require = createRequire(import.meta.url);
 const { version } = require('../package.json') as { version: string };
@@ -222,6 +230,22 @@ program
   .option('--change <name>', 'Target change directory name')
   .option('--port <port>', 'Preferred port for the prototype server', (v) => parseInt(v, 10))
   .action((opts: { change?: string; port?: number }) => prototypeCommand(opts));
+
+const verify = program.command('verify').description('Verification utilities');
+verify
+  .command('llm')
+  .description('Generate LLM evaluation prompts for FR-IDs (JSON output, Claude Code executes)')
+  .option('--change <name>', 'Target change directory name')
+  .option('--json', 'Output JSON (same as default for this command)')
+  .action((opts: { change?: string; json?: boolean }) =>
+    verifyLlmCommand({ llm: true, ...opts }),
+  );
+
+program
+  .command('learn')
+  .description('Extract post-condition candidates from archived changes (C3 learning feedback)')
+  .option('--json', 'Output JSON (default for this command)')
+  .action((opts: { json?: boolean }) => learnCommand(opts));
 
 program
   .command('upgrade')

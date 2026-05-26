@@ -51,3 +51,33 @@
 - WHEN ページが描画される
 - THEN `<!-- -->` の内容が本文テキストより明らかに薄い色（例: opacity 0.4 相当）で表示される
 
+### Requirement: FR-004 — ガーキン／EARS キーワードのバッジスタイル表示
+
+<!-- risk_tier: trivial -->
+<!-- blast_radius: local -->
+
+キーワード（GIVEN・WHEN・THEN・AND・BUT・SHALL・MUST・SHOULD・MAY）が表示される間、このシステムは SHALL 各キーワードに対して背景色を付与し、角丸のあるラベル（バッジ）風のスタイルで表示する.
+
+#### Scenario: GIVEN キーワードのバッジ表示
+- GIVEN スペックビューアで Requirements の Scenario セクションが表示されている
+- WHEN ユーザーが GIVEN キーワードを含むシナリオを閲覧する
+- THEN GIVEN キーワードが背景色付きの角丸ラベル（バッジ）として表示され、テキスト色のみより視覚的に目立つ
+
+#### Scenario: SHALL キーワードのバッジ表示
+- GIVEN スペックビューアで Requirements セクションが表示されている
+- WHEN ユーザーが SHALL キーワードを含む要件テキストを閲覧する
+- THEN SHALL キーワードが背景色付きの角丸ラベル（バッジ）として表示される
+
+### Requirement: FR-005 — コードブロック枠線の細線化
+
+<!-- risk_tier: trivial -->
+<!-- blast_radius: local -->
+
+コードブロックが表示される間、このシステムは SHALL コードブロック周囲の border を 1px の細線で表示する.
+
+#### Scenario: コードブロック枠線の細さ確認
+- GIVEN シンタックスハイライトが適用されたコードブロックが表示されている
+- WHEN ユーザーがページを閲覧する
+- THEN コードブロックの枠線が 1px の細線で表示され、従来の太い枠線より視覚的に軽い印象になる
+
+

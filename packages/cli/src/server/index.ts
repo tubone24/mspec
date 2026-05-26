@@ -28,15 +28,15 @@ export async function launchWebUiIfNeeded(root: string, configFile?: string): Pr
     throw e;
   }
 
-  // Check existing PID
-  const existing = await readPid();
+  // Check existing PID for this project
+  const existing = await readPid(root);
   if (existing) {
     if (isAlive(existing.pid)) {
       console.log(pc.gray(`  Web UI already running at http://localhost:${existing.port}`));
       return;
     }
     // Zombie PID — clean up and restart
-    await clearPid();
+    await clearPid(root);
   }
 
   // Launch server in background
@@ -52,14 +52,14 @@ export async function launchWebUiIfNeeded(root: string, configFile?: string): Pr
   child.unref();
 
   // Brief wait for PID file to be written
-  await waitForPid(port, 3000);
+  await waitForPid(root, port, 3000);
   console.log(pc.green(`  Web UI started at ${pc.cyan(`http://localhost:${port}`)}`));
 }
 
-async function waitForPid(port: number, timeoutMs: number): Promise<void> {
+async function waitForPid(root: string, port: number, timeoutMs: number): Promise<void> {
   const deadline = Date.now() + timeoutMs;
   while (Date.now() < deadline) {
-    const entry = await readPid();
+    const entry = await readPid(root);
     if (entry && entry.port === port && isAlive(entry.pid)) return;
     await new Promise((r) => setTimeout(r, 100));
   }

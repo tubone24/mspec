@@ -28,12 +28,12 @@ app.setNotFoundHandler(async (_req, reply) => {
 });
 
 await app.listen({ port, host: '127.0.0.1' });
-await writePid({ pid: process.pid, port });
+await writePid(root, { pid: process.pid, port });
 
 console.log(`[api-server] Fastify listening on http://127.0.0.1:${port}`);
 
 async function cleanup() {
-  await clearPid();
+  await clearPid(root);
   await app.close();
   process.exit(0);
 }

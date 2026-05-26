@@ -9,12 +9,7 @@ function Logo() {
       onClick={(e) => { e.preventDefault(); navigate('/'); }}
       style={{ display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}
     >
-      <span style={{
-        display: 'inline-flex', width: 22, height: 22, borderRadius: 5,
-        background: 'var(--ink)', color: 'var(--bg)',
-        alignItems: 'center', justifyContent: 'center',
-        fontFamily: "'Source Serif 4', serif", fontWeight: 700, fontSize: 13, lineHeight: '1',
-      }}>m</span>
+      <img src="/logo.png" alt="mspec" style={{ height: 28, width: 'auto' }} />
       <span style={{
         fontFamily: "'Source Serif 4', 'Noto Serif JP', serif",
         fontWeight: 600, fontSize: 17, letterSpacing: '-0.01em',

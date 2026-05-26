@@ -26,3 +26,19 @@ when_to_use: User runs /mspec:new, or workflow auto-continues to new
     - フルフロー変更（typo / minor / bugfix 以外）の場合は `> Mode:` 行を追記しない。
 5. Run `mspec validate --change <change-dir>`.
 6. `block: true` — stop and ask the user to run `/mspec:continue` when ready.
+
+## Verification (C2)
+
+- `mspec validate --change <change>` — アーティファクト整合性チェック
+- `mspec anchor check --change <change>` — アンカー解決確認
+- `mspec status --json` — リポジトリ全体の状態確認
+
+## Learning (C3)
+
+このスキルの実行で発生した学習候補を記録する:
+
+```
+<!-- LEARNING: <パターン説明> | source: <FR-ID> | confidence: low|medium|high -->
+```
+
+`mspec learn` コマンドが archive 済み changes からこれらを収集してpost-condition候補をproposeする。

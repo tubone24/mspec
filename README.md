@@ -108,6 +108,12 @@ Verify:
 mspec --version      # 0.1.0
 ```
 
+The Web UI is included as an optional dependency. If not automatically installed:
+
+```bash
+npm install @mspec/web-ui
+```
+
 > **For contributors developing on mspec itself:** clone the repo and use `npm link` instead.
 >
 > ```bash
@@ -136,6 +142,93 @@ Then open Claude Code in that project and run:
 ```
 
 …and follow the prompts. Every blocking step pauses for review; `/mspec:continue` advances. Full walkthrough in [`docs/tutorials/getting-started.md`](docs/tutorials/getting-started.md).
+
+---
+
+## Web UI
+
+![mspec Dashboard](./docs/public/images/web-ui/dashboard-light.png)
+
+`@mspec/web-ui` starts automatically when you run `mspec new` or `mspec continue`. Open the dashboard at `http://localhost:3847`. It is an optional peer of `@mspec/cli`; if it was not installed automatically, install it manually with `npm install @mspec/web-ui`.
+
+### Opening the Dashboard
+
+Start any mspec command that drives the workflow (`mspec new`, `mspec continue`) and the dev server starts in the background. Navigate to `http://localhost:3847` in a browser. No separate process management is required.
+
+### The Dashboard
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  mspec              / dashboard           [search]  [◐ theme]   │
+├───────────────┬─────────────────────────────────────────────────┤
+│  STATUS       │  Changes                                        │
+│  In progress  │  ─────────────────────────────────────────────  │
+│  Ready        │  Add search feature           full · 3m ago     │
+│  Shipped      │  2 reqs · 4 scenarios · 5 artifacts   [▓▓▓░░░]  │
+│  ─────────    │                                                  │
+│  MODE         │  Fix login redirect           bugfix · 1h ago   │
+│  All          │  1 req · 2 scenarios · 3 artifacts    [▓▓▓▓▓░]  │
+│  Full         │                                                  │
+│  Bugfix       │                                                  │
+│  Minor        │                                                  │
+│  Typo         │                                                  │
+│  ─────────    │                                                  │
+│  NAVIGATE     │                                                  │
+│  ◈ Spec View  │                                                  │
+└───────────────┴─────────────────────────────────────────────────┘
+```
+
+- Filter by **status**: In Progress, Ready to Read, Shipped, Archived
+- Filter by **mode**: Full, Bugfix, Minor, Typo
+- **Live search** across name, title, summary, tags
+- **Step progress bars**: done (green), ready (blue+pulse), blocked (gray), skipped (yellow), invalid (red)
+- Sorted by most-recently-updated with relative timestamps
+
+### Browsing artifacts
+
+![Change detail split panel](./docs/public/images/web-ui/change-detail-split.png)
+
+```
+┌──────────────┬──────────────────────────────────────────────────┐
+│  Artifacts   │  proposal.md                              [✕]   │
+│ ─────────    │  ─────────────────────────────────────────────── │
+│  proposal.md │  # Add full-text search                          │
+│  design.md   │                                                  │
+│  tasks.md    │  ## Why                                          │
+│  spec.md     │  Users asked for search across changes…          │
+│              │                                                  │
+│              │  ```mermaid                                       │
+│              │  graph LR                                         │
+│              │    A --> B                                        │
+│              │  ```                                              │
+└──────────────┴──────────────────────────────────────────────────┘
+```
+
+- **Diátaxis doc_type color coding**: Reference (blue), Explanation (purple), How-to (green), Tutorial (yellow)
+- **Mermaid diagrams** rendered inline
+- **Syntax-highlighted code blocks** (via Shiki, github-light/dark themes)
+- **EARS/Gherkin keywords** colorized (SHALL, MUST, GIVEN, WHEN, THEN, AND, BUT)
+- **HTML prototype preview** via inline iframe
+- **@mspec-delta comment anchors** visually dimmed
+
+### Reading source-of-truth specs
+
+The Spec Viewer (◈ Spec View in the sidebar) lists every capability spec under `specs/`. Select a spec to read its full content with the same rendering pipeline as the artifact viewer — Mermaid, syntax highlighting, and keyword colorization all apply.
+
+### Test results
+
+The test results page shows pass/fail/skip counts for the most recent `mspec test expect-green` run, with expandable failure details per task. Navigate to it from the change detail view once the implement step has recorded evidence.
+
+### Themes
+
+Four reading themes are available, toggled via the `[◐ theme]` control in the header. Selection persists across sessions via `localStorage`.
+
+| Theme | Description |
+|---|---|
+| Light | Default white |
+| Sepia | Warm parchment |
+| Green | Terminal-style |
+| Dark | Low-light reading |
 
 ---
 

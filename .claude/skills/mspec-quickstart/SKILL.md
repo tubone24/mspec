@@ -25,3 +25,18 @@ when_to_use: User runs /mspec:quickstart, or workflow auto-continues to quicksta
 3a. `readme.md` の `## Artifacts` 節の `- [ ] quickstart.md` を `- [x] quickstart.md` に更新する。
 4. Run `mspec validate --change <change-dir>`. validate が失敗した場合は `- [x] quickstart.md` を `- [ ] quickstart.md` にロールバックする。
 5. `block: false` — auto-continue.
+
+## Verification (C2)
+
+- `mspec validate --change <change>` — アーティファクト整合性チェック
+- `mspec anchor check --change <change>` — アンカー解決確認
+
+## Learning (C3)
+
+このスキルの実行で発生した学習候補を記録する:
+
+```
+<!-- LEARNING: <パターン説明> | source: <FR-ID> | confidence: low|medium|high -->
+```
+
+`mspec learn` コマンドが archive 済み changes からこれらを収集してpost-condition候補をproposeする。

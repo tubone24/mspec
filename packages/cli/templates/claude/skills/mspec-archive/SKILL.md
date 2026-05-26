@@ -27,3 +27,19 @@ when_to_use: User runs /mspec:archive, or workflow auto-continues to archive
    - Moves `changes/<change-dir>/` → `changes/archive/<change-dir>/` via `git mv`.
    - Re-runs `mspec anchor check` to confirm anchors still resolve.
 4. Report the merge summary to the user. Workflow complete.
+
+## Verification (C2)
+
+- `mspec archive <change> --dry-run` — マージ差分の事前確認
+- `mspec anchor check` — アーカイブ後のアンカー解決確認
+- `mspec validate --change <change>` — アーティファクト整合性チェック
+
+## Learning (C3)
+
+このスキルの実行で発生した学習候補を記録する:
+
+```
+<!-- LEARNING: <パターン説明> | source: <FR-ID> | confidence: low|medium|high -->
+```
+
+`mspec learn` コマンドが archive 済み changes からこれらを収集してpost-condition候補をproposeする。

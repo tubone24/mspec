@@ -1,0 +1,77 @@
+{
+  "suites": [
+    {
+      "title": "dashboard.e2e.test.ts",
+      "specs": [
+        {
+          "title": "Dashboard: change-row elements are present and title is MSPEC Dashboard",
+          "ok": true,
+          "tests": [{ "results": [{ "status": "passed", "duration": 342 }] }]
+        },
+        {
+          "title": "Dashboard: mode filter-bugfix shows only bugfix changes or no-results message",
+          "ok": true,
+          "tests": [{ "results": [{ "status": "passed", "duration": 215 }] }]
+        },
+        {
+          "title": "Dashboard: StepProgress ready steps have animate-pulse animation",
+          "ok": true,
+          "tests": [{ "results": [{ "status": "passed", "duration": 189 }] }]
+        }
+      ]
+    },
+    {
+      "title": "artifact-preview.e2e.test.ts",
+      "specs": [
+        {
+          "title": "ArtifactViewer: markdown renders with GFM",
+          "ok": true,
+          "tests": [{ "results": [{ "status": "passed", "duration": 521 }] }]
+        },
+        {
+          "title": "ArtifactViewer: mermaid diagram block renders as SVG",
+          "ok": true,
+          "tests": [{ "results": [{ "status": "passed", "duration": 873 }] }]
+        },
+        {
+          "title": "ArtifactViewer: EARS keywords are colorized",
+          "ok": false,
+          "tests": [
+            {
+              "results": [
+                {
+                  "status": "failed",
+                  "duration": 4521,
+                  "error": {
+                    "message": "expect(locator).toHaveCSS('color', 'rgb(37, 99, 235)')\n\nLocator: locator('.gherkin-shall').first()\nExpected: \"rgb(37, 99, 235)\"\nReceived: \"rgb(0, 0, 0)\"",
+                    "stack": "Error: expect(locator).toHaveCSS('color', 'rgb(37, 99, 235)')\n    at ArtifactViewer.e2e.test.ts:47:34\n    at TestCase.runTest (/node_modules/@playwright/test/lib/runner.js:112:15)"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "spec-viewer.e2e.test.ts",
+      "specs": [
+        {
+          "title": "SpecViewer: capability list is rendered",
+          "ok": true,
+          "tests": [{ "results": [{ "status": "passed", "duration": 298 }] }]
+        },
+        {
+          "title": "SpecViewer: selecting a capability loads its content",
+          "ok": true,
+          "tests": [{ "results": [{ "status": "passed", "duration": 412 }] }]
+        },
+        {
+          "title": "SpecViewer: long spec — scroll position is preserved",
+          "ok": true,
+          "tests": [{ "results": [{ "status": "skipped", "duration": 0 }] }]
+        }
+      ]
+    }
+  ]
+}

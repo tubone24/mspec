@@ -41,13 +41,13 @@ app.setNotFoundHandler(async (req, reply) => {
 
 try {
   await app.listen({ port, host: '127.0.0.1' });
-  await writePid({ pid: process.pid, port });
+  await writePid(root, { pid: process.pid, port });
 
   process.on('SIGTERM', cleanup);
   process.on('SIGINT', cleanup);
 
   async function cleanup() {
-    await clearPid();
+    await clearPid(root);
     await app.close();
     process.exit(0);
   }

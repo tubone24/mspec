@@ -1,6 +1,9 @@
 // @mspec-delta 2026-05-16-170347-lightweight-change-mode/specs/cli-workflow-engine/spec.md
 // Requirements implemented: FR-019, FR-021
 // Change: lightweight-change-mode
+// @mspec-delta 2026-05-26-123041-p2-implement-iteration-loop/specs/cli-workflow-engine/spec.md
+// Requirements implemented: FR-024
+// Change: p2-implement-iteration-loop
 
 import { z } from 'zod';
 
@@ -27,6 +30,7 @@ export const StepSchema = z.object({
   enforce_tdd: z.boolean().default(false),
   skippable: z.boolean().default(false),
   enabled: z.boolean().default(true),
+  max_iterations: z.number().int().min(1).optional(),
 });
 export type Step = z.infer<typeof StepSchema>;
 

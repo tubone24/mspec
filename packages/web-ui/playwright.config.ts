@@ -1,7 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
-  testDir: './tests/e2e',
+  testDir: './tests',
+  testMatch: ['**/*.{test,spec}.ts', '**/screenshots/**/*.ts'],
   fullyParallel: true,
   reporter: [['json', { outputFile: 'test-results/results.json' }], ['html']],
   use: {

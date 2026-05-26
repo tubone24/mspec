@@ -45,3 +45,19 @@ when_to_use: User runs /mspec:delta, or workflow auto-continues to delta
 5. `readme.md` の `## Artifacts` 節の `- [ ] specs/*/spec.md (Delta Spec)` を `- [x] specs/*/spec.md (Delta Spec)` に更新する。
 6. Run `mspec validate --change <change-dir>` (validates FR-ID uniqueness and H4 Scenarios). validate が失敗した場合は `- [x] specs/*/spec.md (Delta Spec)` を `- [ ] specs/*/spec.md (Delta Spec)` にロールバックする。
 7. `block: false` — auto-continue via `/mspec:continue`.
+
+## Verification (C2)
+
+- `mspec validate --change <change>` — アーティファクト整合性チェック
+- `mspec anchor check --change <change>` — アンカー解決確認
+- `mspec spec lint` — Delta Spec実装詳細漏洩チェック
+
+## Learning (C3)
+
+このスキルの実行で発生した学習候補を記録する:
+
+```
+<!-- LEARNING: <パターン説明> | source: <FR-ID> | confidence: low|medium|high -->
+```
+
+`mspec learn` コマンドが archive 済み changes からこれらを収集してpost-condition候補をproposeする。

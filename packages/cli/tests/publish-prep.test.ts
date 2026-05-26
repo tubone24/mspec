@@ -26,7 +26,7 @@ describe('T101: npm pack tarball contents', () => {
     const pkg = JSON.parse(
       readFileSync(resolve(PKG_DIR, 'package.json'), 'utf8'),
     ) as { version: string };
-    expect(pkg.version).toBe('0.1.2');
+    expect(pkg.version).toBe('0.1.3');
 
     expect(files.some((p) => p === 'package.json')).toBe(true);
     expect(files.some((p) => p === 'README.md')).toBe(true);

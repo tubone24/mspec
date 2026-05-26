@@ -34,3 +34,19 @@ when_to_use: User runs /mspec:proposal, or workflow auto-continues to proposal
 6a. `readme.md` の `## Artifacts` 節の `- [ ] proposal.md` を `- [x] proposal.md` に更新する。
 7. Run `mspec validate --change <change-dir>`. validate が失敗した場合は `- [x] proposal.md` を `- [ ] proposal.md` にロールバックする。
 8. `block: true` — stop and ask the user to run `/mspec:continue`.
+
+## Verification (C2)
+
+- `mspec validate --change <change>` — アーティファクト整合性チェック
+- `mspec anchor check --change <change>` — アンカー解決確認
+- `mspec validate --change <change> --strict` — Constitution Check確認
+
+## Learning (C3)
+
+このスキルの実行で発生した学習候補を記録する:
+
+```
+<!-- LEARNING: <パターン説明> | source: <FR-ID> | confidence: low|medium|high -->
+```
+
+`mspec learn` コマンドが archive 済み changes からこれらを収集してpost-condition候補をproposeする。

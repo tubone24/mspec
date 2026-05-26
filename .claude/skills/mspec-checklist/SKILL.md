@@ -41,3 +41,20 @@ mspec agent-run record checklist \
 Example: `mspec agent-run record checklist --change 2026-05-25-my-feature --bytes 12340 --artifacts proposal.md specs/my-cap/spec.md design.md`
 
 This appends one JSONL entry to `changes/<change>/.agent-runs.jsonl`. Do NOT include prompt text or file contents.
+
+## Verification (C2)
+
+- `mspec validate --change <change>` — アーティファクト整合性チェック
+- `mspec anchor check --change <change>` — アンカー解決確認
+- `mspec verify llm --change <change>` — FR-IDごとのLLM評価プロンプトを生成してClaude Codeで実行（C2強化）
+- checklist.md の `verify: fr-NNN` アノテーションがDelta Specの全FR-IDを網羅しているか手動確認
+
+## Learning (C3)
+
+このスキルの実行で発生した学習候補を記録する:
+
+```
+<!-- LEARNING: <パターン説明> | source: <FR-ID> | confidence: low|medium|high -->
+```
+
+`mspec learn` コマンドが archive 済み changes からこれらを収集してpost-condition候補をproposeする。

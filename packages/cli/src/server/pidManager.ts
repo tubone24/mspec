@@ -4,18 +4,19 @@
 
 import { readFile, writeFile, unlink, mkdir } from 'node:fs/promises';
 import { join } from 'node:path';
-import { homedir } from 'node:os';
 
 export interface PidEntry {
   pid: number;
   port: number;
 }
 
-const PID_FILE = join(homedir(), '.mspec', 'ui.pid');
+export function pidFilePath(root: string): string {
+  return join(root, '.mspec', 'ui.pid');
+}
 
-export async function readPid(): Promise<PidEntry | null> {
+export async function readPid(root: string): Promise<PidEntry | null> {
   try {
-    const content = await readFile(PID_FILE, 'utf8');
+    const content = await readFile(pidFilePath(root), 'utf8');
     const [pidStr, portStr] = content.trim().split(':');
     const pid = parseInt(pidStr ?? '', 10);
     const port = parseInt(portStr ?? '', 10);
@@ -26,14 +27,14 @@ export async function readPid(): Promise<PidEntry | null> {
   }
 }
 
-export async function writePid(entry: PidEntry): Promise<void> {
-  await mkdir(join(homedir(), '.mspec'), { recursive: true });
-  await writeFile(PID_FILE, `${entry.pid}:${entry.port}\n`, 'utf8');
+export async function writePid(root: string, entry: PidEntry): Promise<void> {
+  await mkdir(join(root, '.mspec'), { recursive: true });
+  await writeFile(pidFilePath(root), `${entry.pid}:${entry.port}\n`, 'utf8');
 }
 
-export async function clearPid(): Promise<void> {
+export async function clearPid(root: string): Promise<void> {
   try {
-    await unlink(PID_FILE);
+    await unlink(pidFilePath(root));
   } catch {
     // File already gone — idempotent
   }
@@ -47,5 +48,3 @@ export function isAlive(pid: number): boolean {
     return false;
   }
 }
-
-export { PID_FILE };
