@@ -16,6 +16,10 @@ when_to_use: User runs /mspec:tasks, or workflow auto-continues to tasks
 <!-- Requirements implemented: FR-004 -->
 <!-- Change: ui-visual-mock-workflow -->
 
+<!-- @mspec-delta 2026-05-24-085415-risk-tier-field/specs/verify-routing/spec.md -->
+<!-- Requirements implemented: FR-002 -->
+<!-- Change: risk-tier-field -->
+
 ## Procedure
 
 1. Run `mspec status --change <change-dir> --json` first.
@@ -29,6 +33,10 @@ when_to_use: User runs /mspec:tasks, or workflow auto-continues to tasks
    Change: <feature-kebab>
    ```
 6. Tests-first: every Scenario in the Delta Spec needs an E2E task **before** its implementation task. Implementation tasks list the same FR-IDs as the E2E that exercises them.
+6a. **verify アノテーションの risk_tier 分岐**: 各タスクの `anchor: Requirements implemented: FR-NNN` に対応する FR の `risk_tier` を Delta Spec から読み込み、以下のルールで verify アノテーションを付与する:
+   - `risk_tier: critical` → `<!-- verify: human -->` を付与（人間レビュー必須）
+   - `risk_tier: standard` または未記載 → `<!-- verify: fr-NNN -->` を付与（既存動作）
+   - `risk_tier: trivial` → verify アノテーションを付与しない
 7. Append the `## Constitution Check` table (Phase 0 only).
 7a. `readme.md` の `## Artifacts` 節の `- [ ] tasks.md` を `- [x] tasks.md` に更新する。
 8. Run `mspec validate --change <change-dir>`. validate が失敗した場合は `- [x] tasks.md` を `- [ ] tasks.md` にロールバックする。

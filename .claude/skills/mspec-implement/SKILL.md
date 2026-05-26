@@ -16,6 +16,10 @@ when_to_use: User runs /mspec:implement, or workflow auto-continues to implement
 <!-- Requirements implemented: FR-016 -->
 <!-- Change: step-checkbox-update -->
 
+<!-- @mspec-delta 2026-05-24-085415-risk-tier-field/specs/verify-routing/spec.md -->
+<!-- Requirements implemented: FR-004 -->
+<!-- Change: risk-tier-field -->
+
 ## Procedure
 
 1. Run `mspec status --change <change-dir> --json` first.
@@ -27,6 +31,8 @@ when_to_use: User runs /mspec:implement, or workflow auto-continues to implement
    - After `--expect-green` is recorded, read the task's anchor `Requirements implemented: FR-NNN` list. For each FR-NNN, scan `checklist.md` and update any `- [ ] ... <!-- verify: fr-NNN -->` lines to `- [x] ... <!-- verify: fr-NNN -->` (idempotent: skip lines already `- [x]`; skip if no matching annotation found — checklist.md remains unchanged). <!-- FR-012 auto-check -->
    - After `--expect-green` is recorded (全テスト GREEN の場合のみ)、`tasks.md` の当該タスク行 `- [ ] TNNN: …` を `- [x] TNNN: …` に更新する（冪等: すでに `- [x]` の行は変更しない）。<!-- FR-016 tasks-checkbox -->
 4. Use AskUserQuestion if any decision deviates from `design.md`.
+4a. **critical FR の verify: human 未達警告**（verify-routing FR-004）: `--expect-green` 記録後、checklist.md に `risk_tier: critical` の FR に対応する `<!-- verify: human -->` 未チェック項目が残っている場合、以下の警告を出力して処理を継続する（エラー停止はしない）:
+   `Warning: FR-NNN (critical) requires human review. Mark as verify: human before archive.`
 5. After all tasks complete, scan `checklist.md` for remaining unchecked items and report: <!-- FR-013 report -->
    - `verify: human` 未チェック項目あり → 一覧をユーザーに提示し、人間レビューを要求してブロックする（block）
    - `verify: fr-NNN` 未チェック項目あり（gap）→ 対象 FR 番号とギャップ（tasks.md の `Requirements implemented` アンカーに対応 FR が存在しない）を警告し、ユーザーの確認を待つ（警告 + block）

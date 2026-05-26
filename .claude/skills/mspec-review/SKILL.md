@@ -18,3 +18,23 @@ when_to_use: User runs /mspec:review, or workflow auto-continues to self-review
 6. Update Constitution Check tables across artifacts where the reviewer flagged gaps.
 7. Run `mspec validate --change <change-dir>`.
 8. `block: true` — stop and ask the user to run `/mspec:continue`.
+
+<!-- @mspec-delta 2026-05-25-131216-agent-experience-manifest/specs/skill-observability/spec.md -->
+<!-- Requirements implemented: FR-001, FR-002 -->
+<!-- Change: agent-experience-manifest -->
+
+## Observation (Agent Experience Log)
+
+After the subagent completes (step 4), count `[blocker]` lines in the review output, then record the run:
+
+```bash
+mspec agent-run record self-review \
+  --change <change-name> \
+  --bytes <sum-of-input-artifact-bytes> \
+  --artifacts <space-separated-artifact-paths> \
+  --edits <count-of-[blocker]-lines>
+```
+
+Example: `mspec agent-run record self-review --change 2026-05-25-my-feature --bytes 22180 --artifacts checklist.md design.md tasks.md --edits 2`
+
+This appends one JSONL entry to `changes/<change>/.agent-runs.jsonl`. Do NOT include prompt text or file contents.

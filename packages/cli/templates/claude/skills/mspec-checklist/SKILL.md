@@ -22,3 +22,22 @@ when_to_use: User runs /mspec:checklist, or workflow auto-continues to checklist
 5a. `readme.md` の `## Artifacts` 節の `- [ ] checklist.md` を `- [x] checklist.md` に更新する。
 6. Run `mspec validate --change <change-dir>`. validate が失敗した場合は `- [x] checklist.md` を `- [ ] checklist.md` にロールバックする。
 7. `block: false` — auto-continue.
+
+<!-- @mspec-delta 2026-05-25-131216-agent-experience-manifest/specs/skill-observability/spec.md -->
+<!-- Requirements implemented: FR-001, FR-002 -->
+<!-- Change: agent-experience-manifest -->
+
+## Observation (Agent Experience Log)
+
+After the subagent completes (step 4), record the run:
+
+```bash
+mspec agent-run record checklist \
+  --change <change-name> \
+  --bytes <sum-of-input-artifact-bytes> \
+  --artifacts <space-separated-artifact-paths>
+```
+
+Example: `mspec agent-run record checklist --change 2026-05-25-my-feature --bytes 12340 --artifacts proposal.md specs/my-cap/spec.md design.md`
+
+This appends one JSONL entry to `changes/<change>/.agent-runs.jsonl`. Do NOT include prompt text or file contents.

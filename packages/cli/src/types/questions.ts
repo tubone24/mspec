@@ -4,6 +4,10 @@
 
 import { z } from 'zod';
 
+// @mspec-delta 2026-05-25-051411-security-as-default/specs/question-bank/spec.md
+// Requirements implemented: FR-001, FR-002, FR-003
+// Change: security-as-default
+
 export const QUESTION_CATEGORIES = [
   'functional_scope',
   'data_model',
@@ -14,6 +18,7 @@ export const QUESTION_CATEGORIES = [
   'constraints',
   'terminology',
   'completion',
+  'security',
 ] as const;
 export type QuestionCategory = (typeof QUESTION_CATEGORIES)[number];
 

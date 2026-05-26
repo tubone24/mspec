@@ -24,3 +24,22 @@ when_to_use: User runs /mspec:research, or workflow auto-continues to research
 7a. `readme.md` の `## Artifacts` 節の `- [ ] research.md` を `- [x] research.md` に更新する。
 8. Run `mspec validate --change <change-dir>`. validate が失敗した場合は `- [x] research.md` を `- [ ] research.md` にロールバックする。
 9. `block: true` — stop and ask the user to run `/mspec:continue`.
+
+<!-- @mspec-delta 2026-05-25-131216-agent-experience-manifest/specs/skill-observability/spec.md -->
+<!-- Requirements implemented: FR-001, FR-002 -->
+<!-- Change: agent-experience-manifest -->
+
+## Observation (Agent Experience Log)
+
+After the subagent completes (step 4), record the run:
+
+```bash
+mspec agent-run record research \
+  --change <change-name> \
+  --bytes <sum-of-input-artifact-bytes> \
+  --artifacts <space-separated-artifact-paths>
+```
+
+Example: `mspec agent-run record research --change 2026-05-25-my-feature --bytes 4821 --artifacts proposal.md specs/my-cap/spec.md`
+
+This appends one JSONL entry to `changes/<change>/.agent-runs.jsonl`. Do NOT include prompt text or file contents.

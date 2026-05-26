@@ -1,5 +1,13 @@
 # Delta Spec: {{CAPABILITY}}
 
+## Security Capabilities
+
+<!-- Filled by mspec-proposal agent from security question answers (PRP-SEC-001~004) -->
+<!-- Permission boundaries: <PRP-SEC-001 answer> -->
+<!-- Access scope increase: <PRP-SEC-002 answer> -->
+<!-- Agent permissions: <PRP-SEC-003 answer> -->
+<!-- Rollback method: <PRP-SEC-004 answer> -->
+
 ## ADDED Requirements
 
 ### Requirement: {{FIRST_FR}} — <Short Title>

@@ -29,6 +29,10 @@ import { specListRequirementsCommand } from './commands/spec-list-requirements.j
 import { specGrepCommand } from './commands/spec-grep.js';
 import { upgradeCommand } from './commands/upgrade.js';
 import { prototypeCommand } from './commands/prototype.js';
+// @mspec-delta 2026-05-25-131216-agent-experience-manifest/specs/agent-runner/spec.md
+// Requirements implemented: FR-001
+// Change: agent-experience-manifest
+import { agentRunRecordCommand } from './commands/agent-run.js';
 
 const require = createRequire(import.meta.url);
 const { version } = require('../package.json') as { version: string };
@@ -150,6 +154,18 @@ constitution
   .command('show')
   .description('Print the current constitution')
   .action(constitutionShowCommand);
+
+const agentRun = program.command('agent-run').description('Agent Experience Manifest — subagent run logging');
+agentRun
+  .command('record <step-id>')
+  .description('Record a subagent run entry to .agent-runs.jsonl')
+  .option('--change <name>', 'Target change directory name')
+  .option('--bytes <n>', 'Sum of required artifact bytes', (v) => parseInt(v, 10))
+  .option('--artifacts <paths...>', 'Space-separated list of artifact paths')
+  .option('--edits <n>', 'Number of [blocker] findings from self-review', (v) => parseInt(v, 10))
+  .action((stepId: string, opts: { change?: string; bytes?: number; artifacts?: string[]; edits?: number }) =>
+    agentRunRecordCommand(stepId, opts),
+  );
 
 const schema = program.command('schema').description('Workflow schema utilities');
 schema

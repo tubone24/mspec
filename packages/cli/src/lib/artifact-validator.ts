@@ -85,8 +85,9 @@ export function validateArtifact(input: ValidateArtifactInput): string[] {
 
   // Delta spec validation
   if (produces.includes('specs/') && filePath.endsWith('/spec.md')) {
-    const { warnings } = parseDeltaSpec(contents);
-    issues.push(...warnings.map((w) => `delta-spec: ${w}`));
+    const { warnings, errors: parseErrors } = parseDeltaSpec(contents);
+    issues.push(...parseErrors.map((e) => `delta-spec: ${e}`));
+    issues.push(...warnings.map((w) => `${WARNING_PREFIX}delta-spec: ${w}`));
     // Constitution checks not required on delta specs (machine artifact)
     return issues;
   }
@@ -211,3 +212,39 @@ function hasMermaidFence(contents: string): boolean {
 }
 
 export { SKIPPED_PLACEHOLDER_MARKER };
+
+// @mspec-delta 2026-05-24-085415-risk-tier-field/specs/delta-spec/spec.md
+// Requirements implemented: FR-004, FR-005
+// Change: risk-tier-field
+// @mspec-delta 2026-05-24-085415-risk-tier-field/specs/verify-routing/spec.md
+// Requirements implemented: FR-003
+// Change: risk-tier-field
+
+/**
+ * Check that no trivial FR from spec appears in checklist.md.
+ * Returns warnings (prefixed with WARNING_PREFIX) for each violation.
+ */
+export function validateChecklistConsistency(
+  checklistContent: string,
+  specContent: string,
+): string[] {
+  const { spec } = parseDeltaSpec(specContent);
+  const allReqs = [...spec.added, ...spec.modified];
+  const trivialFrIds = allReqs
+    .filter((r) => r.risk_tier === 'trivial')
+    .map((r) => r.fr_id);
+
+  if (trivialFrIds.length === 0) return [];
+
+  const warnings: string[] = [];
+  for (const frId of trivialFrIds) {
+    const frNum = frId.replace('FR-', '').replace(/^0+/, '');
+    const verifyPattern = new RegExp(`<!--\\s*verify:\\s*fr-0*${frNum}\\s*-->`, 'i');
+    if (verifyPattern.test(checklistContent)) {
+      warnings.push(
+        `${WARNING_PREFIX}${frId} (trivial) should not appear in checklist.md`,
+      );
+    }
+  }
+  return warnings;
+}

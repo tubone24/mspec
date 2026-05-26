@@ -1,9 +1,14 @@
+// @mspec-delta 2026-05-24-085415-risk-tier-field/specs/delta-spec/spec.md
+// Requirements implemented: FR-001, FR-002, FR-003, FR-004, FR-005
+// Change: risk-tier-field
 import type { Content, Heading, Root } from 'mdast';
 import {
   DELTA_SECTIONS,
   type DeltaSection,
   type DeltaSpec,
   type Requirement,
+  type RiskTier,
+  type BlastRadius,
   type Scenario,
 } from '../types/index.js';
 import { parseMd, sectionsByDepth, headingText, sliceSource } from './markdown.js';
@@ -11,15 +16,21 @@ import { parseMd, sectionsByDepth, headingText, sliceSource } from './markdown.j
 const SECTION_RE = /^(ADDED|MODIFIED|REMOVED|RENAMED)\s+Requirements$/i;
 const REQUIREMENT_RE = /^Requirement:\s+(FR-\d+)\s+[—-]\s+(.+)$/;
 const SCENARIO_RE = /^Scenario:\s+(.+)$/;
+const RISK_TIER_RE = /<!--\s*risk_tier:\s*(critical|standard|trivial)\s*-->/;
+const BLAST_RADIUS_RE = /<!--\s*blast_radius:\s*(local|module|system|external)\s*-->/;
+const RISK_TIER_INVALID_RE = /<!--\s*risk_tier:\s*([^>]+?)\s*-->/;
+const BLAST_RADIUS_INVALID_RE = /<!--\s*blast_radius:\s*([^>]+?)\s*-->/;
 
 export interface ParseDeltaResult {
   spec: DeltaSpec;
   warnings: string[];
+  errors: string[];
 }
 
 export function parseDeltaSpec(source: string, capabilityHint?: string): ParseDeltaResult {
   const root = parseMd(source);
   const warnings: string[] = [];
+  const errors: string[] = [];
 
   const capability = capabilityHint ?? extractCapability(root) ?? 'unknown';
 
@@ -36,14 +47,14 @@ export function parseDeltaSpec(source: string, capabilityHint?: string): ParseDe
     if (!sectionMatch) continue;
     const section = sectionMatch[1].toUpperCase() as DeltaSection;
 
-    const reqs = collectRequirements(h2.children, h2.endLine, source, warnings, h2.heading);
+    const reqs = collectRequirements(h2.children, h2.endLine, source, warnings, errors, h2.heading);
     if (section === 'ADDED') spec.added.push(...reqs);
     else if (section === 'MODIFIED') spec.modified.push(...reqs);
     else if (section === 'REMOVED') spec.removed.push(...reqs);
     else if (section === 'RENAMED') spec.renamed.push(...reqs);
   }
 
-  return { spec, warnings };
+  return { spec, warnings, errors };
 }
 
 function collectRequirements(
@@ -51,6 +62,7 @@ function collectRequirements(
   sectionEndLine: number,
   source: string,
   warnings: string[],
+  errors: string[],
   sectionLabel: string,
 ): Requirement[] {
   const h3Indices: number[] = [];
@@ -80,12 +92,51 @@ function collectRequirements(
     const scenarios = collectScenarios(innerNodes, endLine, source, warnings, reqMatch[0]);
 
     const raw_block = sliceSource(source, startLine, endLine);
+
+    // Extract risk_tier from HTML comment (default: 'standard')
+    let risk_tier: RiskTier = 'standard';
+    const riskTierMatch = RISK_TIER_RE.exec(raw_block);
+    if (riskTierMatch) {
+      risk_tier = riskTierMatch[1] as RiskTier;
+    } else {
+      // Check for invalid risk_tier value
+      const invalidMatch = RISK_TIER_INVALID_RE.exec(raw_block);
+      if (invalidMatch && invalidMatch[1].trim() !== '') {
+        const val = invalidMatch[1].trim();
+        if (!['critical', 'standard', 'trivial'].includes(val)) {
+          errors.push(
+            `invalid risk_tier value "${val}" in ${reqMatch[1]}. Must be critical | standard | trivial`,
+          );
+        }
+      }
+    }
+
+    // Extract blast_radius from HTML comment (optional)
+    let blast_radius: BlastRadius | undefined;
+    const blastRadiusMatch = BLAST_RADIUS_RE.exec(raw_block);
+    if (blastRadiusMatch) {
+      blast_radius = blastRadiusMatch[1] as BlastRadius;
+    } else {
+      // Check for invalid blast_radius value
+      const invalidBlastMatch = BLAST_RADIUS_INVALID_RE.exec(raw_block);
+      if (invalidBlastMatch && invalidBlastMatch[1].trim() !== '') {
+        const val = invalidBlastMatch[1].trim();
+        if (!['local', 'module', 'system', 'external'].includes(val)) {
+          errors.push(
+            `invalid blast_radius value "${val}" in ${reqMatch[1]}. Must be local | module | system | external`,
+          );
+        }
+      }
+    }
+
     out.push({
       fr_id: reqMatch[1],
       title: reqMatch[2].trim(),
       body: raw_block,
       scenarios,
       raw_block,
+      risk_tier,
+      blast_radius,
     });
   }
   return out;

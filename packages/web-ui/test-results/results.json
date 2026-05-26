@@ -1,0 +1,455 @@
+{
+  "config": {
+    "configFile": "/Users/kagadminmac/project/mspec/packages/web-ui/playwright.config.ts",
+    "rootDir": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/kagadminmac/project/mspec/packages/web-ui/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ],
+      [
+        "html",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.60.0",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "artifact-preview.e2e.test.ts",
+      "file": "artifact-preview.e2e.test.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "ArtifactPreview: Mermaid SVG renders in architecture-overview.md",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1106,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-25T10:39:08.637Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fe8cbd305c36c74b6283-d034e5ac0241740e5499",
+          "file": "artifact-preview.e2e.test.ts",
+          "line": 17,
+          "column": 1
+        },
+        {
+          "title": "ArtifactPreview: theme toggle persists after reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 2403,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-25T10:39:08.642Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fe8cbd305c36c74b6283-b3415d92f6a5c68cc1ed",
+          "file": "artifact-preview.e2e.test.ts",
+          "line": 32,
+          "column": 1
+        },
+        {
+          "title": "ArtifactPreview: EARS/Gherkin highlight renders text-red-600 spans in spec.md",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 1278,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-25T10:39:08.641Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fe8cbd305c36c74b6283-2f27ea9c9f38829cf26c",
+          "file": "artifact-preview.e2e.test.ts",
+          "line": 59,
+          "column": 1
+        },
+        {
+          "title": "ArtifactPreview: Markdown headings render with visual hierarchy",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 1344,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-25T10:39:08.644Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fe8cbd305c36c74b6283-cd32d9adc41cc60a2df8",
+          "file": "artifact-preview.e2e.test.ts",
+          "line": 80,
+          "column": 1
+        },
+        {
+          "title": "ChangeDetail: clicking artifact opens split-pane without navigation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1084,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-25T10:39:10.084Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fe8cbd305c36c74b6283-3d4cf1a9a63c99d1337f",
+          "file": "artifact-preview.e2e.test.ts",
+          "line": 113,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "dashboard.e2e.test.ts",
+      "file": "dashboard.e2e.test.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Dashboard: change-row elements are present and title is MSPEC Dashboard",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 694,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-25T10:39:10.260Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4bc9ca1a666fe8fcd838-40dfad8862717cd8fa55",
+          "file": "dashboard.e2e.test.ts",
+          "line": 11,
+          "column": 1
+        },
+        {
+          "title": "Dashboard: mode filter-bugfix shows only bugfix changes or no-results message",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 1228,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-25T10:39:10.331Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4bc9ca1a666fe8fcd838-13ce0aa23d589db1ed84",
+          "file": "dashboard.e2e.test.ts",
+          "line": 27,
+          "column": 1
+        },
+        {
+          "title": "Dashboard: StepProgress ready steps have animate-pulse animation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 668,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-25T10:39:10.964Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4bc9ca1a666fe8fcd838-0ae55fe04a00b06a1fd1",
+          "file": "dashboard.e2e.test.ts",
+          "line": 44,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "test-results.e2e.test.ts",
+      "file": "test-results.e2e.test.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "TestResults: badges or no-results message are visible",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 939,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-25T10:39:11.178Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c7cba739a3ccdd46fa64-e14aca0bcdbc2abba3ab",
+          "file": "test-results.e2e.test.ts",
+          "line": 14,
+          "column": 1
+        },
+        {
+          "title": "TestResults: fail trace-panel expands when fail badge is clicked",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "No failed tests in this change — skipping trace panel test",
+                  "location": {
+                    "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/test-results.e2e.test.ts",
+                    "line": 53,
+                    "column": 10
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "skipped",
+                  "duration": 968,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-25T10:39:11.385Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "No failed tests in this change — skipping trace panel test",
+                      "location": {
+                        "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/test-results.e2e.test.ts",
+                        "line": 53,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "c7cba739a3ccdd46fa64-c847e8c9c67d25ff5a5b",
+          "file": "test-results.e2e.test.ts",
+          "line": 39,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-05-25T10:39:04.170Z",
+    "duration": 8245.946000000002,
+    "expected": 9,
+    "skipped": 1,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

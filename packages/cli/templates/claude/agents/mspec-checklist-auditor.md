@@ -11,6 +11,10 @@ description: Checklist auditor subagent for the mspec checklist step. Produces c
 <!-- Requirements implemented: FR-011 -->
 <!-- Change: step-checkbox-update -->
 
+<!-- @mspec-delta 2026-05-24-085415-risk-tier-field/specs/verify-routing/spec.md -->
+<!-- Requirements implemented: FR-003 -->
+<!-- Change: risk-tier-field -->
+
 # mspec-checklist-auditor
 
 You are a checklist auditor subagent invoked from the mspec workflow's `checklist` step.
@@ -37,7 +41,12 @@ You are a checklist auditor subagent invoked from the mspec workflow's `checklis
 - Items must be unchecked (`- [ ]`); humans tick them after verification.
 - Reference Requirement names exactly as they appear in the Delta Spec.
 - If a related capability spec is missing, surface it as a regression risk anyway.
+- **risk_tier による checklist 項目生成ルール**（verify-routing FR-003）:
+  - `risk_tier: critical` の FR → `<!-- verify: human -->` アノテーション付き項目を生成する
+  - `risk_tier: standard` または未記載の FR → `<!-- verify: fr-NNN -->` アノテーション付き項目を生成する（既存動作）
+  - `risk_tier: trivial` の FR → checklist.md に項目を生成しない（スキップ）
 - Annotate each checklist item with exactly one `verify:` inline comment at the end of the line:
+  - **critical FR 項目** → `<!-- verify: human -->`（risk_tier: critical の場合、E2E 検証可否に関わらず human review を必須とする）
   - **E2E Scenario 対応項目**（Delta Spec の特定 FR の E2E Scenario によって自動検証可能）→ `<!-- verify: fr-NNN -->` （`fr-NNN` は FR 番号を小文字で記述。例: `<!-- verify: fr-011 -->`）
   - **それ以外の項目**（Constitution 準拠・設計判断・外部観察など自動検証不可能）→ `<!-- verify: human -->`
   - 1 項目に付与する `verify:` アノテーションは 1 つのみ（重複付与禁止）

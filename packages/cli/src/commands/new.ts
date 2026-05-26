@@ -13,6 +13,10 @@
 // Requirements implemented: FR-005
 // Change: revise-artifact-taxonomy
 
+// @mspec-delta 2026-05-24-130128-mspec-web-ui/specs/cli-integration/spec.md
+// Requirements implemented: FR-001, FR-002, FR-003
+// Change: mspec-web-ui
+
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -22,6 +26,7 @@ import { dirExists } from '../lib/change-discovery.js';
 import { makeChangeDirName } from '../lib/datetime.js';
 import { loadConfig } from '../workflow/config-loader.js';
 import { resolveTemplate } from '../lib/template-resolver.js';
+import { launchWebUiIfNeeded } from '../server/index.js';
 
 const FEATURE_RE = /^[a-z][a-z0-9-]*$/;
 
@@ -104,6 +109,12 @@ export async function newCommand(feature: string, opts: NewOptions = {}): Promis
   await writeFile(join(changeDir, 'glossary.md'), glossaryContent, 'utf8');
 
   console.log(`${pc.green('✓')} Created ${pc.cyan(changeName)}`);
+
+  // Launch Web UI in background (non-blocking; gracefully skips if @mspec/web-ui not installed)
+  launchWebUiIfNeeded(cwd, paths.configFile).catch(() => {
+    // Silently ignore UI launch errors — CLI must not fail because of this
+  });
+
   console.log(`  ${pc.gray('next: run /mspec:proposal')}`);
 }
 
