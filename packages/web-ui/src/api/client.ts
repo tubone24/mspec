@@ -21,11 +21,17 @@ export interface StepState {
 export interface ChangeInfo {
   id: string;
   name: string;
+  title?: string;
+  summary?: string;
+  author?: string;
   createdAt: string;
+  updatedAt?: string;
   mode: 'typo' | 'minor' | 'bugfix' | 'full';
   currentStep: string;
   steps: StepState[];
   isArchived: boolean;
+  counts?: { reqs: number; scenarios: number; artifacts: number };
+  tags?: string[];
 }
 
 export interface ArtifactFile {

@@ -1,13 +1,332 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MSPEC Dashboard</title>
-    <!-- TODO(reading-mode-themes): Replace with confirmed font from Visual Prototype step -->
-    <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
-    <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
-    <!-- <link href="https://fonts.googleapis.com/css2?family=FONT_NAME:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"> -->
+    <title>mspec — reading-first dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Geist:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* ── Design-system theme tokens ─────────────────────────────────────────
+       *
+       * Full palette tuned for long-form reading:
+       *   --bg        page background (subtly tinted, never pure white/black)
+       *   --paper     reader / card surface — slightly elevated from bg
+       *   --panel     side panels (TOC, meta) — between bg and paper
+       *   --ink       body foreground
+       *   --ink-soft  secondary text (timestamps, labels)
+       *   --ink-mute  tertiary, dividers' dim text
+       *   --rule      hairline borders
+       *   --accent    links, active states
+       *   --accent-soft tinted hover surface
+       *   --sel       text selection highlight
+       *
+       * EARS modal verb colours and Gherkin step colours are theme-aware.
+       * Status colours (done/ready/blocked/skipped/invalid) are used by
+       * StepProgress; they intentionally differ from the accent palette.
+       * ──────────────────────────────────────────────────────────────────── */
+
+      :root,
+      [data-theme='light'] {
+        --bg:          #fbfaf7;
+        --paper:       #ffffff;
+        --panel:       #f4f1ec;
+        --ink:         #1a1a1f;
+        --ink-soft:    #4d4a44;
+        --ink-mute:    #8a857c;
+        --rule:        #e6e1d8;
+        --rule-soft:   #efeae0;
+        --accent:      #5a4630;
+        --accent-2:    oklch(0.50 0.12 245);
+        --accent-soft: #efeae0;
+        --sel:         #f1e6c8;
+
+        --k-shall:   oklch(0.48 0.15 25);
+        --k-must:    oklch(0.43 0.16 25);
+        --k-should:  oklch(0.55 0.14 65);
+        --k-may:     oklch(0.58 0.10 80);
+        --k-given:   oklch(0.45 0.13 250);
+        --k-when:    oklch(0.50 0.13 220);
+        --k-then:    oklch(0.45 0.13 150);
+        --k-and:     oklch(0.50 0.10 190);
+        --k-but:     oklch(0.45 0.14 295);
+
+        --done:    oklch(0.60 0.12 150);
+        --ready:   oklch(0.62 0.13 230);
+        --blocked: oklch(0.78 0.01 80);
+        --skipped: oklch(0.78 0.10 85);
+        --invalid: oklch(0.60 0.18 25);
+
+        --comment-opacity: 0.42;
+      }
+
+      [data-theme='sepia'] {
+        --bg:          #f4ead5;
+        --paper:       #f9f1de;
+        --panel:       #ece1c5;
+        --ink:         #3b2c1a;
+        --ink-soft:    #6a543a;
+        --ink-mute:    #93805e;
+        --rule:        #d8c79e;
+        --rule-soft:   #e3d4ad;
+        --accent:      #7a4f1f;
+        --accent-2:    #7a4f1f;
+        --accent-soft: #e8d9b3;
+        --sel:         #e8d189;
+
+        --k-shall:   oklch(0.45 0.16 30);
+        --k-must:    oklch(0.40 0.18 30);
+        --k-should:  oklch(0.50 0.16 60);
+        --k-may:     oklch(0.55 0.12 75);
+        --k-given:   oklch(0.42 0.13 250);
+        --k-when:    oklch(0.48 0.13 220);
+        --k-then:    oklch(0.42 0.14 150);
+        --k-and:     oklch(0.48 0.10 190);
+        --k-but:     oklch(0.42 0.14 295);
+
+        --done:    oklch(0.55 0.13 150);
+        --ready:   oklch(0.58 0.13 230);
+        --blocked: oklch(0.72 0.04 85);
+        --skipped: oklch(0.70 0.11 85);
+        --invalid: oklch(0.55 0.18 25);
+
+        --comment-opacity: 0.40;
+      }
+
+      [data-theme='green'] {
+        --bg:          #dee9d3;
+        --paper:       #e8f0db;
+        --panel:       #cfdfc1;
+        --ink:         #1f3320;
+        --ink-soft:    #44593e;
+        --ink-mute:    #6f8367;
+        --rule:        #adc499;
+        --rule-soft:   #c0d3ad;
+        --accent:      #2f5e2f;
+        --accent-2:    #2f5e2f;
+        --accent-soft: #c2d6ad;
+        --sel:         #b9d09a;
+
+        --k-shall:   oklch(0.45 0.16 30);
+        --k-must:    oklch(0.40 0.17 30);
+        --k-should:  oklch(0.50 0.16 70);
+        --k-may:     oklch(0.55 0.12 80);
+        --k-given:   oklch(0.42 0.13 250);
+        --k-when:    oklch(0.48 0.13 220);
+        --k-then:    oklch(0.38 0.16 150);
+        --k-and:     oklch(0.45 0.10 190);
+        --k-but:     oklch(0.42 0.14 295);
+
+        --done:    oklch(0.50 0.15 150);
+        --ready:   oklch(0.55 0.13 230);
+        --blocked: oklch(0.62 0.04 130);
+        --skipped: oklch(0.65 0.12 85);
+        --invalid: oklch(0.55 0.18 25);
+
+        --comment-opacity: 0.40;
+      }
+
+      [data-theme='dark'] {
+        --bg:          #15151a;
+        --paper:       #1c1c22;
+        --panel:       #1f1f26;
+        --ink:         #e8e2d4;
+        --ink-soft:    #b3ac9f;
+        --ink-mute:    #7e786c;
+        --rule:        #2c2c34;
+        --rule-soft:   #232329;
+        --accent:      #d4b78a;
+        --accent-2:    oklch(0.78 0.12 80);
+        --accent-soft: #25252d;
+        --sel:         #3a3320;
+
+        --k-shall:   oklch(0.72 0.16 25);
+        --k-must:    oklch(0.78 0.14 25);
+        --k-should:  oklch(0.80 0.13 75);
+        --k-may:     oklch(0.82 0.11 85);
+        --k-given:   oklch(0.78 0.13 250);
+        --k-when:    oklch(0.80 0.13 220);
+        --k-then:    oklch(0.80 0.14 150);
+        --k-and:     oklch(0.80 0.10 190);
+        --k-but:     oklch(0.78 0.14 295);
+
+        --done:    oklch(0.70 0.14 150);
+        --ready:   oklch(0.72 0.14 230);
+        --blocked: oklch(0.38 0.01 80);
+        --skipped: oklch(0.72 0.12 85);
+        --invalid: oklch(0.65 0.20 25);
+
+        --comment-opacity: 0.50;
+      }
+
+      /* ── Base ──────────────────────────────────────────────────────────── */
+      * { box-sizing: border-box; }
+
+      html, body, #root { height: 100%; }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family:
+          'Geist', 'Noto Sans JP', system-ui, -apple-system,
+          'Hiragino Kaku Gothic ProN', 'Yu Gothic UI', sans-serif;
+        font-feature-settings: "ss01", "cv11";
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        transition: background-color 0.25s ease, color 0.25s ease;
+      }
+
+      ::selection { background: var(--sel); color: var(--ink); }
+
+      /* Font-family utility classes */
+      .serif {
+        font-family:
+          'Source Serif 4', 'Noto Serif JP', 'Iowan Old Style', Charter,
+          Georgia, 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+        font-feature-settings: "ss03", "ss05";
+      }
+      .sans {
+        font-family:
+          'Geist', 'Noto Sans JP', system-ui, -apple-system, sans-serif;
+      }
+      .mono {
+        font-family:
+          'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+      }
+
+      a { color: inherit; }
+      button { font: inherit; color: inherit; }
+
+      /* ── Prose (reader body) ───────────────────────────────────────────── */
+      .prose {
+        color: var(--ink);
+        font-family:
+          var(
+            --reader-font-family,
+            'Source Serif 4', 'Noto Serif JP', 'Iowan Old Style', Charter,
+            Georgia, 'Hiragino Mincho ProN', 'Yu Mincho', serif
+          );
+      }
+      .prose h1 {
+        font-size: 1.7em; font-weight: 600; line-height: 1.15;
+        letter-spacing: -0.01em; margin: 1.5em 0 0.6em;
+      }
+      .prose h2 {
+        font-size: 1.25em; font-weight: 600; line-height: 1.25;
+        margin: 2em 0 0.6em; padding-bottom: 0.3em;
+        border-bottom: 1px solid var(--rule); letter-spacing: -0.005em;
+      }
+      .prose h3 {
+        font-size: 1.05em; font-weight: 600;
+        margin: 1.6em 0 0.4em; color: var(--ink);
+      }
+      .prose h4 {
+        font-size: 0.95em; font-weight: 600; margin: 1.4em 0 0.3em;
+        color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.06em;
+      }
+      .prose p, .prose li {
+        line-height: var(--reader-leading, 1.7); margin: 0.6em 0;
+      }
+      .prose ul, .prose ol { padding-left: 1.4em; margin: 0.6em 0; }
+      .prose li { margin: 0.25em 0; }
+      .prose li::marker { color: var(--ink-mute); }
+      .prose blockquote {
+        border-left: 2px solid var(--rule);
+        margin: 1.2em 0; padding: 0.2em 0 0.2em 1.2em;
+        color: var(--ink-soft); font-style: italic;
+      }
+      .prose code:not(pre code) {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.88em; background: var(--accent-soft);
+        padding: 0.1em 0.35em; border-radius: 3px; color: var(--ink);
+      }
+      .prose pre {
+        background: var(--panel); border: 1px solid var(--rule);
+        border-radius: 6px; padding: 0.9em 1.1em;
+        overflow-x: auto; font-size: 0.88em; line-height: 1.55; margin: 1.2em 0;
+      }
+      .prose pre code { font-family: 'JetBrains Mono', monospace; }
+      .prose hr { border: 0; border-top: 1px solid var(--rule); margin: 2em 0; }
+      .prose table {
+        width: 100%; border-collapse: collapse; margin: 1.2em 0; font-size: 0.95em;
+      }
+      .prose th, .prose td {
+        border-bottom: 1px solid var(--rule); padding: 0.5em 0.7em; text-align: left;
+      }
+      .prose th { color: var(--ink-soft); font-weight: 600; }
+      .prose strong { font-weight: 600; }
+      .prose a {
+        color: var(--accent-2); text-decoration: underline;
+        text-underline-offset: 3px; text-decoration-thickness: 1px;
+      }
+
+      /* ── Markdown comment dimming ──────────────────────────────────────── */
+      .md-comment { opacity: var(--comment-opacity, 0.42); font-style: italic; }
+
+      /* ── EARS / Gherkin keyword highlighting ───────────────────────────── */
+      .k { font-weight: 600; }
+      .k-shall, .k-must, .k-must-not { color: var(--k-shall); font-weight: 600; }
+      .k-should, .k-should-not        { color: var(--k-should); font-weight: 600; }
+      .k-may                           { color: var(--k-may);    font-weight: 600; }
+      .k-given                         { color: var(--k-given);  font-weight: 600; }
+      .k-when                          { color: var(--k-when);   font-weight: 600; }
+      .k-then                          { color: var(--k-then);   font-weight: 600; }
+      .k-and                           { color: var(--k-and);    font-weight: 600; }
+      .k-but                           { color: var(--k-but);    font-weight: 600; }
+
+      /* ── Requirement ID chip ───────────────────────────────────────────── */
+      .req-id {
+        display: inline-block;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.78em; padding: 1px 6px;
+        border: 1px solid var(--rule); border-radius: 4px;
+        color: var(--ink-soft); margin-right: 4px; vertical-align: 0.05em;
+      }
+
+      /* ── Scrollbars ────────────────────────────────────────────────────── */
+      *::-webkit-scrollbar { width: 10px; height: 10px; }
+      *::-webkit-scrollbar-track { background: transparent; }
+      *::-webkit-scrollbar-thumb {
+        background: var(--rule); border-radius: 10px;
+        border: 2px solid var(--bg);
+      }
+      *::-webkit-scrollbar-thumb:hover { background: var(--ink-mute); }
+
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { scrollbar-width: none; }
+
+      /* ── Layout helpers ────────────────────────────────────────────────── */
+      .row { display: flex; align-items: center; }
+      .col { display: flex; flex-direction: column; }
+      .hairline { border-color: var(--rule); }
+
+      .kbd {
+        font-family: 'JetBrains Mono', monospace; font-size: 11px;
+        border: 1px solid var(--rule); border-bottom-width: 2px;
+        padding: 1px 5px; border-radius: 4px; color: var(--ink-soft);
+        background: var(--paper);
+      }
+
+      /* ── Animations ────────────────────────────────────────────────────── */
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50%       { opacity: 0.55; }
+      }
+      .pulse { animation: pulse 1.6s ease-in-out infinite; }
+
+      @keyframes fadein {
+        from { opacity: 0; transform: translateY(2px); }
+        to   { opacity: 1; transform: none; }
+      }
+      .fadein { animation: fadein 0.35s ease both; }
+    </style>
   </head>
   <body>
     <div id="root"></div>

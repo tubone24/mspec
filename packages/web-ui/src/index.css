@@ -2,70 +2,77 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Reading Theme: CSS Custom Properties ── */
-:root,
-[data-theme='light'] {
-  --color-bg: #ffffff;
-  --color-fg: #1a1a1a;
-  --color-accent: #4b7bec;
-  --color-surface: #f3f4f6;
-  --color-border: #e5e7eb;
-}
+/*
+ * All theme tokens and global base styles are defined in index.html <style>.
+ * This file contains only Tailwind layers and component-level overrides that
+ * need access to the Tailwind utility pipeline.
+ */
 
-[data-theme='sepia'] {
-  --color-bg: #fbf0d9;
-  --color-fg: #5f4b32;
-  --color-accent: #7a5c3f;
-  --color-surface: #f0e6cc;
-  --color-border: #d4c5a0;
-}
-
-[data-theme='green'] {
-  --color-bg: #c5e8c5;
-  --color-fg: #1a3d1a;
-  --color-accent: #2d5a2d;
-  --color-surface: #b5ddb5;
-  --color-border: #9dc89d;
-}
-
-[data-theme='dark'] {
-  --color-bg: #1c1c1e;
-  --color-fg: #e5e5ea;
-  --color-accent: #4b7bec;
-  --color-surface: #2c2c2e;
-  --color-border: #3a3a3c;
-}
-
-/* ── Markdown HTML Comment Dimming ── */
+/* ── Markdown HTML comment dimming ─────────────────────────────────────────
+ * Defined here too (in addition to index.html) so components that import
+ * this CSS file also pick it up without depending on the HTML inline style.
+ * The opacity value comes from the theme token set in index.html.
+ */
 .md-comment {
-  opacity: 0.4;
+  opacity: var(--comment-opacity, 0.42);
   font-style: italic;
 }
 
-/* ── EARS Keywords ── */
-.k-shall     { color: #dc2626; font-weight: 600; }   /* red-600 */
-.k-must      { color: #b91c1c; font-weight: 600; }   /* red-700 */
-.k-must-not  { color: #991b1b; font-weight: 600; }   /* red-900 */
-.k-should    { color: #b45309; font-weight: 600; }   /* amber-700 */
-.k-should-not{ color: #92400e; font-weight: 600; }   /* amber-800 */
-.k-may       { color: #a16207; font-weight: 600; }   /* yellow-700 */
+/* @mspec-delta 2026-05-26-113511-webui-keyword-badge-style/specs/code-syntax-highlight/spec.md */
+/* Requirements implemented: FR-004 */
+/* Change: webui-keyword-badge-style */
 
-/* ── Gherkin Keywords ── */
-.k-given     { color: #1d4ed8; font-weight: 600; }   /* blue-700 */
-.k-when      { color: #0369a1; font-weight: 600; }   /* sky-700 */
-.k-then      { color: #15803d; font-weight: 600; }   /* green-700 */
-.k-and       { color: #0891b2; font-weight: 600; }   /* cyan-600 */
-.k-but       { color: #7c3aed; font-weight: 600; }   /* violet-600 */
+/* ── EARS / Gherkin keywords ─────────────────────────────────────────────── */
+.k            { font-weight: 600; }
+.k-shall,
+.k-must,
+.k-must-not   {
+  color: var(--k-shall); font-weight: 600;
+  background-color: color-mix(in oklch, var(--k-shall) 15%, var(--paper));
+  border-radius: 3px; padding: 1px 5px;
+}
+.k-should,
+.k-should-not {
+  color: var(--k-should); font-weight: 600;
+  background-color: color-mix(in oklch, var(--k-should) 15%, var(--paper));
+  border-radius: 3px; padding: 1px 5px;
+}
+.k-may        {
+  color: var(--k-may); font-weight: 600;
+  background-color: color-mix(in oklch, var(--k-may) 15%, var(--paper));
+  border-radius: 3px; padding: 1px 5px;
+}
+.k-given      {
+  color: var(--k-given); font-weight: 600;
+  background-color: color-mix(in oklch, var(--k-given) 15%, var(--paper));
+  border-radius: 3px; padding: 1px 5px;
+}
+.k-when       {
+  color: var(--k-when); font-weight: 600;
+  background-color: color-mix(in oklch, var(--k-when) 15%, var(--paper));
+  border-radius: 3px; padding: 1px 5px;
+}
+.k-then       {
+  color: var(--k-then); font-weight: 600;
+  background-color: color-mix(in oklch, var(--k-then) 15%, var(--paper));
+  border-radius: 3px; padding: 1px 5px;
+}
+.k-and        {
+  color: var(--k-and); font-weight: 600;
+  background-color: color-mix(in oklch, var(--k-and) 15%, var(--paper));
+  border-radius: 3px; padding: 1px 5px;
+}
+.k-but        {
+  color: var(--k-but); font-weight: 600;
+  background-color: color-mix(in oklch, var(--k-but) 15%, var(--paper));
+  border-radius: 3px; padding: 1px 5px;
+}
 
-/* ── Dark theme overrides ── */
-[data-theme='dark'] .k-shall      { color: #f87171; }  /* red-400 */
-[data-theme='dark'] .k-must       { color: #fca5a5; }  /* red-300 */
-[data-theme='dark'] .k-must-not   { color: #fca5a5; }
-[data-theme='dark'] .k-should     { color: #fcd34d; }  /* amber-300 */
-[data-theme='dark'] .k-should-not { color: #fde68a; }  /* amber-200 */
-[data-theme='dark'] .k-may        { color: #fde68a; }
-[data-theme='dark'] .k-given      { color: #93c5fd; }  /* blue-300 */
-[data-theme='dark'] .k-when       { color: #7dd3fc; }  /* sky-300 */
-[data-theme='dark'] .k-then       { color: #86efac; }  /* green-300 */
-[data-theme='dark'] .k-and        { color: #67e8f9; }  /* cyan-300 */
-[data-theme='dark'] .k-but        { color: #c4b5fd; }  /* violet-300 */
+/* @mspec-delta 2026-05-26-113511-webui-keyword-badge-style/specs/code-syntax-highlight/spec.md */
+/* Requirements implemented: FR-005 */
+/* Change: webui-keyword-badge-style */
+
+/* ── Code block border softening ─────────────────────────────────────────── */
+.prose pre {
+  border-color: var(--rule-soft);
+}

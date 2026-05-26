@@ -6,6 +6,7 @@ import Fastify from 'fastify';
 import { registerChangesRoutes } from '@mspec/cli/src/server/routes/changes.js';
 import { registerArtifactsRoutes } from '@mspec/cli/src/server/routes/artifacts.js';
 import { registerTestResultsRoutes } from '@mspec/cli/src/server/routes/testResults.js';
+import { registerSpecsRoutes } from '@mspec/cli/src/server/routes/specs.js';
 import { writePid, clearPid } from '@mspec/cli/src/server/pidManager.js';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -19,6 +20,7 @@ const app = Fastify({ logger: false });
 await registerChangesRoutes(app, root);
 await registerArtifactsRoutes(app, root);
 await registerTestResultsRoutes(app, root);
+await registerSpecsRoutes(app, root);
 // Note: /api/health is already registered by registerChangesRoutes
 
 app.setNotFoundHandler(async (_req, reply) => {

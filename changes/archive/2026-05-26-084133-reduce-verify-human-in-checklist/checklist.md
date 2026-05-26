@@ -12,10 +12,10 @@ doc_type: Reference
 
 ### verify-routing
 
-- [ ] **FR-006** — Constitution IV / VI のインライン事前検証: `mspec anchor check` の実行結果に応じたチェックボックス確定ロジックが auditor Constraints セクションに明記されている <!-- verify: fr-006 -->
-- [ ] **FR-006** — Constitution IV / VI のインライン事前検証: `## Security Capabilities` セクションの grep 確認ロジックが auditor Constraints セクションに明記されている <!-- verify: fr-006 -->
-- [ ] **FR-007** — verify: human フォールバック最小化と理由明記義務: E2E Scenario 対応 FR が `<!-- verify: fr-NNN -->` を使用し `<!-- verify: human -->` が使用されないことが tasks.md 実行で確認できる <!-- verify: fr-007 -->
-- [ ] **FR-007** — verify: human フォールバック最小化と理由明記義務: `<!-- verify: human -->` を付与する全項目に自動検証不可の理由括弧書きが記載されている <!-- verify: fr-007 -->
+- [x] **FR-006** — Constitution IV / VI のインライン事前検証: `mspec anchor check` の実行結果に応じたチェックボックス確定ロジックが auditor Constraints セクションに明記されている <!-- verify: fr-006 -->
+- [x] **FR-006** — Constitution IV / VI のインライン事前検証: `## Security Capabilities` セクションの grep 確認ロジックが auditor Constraints セクションに明記されている <!-- verify: fr-006 -->
+- [x] **FR-007** — verify: human フォールバック最小化と理由明記義務: E2E Scenario 対応 FR が `<!-- verify: fr-NNN -->` を使用し `<!-- verify: human -->` が使用されないことが tasks.md 実行で確認できる <!-- verify: fr-007 -->
+- [x] **FR-007** — verify: human フォールバック最小化と理由明記義務: `<!-- verify: human -->` を付与する全項目に自動検証不可の理由括弧書きが記載されている <!-- verify: fr-007 -->
 
 ---
 
@@ -29,7 +29,7 @@ doc_type: Reference
 ### claude-integration SoT (specs/claude-integration/spec.md)
 
 - [ ] **FR-011 後方互換** — checklist-auditor が全項目に verify メタデータを付与する義務: 新 Constraints の「verify: human 付与時の理由括弧書き義務」が FR-011 の「全項目に exactly one verify: アノテーション」要件を破らないか確認する（括弧書きの形式が future パーサーに干渉するリスクがある点は外部仕様との整合性のため機械検証不可） <!-- verify: human -->
-- [ ] **FR-014 同期義務** — ランタイムと CLI テンプレートのファイル同期: `.claude/agents/mspec-checklist-auditor.md` と `packages/cli/templates/claude/agents/mspec-checklist-auditor.md` が同一内容に更新されているか（ファイル比較は `diff` で確認可能だが tasks.md のタスクとして明示的に含める必要がある） <!-- verify: human -->
+- [x] **FR-014 同期義務** — ランタイムと CLI テンプレートのファイル同期: `.claude/agents/mspec-checklist-auditor.md` と `packages/cli/templates/claude/agents/mspec-checklist-auditor.md` が同一内容に更新されているか（diff 比較は可能だが、tasks.md 上のタスクとして明示されていない場合は完了判定不可のため human） <!-- verify: human -->
 - [ ] **FR-013 後方互換** — implement ステップの未チェック項目報告: `<!-- verify: human -->` 付与項目に括弧書き理由が追加されても、FR-013 の「verify: human 未チェック項目をグループ報告する」ロジックが括弧書き付き行を正しく認識するか確認する（行フォーマット変更の影響範囲は目視確認が必要） <!-- verify: human -->
 
 ---

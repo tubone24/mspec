@@ -1,6 +1,9 @@
 // @mspec-delta 2026-05-24-130128-mspec-web-ui/specs/artifact-preview/spec.md
 // Requirements implemented: FR-001, FR-002, FR-003, FR-004, FR-005
 // Change: mspec-web-ui
+// @mspec-delta 2026-05-26-083855-web-ui-enhancements/specs/artifact-preview/spec.md
+// Requirements implemented: FR-011
+// Change: web-ui-enhancements
 
 import type { FastifyInstance } from 'fastify';
 import { readFile, readdir, stat } from 'node:fs/promises';
@@ -9,6 +12,10 @@ import { projectPaths } from '../../workflow/paths.js';
 import { findChange } from '../../lib/change-discovery.js';
 
 type ArtifactType = 'markdown' | 'html' | 'json' | 'xml' | 'other';
+type DocType = 'Reference' | 'Explanation' | 'How-to' | 'Tutorial';
+
+const DOC_TYPE_RE = /^doc_type:\s*(.+)$/m;
+const VALID_DOC_TYPES = new Set<string>(['Reference', 'Explanation', 'How-to', 'Tutorial']);
 
 function detectType(filename: string): ArtifactType {
   const ext = extname(filename).toLowerCase();
@@ -19,10 +26,22 @@ function detectType(filename: string): ArtifactType {
   return 'other';
 }
 
+async function extractDocType(filePath: string): Promise<DocType | undefined> {
+  try {
+    const content = await readFile(filePath, 'utf8');
+    const m = DOC_TYPE_RE.exec(content);
+    if (m) {
+      const val = m[1].trim();
+      if (VALID_DOC_TYPES.has(val)) return val as DocType;
+    }
+  } catch { /* ignore read errors */ }
+  return undefined;
+}
+
 async function collectArtifacts(
   dir: string,
   baseDir: string,
-  results: Array<{ name: string; relativePath: string; type: ArtifactType }> = [],
+  results: Array<{ name: string; relativePath: string; type: ArtifactType; docType?: DocType }> = [],
 ): Promise<typeof results> {
   try {
     const entries = await readdir(dir, { withFileTypes: true });
@@ -32,7 +51,9 @@ async function collectArtifacts(
         await collectArtifacts(full, baseDir, results);
       } else if (entry.isFile()) {
         const rel = relative(baseDir, full);
-        results.push({ name: entry.name, relativePath: rel, type: detectType(entry.name) });
+        const type = detectType(entry.name);
+        const docType = type === 'markdown' ? await extractDocType(full) : undefined;
+        results.push({ name: entry.name, relativePath: rel, type, docType });
       }
     }
   } catch { /* ignore unreadable dirs */ }

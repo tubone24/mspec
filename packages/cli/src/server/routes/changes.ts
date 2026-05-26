@@ -1,6 +1,9 @@
 // @mspec-delta 2026-05-24-130128-mspec-web-ui/specs/change-dashboard/spec.md
 // Requirements implemented: FR-001, FR-002, FR-003, FR-004
 // Change: mspec-web-ui
+// @mspec-delta 2026-05-26-083855-web-ui-enhancements/specs/change-dashboard/spec.md
+// Requirements implemented: FR-008
+// Change: web-ui-enhancements
 
 import type { FastifyInstance } from 'fastify';
 import { readFile } from 'node:fs/promises';
@@ -11,7 +14,7 @@ import { listChanges, findChange, fileExists } from '../../lib/change-discovery.
 import { loadSkipLog } from '../../lib/skip-log.js';
 import { loadDoneLog } from '../../lib/done-log.js';
 import { computeStatus } from '../../lib/state-engine.js';
-import { parseMode } from '../../lib/readme-parser.js';
+import { parseMode, parseSummary } from '../../lib/readme-parser.js';
 
 export async function registerChangesRoutes(app: FastifyInstance, root: string): Promise<void> {
   const paths = projectPaths(root);
@@ -20,21 +23,24 @@ export async function registerChangesRoutes(app: FastifyInstance, root: string):
     return { status: 'ok', pid: process.pid, port: 3847 };
   });
 
-  app.get('/api/changes', async () => {
+  app.get<{ Querystring: { includeArchived?: string } }>('/api/changes', async (req) => {
+    const includeArchived = req.query.includeArchived === 'true';
     const [workflow, skipLog, doneLog] = await Promise.all([
       loadWorkflow(paths.workflowFile),
       loadSkipLog(paths),
       loadDoneLog(paths),
     ]);
-    const changes = await listChanges(paths, { includeArchived: false });
+    const changes = await listChanges(paths, { includeArchived });
 
     return Promise.all(
       changes.map(async (c) => {
         const readmePath = join(c.dir, 'readme.md');
         let mode: string | null = null;
+        let summary: string | null = null;
         if (await fileExists(readmePath)) {
           const content = await readFile(readmePath, 'utf8');
           mode = parseMode(content);
+          summary = parseSummary(content);
         }
         const status = await computeStatus({ workflow, change: c, skipLog, doneLog, mode });
         return {
@@ -44,6 +50,8 @@ export async function registerChangesRoutes(app: FastifyInstance, root: string):
           mode: normalizeMode(mode),
           currentStep: status.current_step ?? 'complete',
           steps: status.steps.map((s) => ({ id: s.id, state: s.state })),
+          isArchived: c.isArchived,
+          ...(summary ? { summary } : {}),
         };
       }),
     );

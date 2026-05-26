@@ -55,7 +55,7 @@ function tokenize(text: string): ElementContent[] {
     const span: Element = {
       type: 'element',
       tagName: 'span',
-      properties: { className: [earliest.cls] },
+      properties: { className: ['k', earliest.cls] },
       children: [{ type: 'text', value: earliest.match }],
     };
     result.push(span);

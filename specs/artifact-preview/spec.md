@@ -145,5 +145,28 @@ Playwright E2E テストを実行したとき、このシステムは SHALL spec
 - WHEN ユーザーが閉じるボタンを押すか、同じアーティファクトを再クリックする
 - THEN 右ペインが折りたたまれ、左ペインのアーティファクト一覧が全幅表示に戻る
 
+### Requirement: FR-011 — DockType 別アーティファクトカード色付け
+
+<!-- risk_tier: trivial -->
+<!-- blast_radius: local -->
+
+このシステムは SHALL アーティファクト一覧の各カードを、そのアーティファクトの YAML frontmatter に記載された `doc_type` フィールドの値（`Reference` / `Explanation` / `How-to` / `Tutorial`）に応じた固定カラーパレットでハイライト表示し、`doc_type` が存在しない場合はニュートラルカラー（グレー）を適用する.
+
+#### Scenario: Reference アーティファクトが青系色でハイライトされる
+- GIVEN あるチェンジのアーティファクト一覧が表示されており、`tasks.md` の frontmatter に `doc_type: Reference` が設定されている
+- WHEN ユーザーがそのチェンジの詳細ページを開く
+- THEN `tasks.md` のアーティファクトカードが青系（例: `bg-blue-50 border-blue-300`）でハイライトされる
+
+#### Scenario: 各 DockType に異なる色が割り当てられる
+- GIVEN 4 種の doc_type（Reference / Explanation / How-to / Tutorial）を持つアーティファクトが混在している
+- WHEN アーティファクト一覧を表示する
+- THEN Reference は青系、Explanation は紫系、How-to は緑系、Tutorial は黄系でそれぞれ色分けされ、視覚的に区別できる
+
+#### Scenario: doc_type 未設定アーティファクトはグレー表示
+- GIVEN あるアーティファクトファイルに YAML frontmatter がない、または `doc_type` フィールドが存在しない
+- WHEN アーティファクト一覧でそのカードが表示される
+- THEN ニュートラルカラー（グレー系）が適用され、他の色付きカードと区別される
+
+
 
 

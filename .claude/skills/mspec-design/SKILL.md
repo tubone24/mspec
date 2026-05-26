@@ -40,3 +40,19 @@ when_to_use: User runs /mspec:design, or workflow auto-continues to design
 8. Run `mspec validate --change <change-dir>`. validate が失敗した場合は `- [x] design.md / design-rationale.md / architecture-overview.md` を `- [ ] design.md / design-rationale.md / architecture-overview.md` にロールバックする。
    - `design-rationale.md` が欠落している場合は 3a に戻って作成する。
 9. `block: true` — stop and ask the user to run `/mspec:continue`.
+
+## Verification (C2)
+
+- `mspec validate --change <change>` — アーティファクト整合性チェック
+- `mspec anchor check --change <change>` — アンカー解決確認
+- `mspec validate --change <change> --strict` — Constitution Check両Phase確認
+
+## Learning (C3)
+
+このスキルの実行で発生した学習候補を記録する:
+
+```
+<!-- LEARNING: <パターン説明> | source: <FR-ID> | confidence: low|medium|high -->
+```
+
+`mspec learn` コマンドが archive 済み changes からこれらを収集してpost-condition候補をproposeする。

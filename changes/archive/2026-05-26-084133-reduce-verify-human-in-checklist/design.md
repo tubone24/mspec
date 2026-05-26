@@ -44,6 +44,8 @@ doc_type: Reference
 
 ### 変更後の Constraints セクション（新設計）
 
+> 現行の `## Constraints` セクション（両 auditor ファイルの行 39–55）を以下のブロックで全置換する。
+
 ```markdown
 ## Constraints
 
@@ -110,3 +112,42 @@ mspec-checklist SKILL.md・mspec-tasks SKILL.md・CLI パーサー・workflow.ya
 ### Complexity Tracking
 
 None
+
+---
+
+## Self-Review
+
+> Reviewed by mspec-self-reviewer at 2026-05-26
+
+### Findings
+
+- **[info]** `.claude/agents/mspec-checklist-auditor.md` と `packages/cli/templates/claude/agents/mspec-checklist-auditor.md` は現時点でバイト単位で同一（diff 出力なし）。FR-014 同期義務はクリーンなベースラインから開始できる。
+
+- **[warning]** `research.md` は `verify: auditor` 新 tier を前提とした記述が残っている（Decisions テーブル・Open Choices）。design.md と Delta Spec ではこの tier を採用しない方針に変更済み。research.md は実装の source-of-truth ではないため blocker ではないが、tasks.md の冒頭に「design.md を優先参照すること」という注意書きを含めると混乱を防げる。
+
+- **[warning]** `design.md` "Project Structure" セクションは Constraints ブロックの新内容を記載しているが、現行ファイルのどの行範囲を置換するかを明示していない。現行 Constraints セクションは両 auditor ファイルの行 39–55 にあたる。tasks.md 生成時に境界を明示する必要がある。→ 本セクションに一文を追記（下記 Suggested Edits を適用済み）。
+
+- **[warning]** `checklist.md` FR-014 項目が `<!-- verify: human -->` なのに「ファイル比較は diff で確認可能」と注記されており、理由が不明瞭。FR-007 の意図に沿って括弧注記を拡充した（下記 Suggested Edits を適用済み）。
+
+- **[info]** FR-006 × 2 シナリオ / FR-007 × 2 シナリオがすべて design.md Decisions D1/D2 および architecture-overview.md に対応している。カバレッジ完全。
+
+- **[info]** Constitution Check Phase 1 が design.md・architecture-overview.md ともに全 6 原則で埋まっている。
+
+- **[info]** `architecture-overview.md` の Mermaid flowchart ノードラベル内 `\n` はほとんどのレンダラーで改行として機能するが、一部 CLI レンダラーではリテラル `\n` になる可能性がある。機能的問題なし。
+
+- **[info]** SoT spec（`specs/verify-routing/spec.md`）は現在 FR-001〜005 のみ。FR-006・007 は Delta Spec にのみ存在し、archive 後に SoT へマージされる予定。正常な状態。
+
+### Constitution Re-Evaluation
+
+| Principle | Phase 1 | Self-Review Verdict |
+|-----------|---------|---------------------|
+| I. ステップ独立性 | 2 ファイルのみ変更、他ステップ未変更 | ✅ Agree |
+| II. 決定論的マージ | アノテーション形式変更なし。チェックボックス状態ロジックのみ追加 | ✅ Agree |
+| III. 質問駆動の要件確定 | research.md の Open Choices 5 件すべて解決済み | ✅ Agree |
+| IV. 双方向アンカー | 実装時に auditor ファイル編集で `@mspec-delta` アンカーを付与する必要がある | ✅ Agree（実装タスクに含める） |
+| V. 強制ステップと拡張ステップの分離 | workflow.yaml 未変更 | ✅ Agree |
+| VI. Security by Default | auditor は既存デフォルト権限内。新権限不要 | ✅ Agree |
+
+### Verdict
+
+PASS WITH WARNINGS

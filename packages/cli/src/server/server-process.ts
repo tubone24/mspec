@@ -1,6 +1,9 @@
 // @mspec-delta 2026-05-24-130128-mspec-web-ui/specs/web-ui-server/spec.md
 // Requirements implemented: FR-001, FR-003, FR-004
 // Change: mspec-web-ui
+// @mspec-delta 2026-05-26-083855-web-ui-enhancements/specs/change-dashboard/spec.md
+// Requirements implemented: FR-009
+// Change: web-ui-enhancements
 
 import Fastify from 'fastify';
 import staticPlugin from '@fastify/static';
@@ -8,6 +11,7 @@ import { writePid, clearPid } from './pidManager.js';
 import { registerChangesRoutes } from './routes/changes.js';
 import { registerArtifactsRoutes } from './routes/artifacts.js';
 import { registerTestResultsRoutes } from './routes/testResults.js';
+import { registerSpecsRoutes } from './routes/specs.js';
 
 const port = parseInt(process.argv[2] ?? '3847', 10);
 const root = process.argv[3] ?? process.cwd();
@@ -25,6 +29,7 @@ if (distPath) {
 await registerChangesRoutes(app, root);
 await registerArtifactsRoutes(app, root);
 await registerTestResultsRoutes(app, root);
+await registerSpecsRoutes(app, root);
 
 // SPA catch-all: serve index.html for non-API routes
 app.setNotFoundHandler(async (req, reply) => {

@@ -2,35 +2,47 @@
 // Requirements implemented: FR-003
 // Change: mspec-web-ui
 
-import { en } from '../i18n/en.js';
-
 type Mode = 'all' | 'full' | 'bugfix' | 'minor' | 'typo';
 
 const MODES: Mode[] = ['all', 'full', 'bugfix', 'minor', 'typo'];
+const LABELS: Record<Mode, string> = {
+  all: 'All', full: 'Full-flow', bugfix: 'Bugfix', minor: 'Minor', typo: 'Typo',
+};
 
-export function ModeFilter({
-  value,
-  onChange,
-}: {
-  value: Mode;
-  onChange: (m: Mode) => void;
-}) {
+export function ModeFilter({ value, onChange }: { value: Mode; onChange: (m: Mode) => void }) {
   return (
-    <div className="flex gap-2" data-testid="mode-filter">
-      {MODES.map((m) => (
-        <button
-          key={m}
-          onClick={() => onChange(m)}
-          data-testid={`filter-${m}`}
-          className={`px-3 py-1 text-xs rounded border ${
-            value === m
-              ? 'bg-blue-600 text-white border-blue-600'
-              : 'border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700'
-          }`}
-        >
-          {en.dashboard.filter[m]}
-        </button>
-      ))}
+    <div
+      role="tablist"
+      data-testid="mode-filter"
+      style={{
+        display: 'inline-flex', gap: 2,
+        background: 'var(--paper)', border: '1px solid var(--rule)',
+        borderRadius: 8, padding: 3,
+      }}
+    >
+      {MODES.map((m) => {
+        const active = value === m;
+        return (
+          <button
+            key={m}
+            role="tab"
+            aria-selected={active}
+            data-testid={`filter-${m}`}
+            onClick={() => onChange(m)}
+            style={{
+              padding: '5px 11px', fontSize: 12.5, fontWeight: 500,
+              border: '1px solid transparent', borderRadius: 5,
+              background: active ? 'var(--accent-soft)' : 'transparent',
+              color: active ? 'var(--ink)' : 'var(--ink-soft)',
+              cursor: 'pointer', transition: 'background-color .15s',
+            }}
+          >
+            {LABELS[m]}
+          </button>
+        );
+      })}
     </div>
   );
 }
+
+export type { Mode as ModeFilterValue };
