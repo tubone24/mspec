@@ -1,10 +1,19 @@
 // @mspec-delta 2026-05-26-083855-web-ui-enhancements/specs/change-dashboard/spec.md
 // Requirements implemented: FR-009
 // Change: web-ui-enhancements
+// @mspec-delta 2026-05-27-062657-spec-viewer-fulltext-search/specs/spec-viewer-search/spec.md
+// Requirements implemented: FR-001, FR-002, FR-003, FR-004, FR-005, FR-006, FR-007
+// Change: spec-viewer-fulltext-search
+// @mspec-delta 2026-05-27-110858-markdown-search-and-quick-access/specs/spec-viewer-search/spec.md
+// Requirements implemented: FR-008, FR-009
+// Change: markdown-search-and-quick-access
 
+import { useState, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useSpecs, useSpecContent } from '../api/client.js';
 import { ThemePicker } from '../components/ThemePicker.js';
+import { Search } from '../components/Search.js';
+import { HighlightText } from '../components/HighlightText.js';
 import { en } from '../i18n/en.js';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -12,8 +21,12 @@ import rehypeRaw from 'rehype-raw';
 import rehypeCommentDim from '../lib/rehypeCommentDim.js';
 import rehypeGherkinEars from '../lib/rehypeGherkinEars.js';
 import { rehypeInlineCodeProperty } from 'react-shiki';
+import { rehypeMarkText } from '../lib/rehypeMarkText.js';
 import { MermaidRenderer } from '../components/MermaidRenderer.js';
 import { CodeBlock } from '../components/CodeBlock.js';
+import { useSpecSearchIndex } from '../hooks/useSpecSearchIndex.js';
+import { useDebounce } from '../hooks/useDebounce.js';
+import { extractSnippet } from '../lib/extractSnippet.js';
 import type { Components } from 'react-markdown';
 import type { Element } from 'hast';
 
@@ -22,6 +35,18 @@ export function SpecViewer() {
   const navigate = useNavigate();
   const { data: specs, isLoading, error } = useSpecs();
   const { data: specContent, isLoading: contentLoading } = useSpecContent(capability ?? '');
+
+  const [query, setQuery] = useState('');
+  const debouncedQuery = useDebounce(query, 200);
+  const { index, contentCache, isBuilding } = useSpecSearchIndex(specs ?? []);
+
+  const filteredSpecs = useMemo(() => {
+    if (!debouncedQuery.trim() || !index) return specs ?? [];
+    return index.search(debouncedQuery, { combineWith: 'AND' }).map((r) => ({
+      capability: r.id,
+      snippet: extractSnippet(contentCache.get(r.id) ?? '', debouncedQuery),
+    }));
+  }, [debouncedQuery, index, contentCache, specs]);
 
   return (
     <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-fg)] flex flex-col">
@@ -46,10 +71,28 @@ export function SpecViewer() {
           <h2 className="text-sm font-semibold mb-3 text-gray-500 uppercase tracking-wide">
             Capabilities
           </h2>
+          <div className="mb-3">
+            <Search
+              value={query}
+              onChange={setQuery}
+              onClear={() => setQuery('')}
+              placeholder={en.specViewer.searchPlaceholder}
+              inputTestId="spec-search-input"
+              clearTestId="spec-search-clear"
+            />
+          </div>
+          {isBuilding && (
+            <p className="text-xs text-gray-400 mb-2">{en.specViewer.buildingIndex}</p>
+          )}
           {isLoading && <p className="text-sm text-gray-400">Loading…</p>}
           {error && <p className="text-sm text-red-500">Error loading specs.</p>}
+          {!isLoading && !error && filteredSpecs.length === 0 && (
+            <p className="text-sm text-gray-400" data-testid="spec-no-results">
+              {en.specViewer.noResults}
+            </p>
+          )}
           <ul className="space-y-1">
-            {(specs ?? []).map((s) => (
+            {filteredSpecs.map((s) => (
               <li key={s.capability}>
                 <Link
                   to={`/spec-viewer/${s.capability}`}
@@ -60,8 +103,17 @@ export function SpecViewer() {
                       : 'text-[var(--color-accent)]'
                   }`}
                 >
-                  {s.capability}
+                  <HighlightText text={s.capability} query={debouncedQuery} />
                 </Link>
+                {'snippet' in s && s.snippet && (
+                  <p
+                    data-testid="spec-snippet"
+                    className="text-xs text-gray-500 px-2 pb-1 line-clamp-3"
+                    style={{ fontFamily: 'inherit', whiteSpace: 'pre-wrap' }}
+                  >
+                    {s.snippet}
+                  </p>
+                )}
               </li>
             ))}
           </ul>
@@ -80,8 +132,10 @@ export function SpecViewer() {
                   rehypePlugins={[
                     rehypeRaw,
                     rehypeCommentDim,
-                    rehypeGherkinEars,
+                    rehypeGherkinEars,      // 2. EARS/Gherkin キーワードをラップ (text node 前提)
                     rehypeInlineCodeProperty,
+                    // D-09: rehypeMarkText は必ず rehypeGherkinEars の後
+                    rehypeMarkText(debouncedQuery),
                   ]}
                   components={specMarkdownComponents}
                 >

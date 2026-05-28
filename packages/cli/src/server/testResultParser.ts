@@ -1,6 +1,9 @@
 // @mspec-delta 2026-05-24-130128-mspec-web-ui/specs/test-result-viewer/spec.md
 // Requirements implemented: FR-001
 // Change: mspec-web-ui
+// @mspec-delta 2026-05-28-041724-web-ui-artifact-order-and-test-results/specs/test-result-viewer/spec.md
+// Requirements implemented: FR-007, FR-010
+// Change: web-ui-artifact-order-and-test-results
 
 export interface TestCase {
   name: string;
@@ -8,6 +11,43 @@ export interface TestCase {
   duration: number;
   errorMessage?: string;
   stackTrace?: string;
+  checklistItemIds?: string[];
+}
+
+// D-4: Status vocabulary adapter — test-results.json uses red/green/skip, API returns pass/fail/skip
+export function adaptStatus(status: 'red' | 'green' | 'skip'): 'pass' | 'fail' | 'skip' {
+  if (status === 'green') return 'pass';
+  if (status === 'red') return 'fail';
+  return 'skip';
+}
+
+// D-6: Server-side absolute path masking
+export function maskAbsolutePaths(text: string): string {
+  // Unix absolute paths: /path/to/file
+  // Windows absolute paths: C:\path\to\file
+  return text.replace(/(\/[^\s:,)]+)|([A-Za-z]:\\[^\s:,)]+)/g, '[path]');
+}
+
+// Schema for test-results.json entries (agent-runner FR-004)
+export interface TestResultEntry {
+  name: string;
+  status: 'red' | 'green' | 'skip';
+  checklist_item_ids: string[];
+  error_message?: string;
+  stack_trace?: string;
+}
+
+// D-2: Parse test-results.json (new schema) into TestSuite[]
+export function parseTestResultsJson(entries: TestResultEntry[]): TestSuite[] {
+  const tests: TestCase[] = entries.map((entry) => ({
+    name: entry.name,
+    status: adaptStatus(entry.status),
+    duration: 0,
+    errorMessage: entry.error_message,
+    stackTrace: entry.stack_trace ? maskAbsolutePaths(entry.stack_trace) : undefined,
+    checklistItemIds: entry.checklist_item_ids,
+  }));
+  return [{ suiteName: 'test-results', format: 'playwright-json', tests }];
 }
 
 export interface TestSuite {

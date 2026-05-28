@@ -1,6 +1,6 @@
 {
   "name": "@mspec/cli",
-  "version": "0.1.4",
+  "version": "0.1.7",
   "description": "mspec - Spec-Driven Development framework CLI for Claude Code",
   "type": "module",
   "bin": {

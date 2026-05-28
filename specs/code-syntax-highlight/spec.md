@@ -80,4 +80,22 @@
 - WHEN ユーザーがページを閲覧する
 - THEN コードブロックの枠線が 1px の細線で表示され、従来の太い枠線より視覚的に軽い印象になる
 
+### Requirement: FR-006 — コードブロックの `<pre>` タグ二重ラップ禁止
+
+<!-- risk_tier: standard -->
+<!-- blast_radius: module -->
+
+コードブロックが描画されるとき、このシステムは SHALL Shiki が生成した `<pre>` タグを追加の `<pre>` タグで二重にラップしない.
+
+#### Scenario: AskUserQuestion コードブロックの正常描画
+- GIVEN `AskUserQuestion` コンポーネントがコードブロックを含む Markdown を出力する
+- WHEN Web UI がそのコードブロックを描画する
+- THEN 外側の `<pre>` タグが 1 つだけ存在し、`<pre><pre ...>` のように入れ子にならない
+
+#### Scenario: 通常の Markdown コードフェンスの正常描画
+- GIVEN ドキュメント内に ` ``` ` で囲まれたコードブロックがある
+- WHEN ページが描画される
+- THEN DOM 上に `<pre>` タグは 1 層のみ存在し、Shiki のハイライトが正しく適用される
+
+
 

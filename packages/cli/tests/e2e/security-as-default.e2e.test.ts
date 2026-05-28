@@ -35,51 +35,14 @@ async function loadDefaultProposalQuestions() {
 }
 
 // --- question-bank ---
+// NOTE: PRP-SEC-001〜004 は dynamic-security-questions change で削除済み。
+// セキュリティ質問は mspec-security-analyzer サブエージェントが動的生成する。
 
-describe('FR-001 / FR-002: proposal.yaml に security カテゴリ4問が when:always で存在する', () => {
-  it('question-bank に PRP-SEC-001〜004 が含まれる', async () => {
+describe('FR-001 / FR-002 (superseded by dynamic-security-questions): proposal.yaml の security カテゴリ固定4問が削除されている', () => {
+  it('question-bank に PRP-SEC-001〜004 が含まれない（動的生成に移行済み）', async () => {
     const qs = await loadDefaultProposalQuestions();
-    const securityQs = qs.filter((q) => q.category === 'security');
-    expect(securityQs).toHaveLength(4);
-    const ids = securityQs.map((q) => q.id);
-    expect(ids).toContain('PRP-SEC-001');
-    expect(ids).toContain('PRP-SEC-002');
-    expect(ids).toContain('PRP-SEC-003');
-    expect(ids).toContain('PRP-SEC-004');
-  });
-
-  it('security 質問はすべて when: always を持つ', async () => {
-    const qs = await loadDefaultProposalQuestions();
-    const securityQs = qs.filter((q) => q.category === 'security');
-    for (const q of securityQs) {
-      expect(q.when).toBe('always');
-    }
-  });
-});
-
-describe('FR-003: PRP-SEC-001・002 は multi_select: true、003・004 は false', () => {
-  it('PRP-SEC-001 は multi_select: true', async () => {
-    const qs = await loadDefaultProposalQuestions();
-    const q = qs.find((q) => q.id === 'PRP-SEC-001');
-    expect(q?.multi_select).toBe(true);
-  });
-
-  it('PRP-SEC-002 は multi_select: true', async () => {
-    const qs = await loadDefaultProposalQuestions();
-    const q = qs.find((q) => q.id === 'PRP-SEC-002');
-    expect(q?.multi_select).toBe(true);
-  });
-
-  it('PRP-SEC-003 は multi_select: false', async () => {
-    const qs = await loadDefaultProposalQuestions();
-    const q = qs.find((q) => q.id === 'PRP-SEC-003');
-    expect(q?.multi_select).toBe(false);
-  });
-
-  it('PRP-SEC-004 は multi_select: false', async () => {
-    const qs = await loadDefaultProposalQuestions();
-    const q = qs.find((q) => q.id === 'PRP-SEC-004');
-    expect(q?.multi_select).toBe(false);
+    const securityQs = qs.filter((q) => q.id?.startsWith('PRP-SEC-'));
+    expect(securityQs).toHaveLength(0);
   });
 });
 
@@ -133,13 +96,13 @@ describe('FR-002 (constitution): templates/constitution.md に ### VI. Security 
 
 // --- mspec-proposal SKILL ---
 
-describe('FR-001 (mspec-proposal): SKILL.md に PRP-SEC-001〜004 への言及が存在する', () => {
-  it('SKILL.md に PRP-SEC への言及がある', async () => {
+describe('FR-001 (mspec-proposal): SKILL.md にサブエージェント呼び出し手順が存在する', () => {
+  it('SKILL.md に mspec-security-analyzer への言及がある（動的生成移行後）', async () => {
     const content = await readFile(
       join(TEMPLATES, 'claude/skills/mspec-proposal/SKILL.md'),
       'utf8',
     );
-    expect(content).toContain('PRP-SEC');
+    expect(content).toContain('mspec-security-analyzer');
   });
 
   it('SKILL.md に security-as-default の @mspec-delta アンカーがある', async () => {

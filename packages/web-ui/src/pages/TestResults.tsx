@@ -4,6 +4,9 @@
 // @mspec-delta 2026-05-26-041226-reading-mode-themes/specs/web-ui-themes/spec.md
 // Requirements implemented: FR-001, FR-002
 // Change: reading-mode-themes
+// @mspec-delta 2026-05-28-041724-web-ui-artifact-order-and-test-results/specs/test-result-viewer/spec.md
+// Requirements implemented: FR-008, FR-009
+// Change: web-ui-artifact-order-and-test-results
 
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -69,7 +72,7 @@ export function TestResults() {
                   data-testid={`test-case-${t.status}`}
                 >
                   <div
-                    className="flex items-center gap-3 cursor-pointer"
+                    className="flex items-center gap-3 cursor-pointer flex-wrap"
                     onClick={() => t.status === 'fail' && toggle(key)}
                   >
                     <span
@@ -78,6 +81,25 @@ export function TestResults() {
                       {en.testResults[t.status as 'pass' | 'fail' | 'skip']}
                     </span>
                     <span className="text-sm">{t.name}</span>
+                    {/* Checklist item ID badges (FR-008) */}
+                    {(t.checklistItemIds ?? []).map((id) => (
+                      <span
+                        key={id}
+                        data-testid={`checklist-badge-${id}`}
+                        className="px-1.5 py-0.5 rounded text-xs font-mono bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-900 dark:text-blue-200"
+                      >
+                        {id.toUpperCase()}
+                      </span>
+                    ))}
+                    {/* Dangling reference warning (FR-009) */}
+                    {t.isResolved === false && (
+                      <span
+                        data-testid="unresolved-warning"
+                        className="px-1.5 py-0.5 rounded text-xs bg-amber-50 text-amber-700 border border-amber-300 dark:bg-amber-900 dark:text-amber-200"
+                      >
+                        チェックリスト項目：未解決
+                      </span>
+                    )}
                     <span className="ml-auto text-xs text-gray-400">{t.duration}ms</span>
                   </div>
                   {t.status === 'fail' && isExpanded && (

@@ -1,0 +1,22 @@
+[
+  {
+    "name": "[FR-007] shows test results from agent JSON",
+    "status": "green",
+    "checklist_item_ids": ["fr-007"]
+  },
+  {
+    "name": "[FR-008] shows checklist item ID badges",
+    "status": "green",
+    "checklist_item_ids": ["fr-008"]
+  },
+  {
+    "name": "[FR-009] shows unresolved warning for dangling reference",
+    "status": "green",
+    "checklist_item_ids": ["fr-009"]
+  },
+  {
+    "name": "[FR-010] masks absolute paths in stack traces",
+    "status": "green",
+    "checklist_item_ids": ["fr-010"]
+  }
+]

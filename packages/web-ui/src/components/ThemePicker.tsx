@@ -24,6 +24,11 @@ export function ThemePicker() {
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
   }, [theme]);
 
   return (
@@ -44,7 +49,7 @@ export function ThemePicker() {
             key={t.value}
             role="radio"
             aria-checked={active}
-            aria-label={t.label}
+            aria-label={t.value}
             onClick={() => setTheme(t.value)}
             title={`${t.label} theme`}
             style={{

@@ -68,6 +68,7 @@ function tokenize(text: string): ElementContent[] {
 
 export default function rehypeGherkinEars() {
   return (tree: Root) => {
+    const taggedParents = new WeakSet<object>();
     visit(tree, 'text', (node: Text, index, parent) => {
       if (!parent || typeof index !== 'number') return;
       if (!HAS_KEYWORD.test(node.value)) return;
@@ -78,6 +79,15 @@ export default function rehypeGherkinEars() {
 
       const tokens = tokenize(node.value);
       if (tokens.length <= 1 && tokens[0]?.type === 'text') return;
+
+      // Mark parent element with data-testid for E2E detection (once per element)
+      if (!taggedParents.has(parent)) {
+        parentEl.properties = parentEl.properties ?? {};
+        if (!parentEl.properties['data-testid']) {
+          parentEl.properties['data-testid'] = 'gherkin-highlight';
+        }
+        taggedParents.add(parent);
+      }
 
       parent.children.splice(index, 1, ...tokens);
       return index + tokens.length;

@@ -13,11 +13,25 @@ async function getFirstChangeId(page: import('@playwright/test').Page): Promise<
   return changes.length > 0 ? changes[0]!.id : null;
 }
 
+async function artifactExists(
+  page: import('@playwright/test').Page,
+  changeId: string,
+  relativePath: string,
+): Promise<boolean> {
+  const response = await page.request.get(`/api/changes/${changeId}/artifacts`);
+  const artifacts = await response.json() as Array<{ relativePath: string }>;
+  return artifacts.some((a) => a.relativePath === relativePath);
+}
+
 // T203: artifact-preview FR-006 — Mermaid SVG renders within 15s
 test('ArtifactPreview: Mermaid SVG renders in architecture-overview.md', async ({ page }) => {
   const changeId = await getFirstChangeId(page);
   if (!changeId) {
     test.skip(true, 'No active changes found — skipping Mermaid test');
+    return;
+  }
+  if (!(await artifactExists(page, changeId, 'architecture-overview.md'))) {
+    test.skip(true, 'architecture-overview.md not found — skipping Mermaid test');
     return;
   }
 
@@ -62,6 +76,10 @@ test('ArtifactPreview: EARS/Gherkin highlight renders text-red-600 spans in spec
     test.skip(true, 'No active changes found — skipping Gherkin highlight test');
     return;
   }
+  if (!(await artifactExists(page, changeId, 'specs/change-dashboard/spec.md'))) {
+    test.skip(true, 'specs/change-dashboard/spec.md not found — skipping Gherkin highlight test');
+    return;
+  }
 
   // Navigate to a spec.md file in the specs directory
   await page.goto(`/changes/${changeId}/artifacts/specs/change-dashboard/spec.md`);
@@ -81,6 +99,10 @@ test('ArtifactPreview: Markdown headings render with visual hierarchy', async ({
   const changeId = await getFirstChangeId(page);
   if (!changeId) {
     test.skip(true, 'No active changes found — skipping Markdown heading test');
+    return;
+  }
+  if (!(await artifactExists(page, changeId, 'design.md'))) {
+    test.skip(true, 'design.md not found — skipping Markdown heading test');
     return;
   }
 

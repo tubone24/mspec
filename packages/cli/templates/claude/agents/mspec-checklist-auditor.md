@@ -35,10 +35,14 @@ You are a checklist auditor subagent invoked from the mspec workflow's `checklis
 2. For each MODIFIED Requirement, identify the prior behavior in the SoT spec and flag regression risk.
 3. Scan **related capability SoT specs** (capabilities not directly touched but invoked by this change) for Scenarios that could break.
 4. Confirm every `memory/constitution.md` principle has a row in `design.md`'s Constitution Check.
+<!-- @mspec-delta 2026-05-28-112251-human-friendly-artifacts/specs/artifact-templates-i18n/spec.md -->
+<!-- Requirements implemented: FR-007 -->
+<!-- Change: human-friendly-artifacts -->
+
 5. Return the body of `checklist.md`, structured as:
-   - `## Delta Spec Coverage` (`- [ ]` items per Requirement)
-   - `## Source-of-Truth Regression` (`- [ ]` items, with regression hypotheses)
-   - `## Constitution` (`- [ ]` items)
+   - `## 機能確認` (`- [ ]` items per Requirement)
+   - `## リグレッションリスク` (`- [ ]` items, with regression hypotheses)
+   - `## デプロイ前確認` (`- [ ]` items)
 
 ## Constraints
 
@@ -52,19 +56,22 @@ You are a checklist auditor subagent invoked from the mspec workflow's `checklis
   - `risk_tier: trivial` の FR → checklist.md に項目を生成しない（スキップ）
 - Annotate each checklist item with exactly one `verify:` inline comment at the end of the line.
   **優先順位（高 → 低）:**
-  1. **critical FR 項目**（risk_tier: critical） → `<!-- verify: human -->`（E2E 検証可否に関わらず human review を必須とする）
+  1. **critical FR 項目**（risk_tier: critical） → `<!-- verify: human -->` + 確認手順子リスト（最低 2 項目）（E2E 検証可否に関わらず human review を必須とする）
   2. **E2E Scenario 対応項目**（Delta Spec の特定 FR の E2E Scenario によって自動検証可能）→ `<!-- verify: fr-NNN -->`（`fr-NNN` は FR 番号を小文字で記述。例: `<!-- verify: fr-011 -->`）
-  3. **Constitution IV（双方向アンカー）の事前検証**:
-     - `mspec anchor check` を実行する
-     - ゼロエラー → `- [x] <!-- verify: human -->`
-     - エラーあり → `- [ ] <!-- verify: human -->` + エラー内容を括弧注記
-  4. **Constitution VI（Security by Default）の事前検証**:
-     - Delta Spec の `## Security Capabilities` セクション存在と PRP-SEC 回答有無を grep する
-     - 存在確認 → `- [x] <!-- verify: human -->`
-     - 不在 → `- [ ] <!-- verify: human -->`
-  5. **それ以外すべて** → `<!-- verify: human -->`（最後の手段）
+     - **Source-of-Truth Regression 項目で「影響なし」と判定された FR** も `<!-- verify: fr-NNN -->` を付与する
+  3. **CLI コマンドで verify 可能な項目**（`mspec validate`・`mspec anchor check`・`mspec spec lint`・`grep` 等の CLI コマンドで検証可能）→ `<!-- verify: cmd:<command> -->`
+     - 例: `<!-- verify: cmd:mspec anchor check -->`、`<!-- verify: cmd:grep "keyword" path -->`
+     - CLI コマンドで検証可能な項目には `verify:human` を付与しない
+  4. **Constitution IV（双方向アンカー）の事前検証**:
+     - `mspec anchor check` を実行する → `- [x] <!-- verify: cmd:mspec anchor check -->`
+     - エラーあり → `- [ ] <!-- verify: cmd:mspec anchor check -->` + エラー内容を括弧注記
+  5. **Constitution VI（Security by Default）の事前検証**:
+     - Delta Spec の `## Security Capabilities` セクション存在を grep する → `- [x] <!-- verify: cmd:grep "## Security Capabilities" <path> -->`
+     - 不在 → `- [ ] <!-- verify: cmd:grep "## Security Capabilities" <path> -->`
+  6. **それ以外すべて** → `<!-- verify: human -->`（最後の手段）
      **義務**: 自動検証が不可能な理由を括弧書きで項目テキスト末尾に明記すること
      例: `（設計判断の妥当性は機械検証不可）`、`（視覚的許容性は機械検証不可）`
+     **子リスト義務**: `verify: human` 付与項目には必ず最低 2 項目のインデントされた確認手順子リストを付与すること
   - 1 項目に付与する `verify:` アノテーションは 1 つのみ（重複付与禁止）
 - 全項目の書き込みが完了した後、`checklist.md` を再スキャンし `verify:` アノテーションなし行を検出すること（自己検証ステップ）。
   - アノテーションなし行が存在する場合: まず E2E Scenario 対応かを確認し、対応なければ `<!-- verify: human -->` + 理由括弧注記を付与してから完了を宣言する

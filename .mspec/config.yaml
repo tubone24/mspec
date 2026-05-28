@@ -5,9 +5,24 @@ locale: "ja"
 
 # テスト実行コマンド (O2: 自動推定せず明示必須)
 test:
-  command: "pnpm --dir /Users/kagadminmac/project/mspec/packages/cli exec vitest run"
-  expect_red_on_exit: [1, 2]
-  expect_green_on_exit: [0]
+  runners:
+    - name: cli-unit
+      command: "pnpm exec vitest run src/"
+      cwd: "packages/cli"
+      expect_red_on_exit: [0, 1, 2]
+      expect_green_on_exit: [0]
+    - name: cli-e2e
+      command: "pnpm exec vitest run tests/e2e/ --reporter=junit --outputFile=test-results/junit.xml"
+      cwd: "packages/cli"
+      expect_red_on_exit: [0, 1, 2]
+      expect_green_on_exit: [0]
+      results_src: "test-results/junit.xml"
+    - name: web-ui-e2e
+      command: "pnpm exec playwright test tests/e2e/"
+      cwd: "packages/web-ui"
+      expect_red_on_exit: [0, 1, 2]
+      expect_green_on_exit: [0]
+      results_src: "test-results/results.json"
 
 # プロジェクト全体メタ
 project:

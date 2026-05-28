@@ -4,10 +4,17 @@
 
 const MODE_RE    = /^>\s*Mode:\s*(.+?)\s*$/m;
 const REQUEST_RE = /^##\s+Request\s*\n([\s\S]*?)(?=\n##\s|\s*$)/m;
+const TITLE_RE   = /^#\s+(.+?)\s*$/m;
 
 /** Extract the `> Mode: <value>` blockquote field from readme.md content. */
 export function parseMode(content: string): string | null {
   const m = MODE_RE.exec(content);
+  return m ? m[1]! : null;
+}
+
+/** Extract the H1 heading from readme.md content as a human-readable title. */
+export function parseTitle(content: string): string | null {
+  const m = TITLE_RE.exec(content);
   return m ? m[1]! : null;
 }
 

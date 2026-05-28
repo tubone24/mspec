@@ -7,10 +7,17 @@ doc_type: Reference
 <!-- Requirements implemented: FR-006 -->
 <!-- Change: revise-artifact-taxonomy -->
 
+<!-- @mspec-delta 2026-05-28-112251-human-friendly-artifacts/specs/artifact-templates-i18n/spec.md -->
+<!-- Requirements implemented: FR-006, FR-008 -->
+<!-- Change: human-friendly-artifacts -->
+
 # Design: <title>
 
 ## Summary
-<2-3 sentences>
+
+This document describes the technical design of <change-name>. Intended readers: <target audience (e.g., implementing engineers, reviewers)>. For rationale and alternatives, see design-rationale.md.
+
+<Design overview in 2-3 sentences>
 
 ## Technical Context
 - ...

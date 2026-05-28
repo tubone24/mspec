@@ -5,6 +5,10 @@
 // @mspec-delta 2026-05-17-100328-init-link-global-bin/specs/cli-init-command/spec.md
 // Requirements implemented: FR-001, FR-002, FR-003
 // Change: init-link-global-bin
+
+// @mspec-delta 2026-05-28-113128-init-gitignore-ui-pid/specs/cli-init/spec.md
+// Requirements implemented: FR-012
+// Change: init-gitignore-ui-pid
 import { spawnSync } from 'node:child_process';
 import { mkdir, readFile, writeFile, access, readdir, appendFile, stat } from 'node:fs/promises';
 import { dirname, join, relative, resolve } from 'node:path';
@@ -196,6 +200,12 @@ export async function initCommand(opts: InitOptions = {}): Promise<void> {
   plan.push({
     from: join(templatesDir, 'workflow.default.yaml'),
     to: join(root, '.mspec', 'workflow.yaml'),
+  });
+
+  // .mspec/.gitignore
+  plan.push({
+    from: join(templatesDir, 'mspec-gitignore'),
+    to: join(root, '.mspec', '.gitignore'),
   });
 
   // memory/constitution.md

@@ -1,6 +1,9 @@
 // @mspec-delta 2026-05-24-130128-mspec-web-ui/specs/test-result-viewer/spec.md
 // Requirements implemented: FR-001
 // Change: mspec-web-ui
+// @mspec-delta 2026-05-28-041724-web-ui-artifact-order-and-test-results/specs/test-result-viewer/spec.md
+// Requirements implemented: FR-007, FR-010
+// Change: web-ui-artifact-order-and-test-results
 
 import { describe, it, expect } from 'vitest';
 import { parsePlaywrightJson, parseJUnitXml, parseTestResults } from '../testResultParser.js';
@@ -99,5 +102,68 @@ describe('parseTestResults', () => {
 
   it('returns empty array for unknown extension', () => {
     expect(parseTestResults('data', 'file.txt')).toEqual([]);
+  });
+});
+
+// Task 2.3 — adaptStatus() unit tests (RED before Task 2.4)
+import { adaptStatus, maskAbsolutePaths, parseTestResultsJson } from '../testResultParser.js';
+
+describe('adaptStatus', () => {
+  it('converts green to pass', () => {
+    expect(adaptStatus('green')).toBe('pass');
+  });
+  it('converts red to fail', () => {
+    expect(adaptStatus('red')).toBe('fail');
+  });
+  it('converts skip to skip', () => {
+    expect(adaptStatus('skip')).toBe('skip');
+  });
+});
+
+describe('maskAbsolutePaths', () => {
+  it('masks Unix absolute paths', () => {
+    expect(maskAbsolutePaths('/Users/foo/project/spec.ts:10')).toContain('[path]');
+  });
+  it('masks Windows absolute paths', () => {
+    expect(maskAbsolutePaths('C:\\Users\\foo\\project\\spec.ts')).toContain('[path]');
+  });
+  it('does not mask non-path strings', () => {
+    expect(maskAbsolutePaths('Error: expected true got false')).toBe('Error: expected true got false');
+  });
+});
+
+// Task 2.5 — parseTestResultsJson() unit tests (RED before Task 2.6)
+describe('parseTestResultsJson', () => {
+  const entries = [
+    { name: '[FR-007] shows results', status: 'green' as const, checklist_item_ids: ['fr-007'] },
+    { name: '[FR-009] shows warning', status: 'red' as const, checklist_item_ids: ['fr-009'], error_message: 'assert failed', stack_trace: '/Users/foo/spec.ts:10' },
+    { name: 'no fr prefix', status: 'skip' as const, checklist_item_ids: [] },
+  ];
+
+  it('converts green→pass, red→fail, skip→skip', () => {
+    const suites = parseTestResultsJson(entries);
+    const tests = suites[0]!.tests;
+    expect(tests[0]!.status).toBe('pass');
+    expect(tests[1]!.status).toBe('fail');
+    expect(tests[2]!.status).toBe('skip');
+  });
+
+  it('preserves checklist_item_ids', () => {
+    const suites = parseTestResultsJson(entries);
+    const tests = suites[0]!.tests;
+    expect((tests[0] as any).checklistItemIds).toEqual(['fr-007']);
+  });
+
+  it('masks absolute paths in stack_trace', () => {
+    const suites = parseTestResultsJson(entries);
+    const failing = suites[0]!.tests[1]!;
+    expect(failing.stackTrace).not.toContain('/Users/foo');
+    expect(failing.stackTrace).toContain('[path]');
+  });
+
+  it('returns a single TestSuite named test-results', () => {
+    const suites = parseTestResultsJson(entries);
+    expect(suites).toHaveLength(1);
+    expect(suites[0]!.suiteName).toBe('test-results');
   });
 });

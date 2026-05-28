@@ -7,10 +7,14 @@ version: 1
 locale: ja
 
 # テスト実行コマンド (O2: 自動推定せず明示必須)
+# runners 形式: 複数 runner を並列定義できる。results_src を設定すると Web UI にテスト結果が表示される
 test:
-  command: "__TEST_COMMAND__"
-  expect_red_on_exit: [1, 2]
-  expect_green_on_exit: [0]
+  runners:
+    - name: main
+      command: "__TEST_COMMAND__"
+      expect_red_on_exit: [1, 2]
+      expect_green_on_exit: [0]
+      # results_src: "test-results/results.json"  # Playwright JSON or JUnit XML を指定すると Web UI に結果が表示される
 
 # プロジェクト全体メタ
 project:

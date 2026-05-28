@@ -7,9 +7,17 @@
 // @mspec-delta 2026-05-26-083855-web-ui-enhancements/specs/change-dashboard/spec.md
 // Requirements implemented: FR-008, FR-009
 // Change: web-ui-enhancements
+// @mspec-delta 2026-05-27-000005-full-text-search/specs/web-ui-search/spec.md
+// Requirements implemented: FR-001, FR-002
+// Change: full-text-search
+// @mspec-delta 2026-05-27-110858-markdown-search-and-quick-access/specs/web-ui-search/spec.md
+// Requirements implemented: FR-004, FR-005
+// Change: markdown-search-and-quick-access
 
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useState, useMemo } from 'react';
+import { useSearchIndex } from '../hooks/useSearchIndex.js';
+import { extractSnippet } from '../lib/extractSnippet.js';
 import { useChanges, type ChangeInfo } from '../api/client.js';
 import { StepProgress, StepLegend, STEP_LABELS } from '../components/StepProgress.js';
 import { ModeFilter, type ModeFilterValue } from '../components/ModeFilter.js';
@@ -44,13 +52,31 @@ function isReady(c: ChangeInfo) {
 
 
 export function Dashboard() {
-  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const showArchivedParam = searchParams.get('showArchived') === 'true';
+  const [statusFilter, setStatusFilterState] = useState<StatusFilter>(
+    showArchivedParam ? 'archived' : 'all',
+  );
   const [modeFilter, setModeFilter] = useState<ModeFilterValue>('all');
   const [q, setQ] = useState('');
   const navigate = useNavigate();
 
+  const setStatusFilter = (updater: StatusFilter | ((prev: StatusFilter) => StatusFilter)) => {
+    setStatusFilterState((prev) => {
+      const next = typeof updater === 'function' ? updater(prev) : updater;
+      if (next === 'archived') {
+        setSearchParams({ showArchived: 'true' }, { replace: true });
+      } else {
+        setSearchParams({}, { replace: true });
+      }
+      return next;
+    });
+  };
+
   const includeArchived = statusFilter === 'archived';
   const { data: changes = [], isLoading, error } = useChanges(includeArchived);
+
+  const { index: searchIndex, contentCache, isBuilding: indexBuilding } = useSearchIndex(changes);
 
   const counts = useMemo(() => ({
     inProgress: changes.filter(isInProgress).length,
@@ -61,6 +87,27 @@ export function Dashboard() {
 
   const modeCount = (m: string) =>
     m === 'all' ? changes.length : changes.filter((c) => c.mode === m).length;
+
+  // Build score map from full-text search results (D-04) with AND condition (FR-005)
+  const { matchedIds, scoreMap, snippetMap } = useMemo(() => {
+    const trimmed = q.trim();
+    if (!trimmed || indexBuilding || !searchIndex) {
+      return { matchedIds: null, scoreMap: new Map<string, number>(), snippetMap: new Map<string, string>() };
+    }
+    const results = searchIndex.search(trimmed, { combineWith: 'AND' });
+    const scoreMap = new Map<string, number>();
+    const snippetMap = new Map<string, string>();
+    for (const r of results) {
+      const changeId = r['changeId'] as string;
+      const prev = scoreMap.get(changeId) ?? 0;
+      if (r.score > prev) scoreMap.set(changeId, r.score);
+      if (!snippetMap.has(changeId)) {
+        const snippet = extractSnippet(contentCache.get(changeId) ?? '', trimmed);
+        if (snippet) snippetMap.set(changeId, snippet);
+      }
+    }
+    return { matchedIds: new Set(scoreMap.keys()), scoreMap, snippetMap };
+  }, [q, searchIndex, contentCache, indexBuilding]);
 
   const filtered = useMemo(() => {
     return changes
@@ -76,13 +123,21 @@ export function Dashboard() {
       .filter((c) => modeFilter === 'all' || c.mode === modeFilter)
       .filter((c) => {
         if (!q.trim()) return true;
+        // Full-text search when index is ready; fall back to includes() (D-03)
+        if (matchedIds) return matchedIds.has(c.id);
         const searchable = [c.name, c.title, c.summary, ...(c.tags ?? [])].join(' ').toLowerCase();
         return searchable.includes(q.toLowerCase());
       })
-      .sort((a, b) =>
-        new Date(b.updatedAt ?? b.createdAt).getTime() - new Date(a.updatedAt ?? a.createdAt).getTime()
-      );
-  }, [changes, statusFilter, modeFilter, q]);
+      .sort((a, b) => {
+        // Score-based sort when full-text results available (D-04)
+        if (q.trim() && scoreMap.size > 0) {
+          const sa = scoreMap.get(a.id) ?? -1;
+          const sb = scoreMap.get(b.id) ?? -1;
+          if (sa !== sb) return sb - sa;
+        }
+        return new Date(b.updatedAt ?? b.createdAt).getTime() - new Date(a.updatedAt ?? a.createdAt).getTime();
+      });
+  }, [changes, statusFilter, modeFilter, q, matchedIds, scoreMap]);
 
   const STATUS_ITEMS: Array<{ id: StatusFilter; label: string; count: number }> = [
     { id: 'in-progress', label: 'In progress',   count: counts.inProgress },
@@ -225,10 +280,15 @@ export function Dashboard() {
           {!isLoading && !error && (
             <div>
               {filtered.length === 0 ? (
-                <p style={{ color: 'var(--ink-mute)', padding: '24px 0' }}>No changes match the current filter.</p>
+                <p style={{ color: 'var(--ink-mute)', padding: '24px 0' }}>No active changes found.</p>
               ) : (
                 filtered.map((c) => (
-                  <ChangeRow key={c.id} change={c} onClick={() => navigate(`/changes/${c.id}`)} />
+                  <ChangeRow
+                    key={c.id}
+                    change={c}
+                    snippet={snippetMap.get(c.id)}
+                    onClick={() => navigate(`/changes/${c.id}`)}
+                  />
                 ))
               )}
             </div>
@@ -275,7 +335,7 @@ function RailButton({
   );
 }
 
-function ChangeRow({ change, onClick }: { change: ChangeInfo; onClick: () => void }) {
+function ChangeRow({ change, snippet, onClick }: { change: ChangeInfo; snippet?: string; onClick: () => void }) {
   const hasTitle = !!change.title && change.title !== change.name;
   const displayTitle = hasTitle ? change.title! : change.name;
   const ago = relativeTime(change.updatedAt ?? change.createdAt);
@@ -327,6 +387,21 @@ function ChangeRow({ change, onClick }: { change: ChangeInfo; onClick: () => voi
             lineHeight: 1.5, maxWidth: '72ch',
           }}>
             {change.summary}
+          </p>
+        )}
+
+        {/* Search snippet — XSS-safe: textContent only, line-clamp-3 */}
+        {snippet && (
+          <p
+            data-testid="change-snippet"
+            className="line-clamp-3"
+            style={{
+              margin: 0, fontSize: 12, color: 'var(--ink-mute)',
+              fontFamily: "'JetBrains Mono', monospace",
+              lineHeight: 1.5, maxWidth: '80ch', whiteSpace: 'pre-wrap',
+            }}
+          >
+            {snippet}
           </p>
         )}
 

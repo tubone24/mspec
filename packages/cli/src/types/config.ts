@@ -2,7 +2,21 @@
 // Requirements implemented: FR-001, FR-002, FR-003, FR-004
 // Change: artifact-language-config
 
+// @mspec-delta 2026-05-27-032635-multi-test-runner-support/specs/cli-test-tdd/spec.md
+// Requirements implemented: FR-010
+// Change: multi-test-runner-support
+
 import { z } from 'zod';
+
+export const RunnerSchema = z.object({
+  name: z.string().min(1),
+  command: z.string().min(1),
+  cwd: z.string().optional(),
+  expect_red_on_exit: z.array(z.number().int()).optional(),
+  expect_green_on_exit: z.array(z.number().int()).optional(),
+  results_src: z.string().optional(),
+});
+export type Runner = z.infer<typeof RunnerSchema>;
 
 export const TestConfigSchema = z.object({
   /**
@@ -13,6 +27,14 @@ export const TestConfigSchema = z.object({
   command: z.string().default(''),
   expect_red_on_exit: z.array(z.number().int()).default([1, 2]),
   expect_green_on_exit: z.array(z.number().int()).default([0]),
+  /**
+   * Path to the test results file produced by the test runner (relative to project root).
+   * When set, `mspec test expect-red/green` automatically copies the file to
+   * `changes/<change-id>/e2e-results/<basename>` after each run.
+   * Supports glob patterns (e.g. "packages/web-ui/test-results/*.json").
+   */
+  results_src: z.string().optional(),
+  runners: z.array(RunnerSchema).optional(),
 });
 
 export const ProjectConfigSchema = z.object({

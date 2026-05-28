@@ -1,0 +1,1720 @@
+{
+  "config": {
+    "configFile": "/Users/kagadminmac/project/mspec/packages/web-ui/playwright.config.ts",
+    "rootDir": "/Users/kagadminmac/project/mspec/packages/web-ui/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/kagadminmac/project/mspec/packages/web-ui/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/Users/kagadminmac/project/mspec/packages/web-ui/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.{test,spec}.ts",
+          "**/screenshots/**/*.ts"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ],
+      [
+        "html",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.60.0",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "e2e/archive-filter.e2e.test.ts",
+      "file": "e2e/archive-filter.e2e.test.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Dashboard: archive filter toggle button is present",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2772,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:28:42.235Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b262b79645c7c7fde8d5-b5391658ffe0222257ac",
+          "file": "e2e/archive-filter.e2e.test.ts",
+          "line": 8,
+          "column": 1
+        },
+        {
+          "title": "Dashboard: archive filter toggle updates URL to ?showArchived=true",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 3366,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\nExpected substring: \u001b[32m\"showArchived=true\"\u001b[39m\nReceived string:    \u001b[31m\"http://localhost:5173/\"\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\nExpected substring: \u001b[32m\"showArchived=true\"\u001b[39m\nReceived string:    \u001b[31m\"http://localhost:5173/\"\u001b[39m\n    at /Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/archive-filter.e2e.test.ts:20:22",
+                    "location": {
+                      "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/archive-filter.e2e.test.ts",
+                      "column": 22,
+                      "line": 20
+                    },
+                    "snippet": "  18 |   await page.locator('[data-testid=\"filter-archived\"]').click();\n  19 |   await page.waitForTimeout(300);\n> 20 |   expect(page.url()).toContain('showArchived=true');\n     |                      ^\n  21 | });\n  22 |\n  23 | // T303: change-dashboard FR-008 — Default state hides archived changes"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/archive-filter.e2e.test.ts",
+                        "column": 22,
+                        "line": 20
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\nExpected substring: \u001b[32m\"showArchived=true\"\u001b[39m\nReceived string:    \u001b[31m\"http://localhost:5173/\"\u001b[39m\n\n  18 |   await page.locator('[data-testid=\"filter-archived\"]').click();\n  19 |   await page.waitForTimeout(300);\n> 20 |   expect(page.url()).toContain('showArchived=true');\n     |                      ^\n  21 | });\n  22 |\n  23 | // T303: change-dashboard FR-008 — Default state hides archived changes\n    at /Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/archive-filter.e2e.test.ts:20:22"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:28:42.241Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/kagadminmac/project/mspec/packages/web-ui/test-results/e2e-archive-filter.e2e-Das-3b557-es-URL-to-showArchived-true-chromium/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/archive-filter.e2e.test.ts",
+                    "column": 22,
+                    "line": 20
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "b262b79645c7c7fde8d5-ef2abc28e87123b1bdb5",
+          "file": "e2e/archive-filter.e2e.test.ts",
+          "line": 15,
+          "column": 1
+        },
+        {
+          "title": "Dashboard: default state shows no archived badges",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 2770,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:28:42.256Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b262b79645c7c7fde8d5-3fb85d5b3c2c305a16ac",
+          "file": "e2e/archive-filter.e2e.test.ts",
+          "line": 24,
+          "column": 1
+        },
+        {
+          "title": "Dashboard: ?showArchived=true shows archived badge if archived changes exist",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 2773,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:28:42.232Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b262b79645c7c7fde8d5-c4ed5abff35d673d0dd0",
+          "file": "e2e/archive-filter.e2e.test.ts",
+          "line": 33,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "e2e/artifact-preview.e2e.test.ts",
+      "file": "e2e/artifact-preview.e2e.test.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "ArtifactPreview: Mermaid SVG renders in architecture-overview.md",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 1406,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:28:46.814Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d1de55963417bc5b9af4-51a1c055205e954ed0ff",
+          "file": "e2e/artifact-preview.e2e.test.ts",
+          "line": 17,
+          "column": 1
+        },
+        {
+          "title": "ArtifactPreview: theme toggle persists after reload",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "timedOut",
+                  "duration": 30030,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/artifact-preview.e2e.test.ts",
+                        "column": 80,
+                        "line": 42
+                      },
+                      "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"theme-picker\"] button[aria-label=\"dark\"]')\u001b[22m\n\n\n  40 |\n  41 |   // Select dark mode via ThemePicker\n> 42 |   await page.locator('[data-testid=\"theme-picker\"] button[aria-label=\"dark\"]').click();\n     |                                                                                ^\n  43 |   await page.waitForTimeout(300);\n  44 |\n  45 |   // Reload and verify persistence\n    at /Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/artifact-preview.e2e.test.ts:42:80"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:28:46.814Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/kagadminmac/project/mspec/packages/web-ui/test-results/e2e-artifact-preview.e2e-A-10437-oggle-persists-after-reload-chromium/error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "d1de55963417bc5b9af4-249fea390b8fbc731a21",
+          "file": "e2e/artifact-preview.e2e.test.ts",
+          "line": 32,
+          "column": 1
+        },
+        {
+          "title": "ArtifactPreview: EARS/Gherkin highlight renders text-red-600 spans in spec.md",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6646,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"gherkin-highlight\"]').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"gherkin-highlight\"]').first()\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"gherkin-highlight\"]').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"gherkin-highlight\"]').first()\u001b[22m\n\n    at /Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/artifact-preview.e2e.test.ts:76:75",
+                    "location": {
+                      "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/artifact-preview.e2e.test.ts",
+                      "column": 75,
+                      "line": 76
+                    },
+                    "snippet": "  74 |   expect(count).toBeGreaterThanOrEqual(0); // Graceful: might be 0 if no SHALL in rendered text\n  75 |   // At minimum, verify the gherkin-highlight element exists\n> 76 |   await expect(page.locator('[data-testid=\"gherkin-highlight\"]').first()).toBeVisible();\n     |                                                                           ^\n  77 | });\n  78 |\n  79 | // T301: artifact-preview FR-009 — Markdown headings are styled (typography plugin)"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/artifact-preview.e2e.test.ts",
+                        "column": 75,
+                        "line": 76
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"gherkin-highlight\"]').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"gherkin-highlight\"]').first()\u001b[22m\n\n\n  74 |   expect(count).toBeGreaterThanOrEqual(0); // Graceful: might be 0 if no SHALL in rendered text\n  75 |   // At minimum, verify the gherkin-highlight element exists\n> 76 |   await expect(page.locator('[data-testid=\"gherkin-highlight\"]').first()).toBeVisible();\n     |                                                                           ^\n  77 | });\n  78 |\n  79 | // T301: artifact-preview FR-009 — Markdown headings are styled (typography plugin)\n    at /Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/artifact-preview.e2e.test.ts:76:75"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:28:46.814Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/kagadminmac/project/mspec/packages/web-ui/test-results/e2e-artifact-preview.e2e-A-d6516-xt-red-600-spans-in-spec-md-chromium/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/artifact-preview.e2e.test.ts",
+                    "column": 75,
+                    "line": 76
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "d1de55963417bc5b9af4-dc95c5a93b379825256c",
+          "file": "e2e/artifact-preview.e2e.test.ts",
+          "line": 59,
+          "column": 1
+        },
+        {
+          "title": "ArtifactPreview: Markdown headings render with visual hierarchy",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 1775,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:28:48.743Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d1de55963417bc5b9af4-78c74aba73135db2ad9a",
+          "file": "e2e/artifact-preview.e2e.test.ts",
+          "line": 80,
+          "column": 1
+        },
+        {
+          "title": "ChangeDetail: clicking artifact opens split-pane without navigation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 1846,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:28:48.324Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d1de55963417bc5b9af4-7b26c49c53ab4f172161",
+          "file": "e2e/artifact-preview.e2e.test.ts",
+          "line": 113,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "e2e/code-highlight.e2e.test.ts",
+      "file": "e2e/code-highlight.e2e.test.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "CodeBlock: javascript code block gets syntax highlighting spans",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 2409,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:28:50.465Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "becb127eceef5fdc992f-778d9b7e61900ff62b73",
+          "file": "e2e/code-highlight.e2e.test.ts",
+          "line": 14,
+          "column": 1
+        },
+        {
+          "title": "CodeBlock: language-less code block renders as plain text without error",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 1899,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:28:51.221Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "becb127eceef5fdc992f-b8450d480964bd661f12",
+          "file": "e2e/code-highlight.e2e.test.ts",
+          "line": 34,
+          "column": 1
+        },
+        {
+          "title": "rehypeCommentDim: HTML comments in markdown render as .md-comment spans",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "failed",
+                  "duration": 6834,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"md-preview\"] .md-comment').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"md-preview\"] .md-comment').first()\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"md-preview\"] .md-comment').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"md-preview\"] .md-comment').first()\u001b[22m\n\n    at /Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/code-highlight.e2e.test.ts:70:29",
+                    "location": {
+                      "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/code-highlight.e2e.test.ts",
+                      "column": 29,
+                      "line": 70
+                    },
+                    "snippet": "  68 |\n  69 |   const commentSpan = page.locator('[data-testid=\"md-preview\"] .md-comment').first();\n> 70 |   await expect(commentSpan).toBeVisible({ timeout: 5000 });\n     |                             ^\n  71 |\n  72 |   const opacity = await commentSpan.evaluate((el) =>\n  73 |     parseFloat(getComputedStyle(el).opacity),"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/code-highlight.e2e.test.ts",
+                        "column": 29,
+                        "line": 70
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"md-preview\"] .md-comment').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"md-preview\"] .md-comment').first()\u001b[22m\n\n\n  68 |\n  69 |   const commentSpan = page.locator('[data-testid=\"md-preview\"] .md-comment').first();\n> 70 |   await expect(commentSpan).toBeVisible({ timeout: 5000 });\n     |                             ^\n  71 |\n  72 |   const opacity = await commentSpan.evaluate((el) =>\n  73 |     parseFloat(getComputedStyle(el).opacity),\n    at /Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/code-highlight.e2e.test.ts:70:29"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:28:52.889Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/kagadminmac/project/mspec/packages/web-ui/test-results/e2e-code-highlight.e2e-reh-9275b--render-as-md-comment-spans-chromium/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/code-highlight.e2e.test.ts",
+                    "column": 29,
+                    "line": 70
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "becb127eceef5fdc992f-e3dcb03dcdcf9d0fb47d",
+          "file": "e2e/code-highlight.e2e.test.ts",
+          "line": 57,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "e2e/dashboard.e2e.test.ts",
+      "file": "e2e/dashboard.e2e.test.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Dashboard: change-row elements are present and title is MSPEC Dashboard",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 5966,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveTitle\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected: \u001b[32m\"\u001b[7mMSPEC D\u001b[27mashboard\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mmspec — reading-first d\u001b[27mashboard\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveTitle\" with timeout 5000ms\u001b[22m\n\u001b[2m    14 × unexpected value \"mspec — reading-first dashboard\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveTitle\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected: \u001b[32m\"\u001b[7mMSPEC D\u001b[27mashboard\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mmspec — reading-first d\u001b[27mashboard\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveTitle\" with timeout 5000ms\u001b[22m\n\u001b[2m    14 × unexpected value \"mspec — reading-first dashboard\"\u001b[22m\n\n    at /Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/dashboard.e2e.test.ts:14:22",
+                    "location": {
+                      "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/dashboard.e2e.test.ts",
+                      "column": 22,
+                      "line": 14
+                    },
+                    "snippet": "  12 |   await page.goto('/');\n  13 |   await page.waitForLoadState('networkidle');\n> 14 |   await expect(page).toHaveTitle('MSPEC Dashboard');\n     |                      ^\n  15 |   // Either change rows exist or \"No active changes found.\" is shown\n  16 |   const rows = page.locator('[data-testid^=\"change-row-\"]');\n  17 |   const noChanges = page.locator('text=No active changes found.');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/dashboard.e2e.test.ts",
+                        "column": 22,
+                        "line": 14
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveTitle\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected: \u001b[32m\"\u001b[7mMSPEC D\u001b[27mashboard\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mmspec — reading-first d\u001b[27mashboard\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveTitle\" with timeout 5000ms\u001b[22m\n\u001b[2m    14 × unexpected value \"mspec — reading-first dashboard\"\u001b[22m\n\n\n  12 |   await page.goto('/');\n  13 |   await page.waitForLoadState('networkidle');\n> 14 |   await expect(page).toHaveTitle('MSPEC Dashboard');\n     |                      ^\n  15 |   // Either change rows exist or \"No active changes found.\" is shown\n  16 |   const rows = page.locator('[data-testid^=\"change-row-\"]');\n  17 |   const noChanges = page.locator('text=No active changes found.');\n    at /Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/dashboard.e2e.test.ts:14:22"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:28:53.149Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/kagadminmac/project/mspec/packages/web-ui/test-results/e2e-dashboard.e2e-Dashboar-1dded-nd-title-is-MSPEC-Dashboard-chromium/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/dashboard.e2e.test.ts",
+                    "column": 22,
+                    "line": 14
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "d111b0fb85af738d6221-98cb761867bbddddbea0",
+          "file": "e2e/dashboard.e2e.test.ts",
+          "line": 11,
+          "column": 1
+        },
+        {
+          "title": "Dashboard: mode filter-bugfix shows only bugfix changes or no-results message",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6529,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=No active changes found.')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=No active changes found.')\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=No active changes found.')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=No active changes found.')\u001b[22m\n\n    at /Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/dashboard.e2e.test.ts:37:29",
+                    "location": {
+                      "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/dashboard.e2e.test.ts",
+                      "column": 29,
+                      "line": 37
+                    },
+                    "snippet": "  35 |   const count = await rows.count();\n  36 |   if (count === 0) {\n> 37 |     await expect(noChanges).toBeVisible();\n     |                             ^\n  38 |   } else {\n  39 |     expect(count).toBeGreaterThan(0);\n  40 |   }"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/dashboard.e2e.test.ts",
+                        "column": 29,
+                        "line": 37
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=No active changes found.')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=No active changes found.')\u001b[22m\n\n\n  35 |   const count = await rows.count();\n  36 |   if (count === 0) {\n> 37 |     await expect(noChanges).toBeVisible();\n     |                             ^\n  38 |   } else {\n  39 |     expect(count).toBeGreaterThan(0);\n  40 |   }\n    at /Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/dashboard.e2e.test.ts:37:29"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:28:53.858Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/kagadminmac/project/mspec/packages/web-ui/test-results/e2e-dashboard.e2e-Dashboar-65bcf-anges-or-no-results-message-chromium/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/dashboard.e2e.test.ts",
+                    "column": 29,
+                    "line": 37
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "d111b0fb85af738d6221-5f1e3802f764b777cdf8",
+          "file": "e2e/dashboard.e2e.test.ts",
+          "line": 27,
+          "column": 1
+        },
+        {
+          "title": "Dashboard: StepProgress ready steps have animate-pulse animation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 971,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:28:59.437Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d111b0fb85af738d6221-b2d1c0591b5e924dda62",
+          "file": "e2e/dashboard.e2e.test.ts",
+          "line": 44,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "e2e/full-text-search.e2e.test.ts",
+      "file": "e2e/full-text-search.e2e.test.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "FullTextSearch: search uses client-side engine without calling a search API endpoint",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 1659,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:29:00.094Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "736a58060f09d838474d-3093f80f4b4eeca36d33",
+          "file": "e2e/full-text-search.e2e.test.ts",
+          "line": 8,
+          "column": 1
+        },
+        {
+          "title": "FullTextSearch: body text content from spec files is searchable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 4488,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:29:00.554Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "736a58060f09d838474d-e970f6e480ffc2a44e2c",
+          "file": "e2e/full-text-search.e2e.test.ts",
+          "line": 28,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "e2e/keyword-badge.e2e.test.ts",
+      "file": "e2e/keyword-badge.e2e.test.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "KeywordBadge: GIVEN keyword has badge background-color and border-radius",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6733,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"md-preview\"] span.k-given').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"md-preview\"] span.k-given').first()\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"md-preview\"] span.k-given').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"md-preview\"] span.k-given').first()\u001b[22m\n\n    at /Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/keyword-badge.e2e.test.ts:27:27",
+                    "location": {
+                      "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/keyword-badge.e2e.test.ts",
+                      "column": 27,
+                      "line": 27
+                    },
+                    "snippet": "  25 |\n  26 |   const givenSpan = page.locator('[data-testid=\"md-preview\"] span.k-given').first();\n> 27 |   await expect(givenSpan).toBeVisible({ timeout: 5000 });\n     |                           ^\n  28 |\n  29 |   const styles = await givenSpan.evaluate((el) => {\n  30 |     const cs = getComputedStyle(el);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/keyword-badge.e2e.test.ts",
+                        "column": 27,
+                        "line": 27
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"md-preview\"] span.k-given').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"md-preview\"] span.k-given').first()\u001b[22m\n\n\n  25 |\n  26 |   const givenSpan = page.locator('[data-testid=\"md-preview\"] span.k-given').first();\n> 27 |   await expect(givenSpan).toBeVisible({ timeout: 5000 });\n     |                           ^\n  28 |\n  29 |   const styles = await givenSpan.evaluate((el) => {\n  30 |     const cs = getComputedStyle(el);\n    at /Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/keyword-badge.e2e.test.ts:27:27"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:29:01.087Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/kagadminmac/project/mspec/packages/web-ui/test-results/e2e-keyword-badge.e2e-Keyw-16caa-und-color-and-border-radius-chromium/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/keyword-badge.e2e.test.ts",
+                    "column": 27,
+                    "line": 27
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "7b3991fd4d62504dacbf-2c94a612014fa8fce23a",
+          "file": "e2e/keyword-badge.e2e.test.ts",
+          "line": 14,
+          "column": 1
+        },
+        {
+          "title": "KeywordBadge: SHALL keyword has badge background-color",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 3,
+                  "status": "failed",
+                  "duration": 6768,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"md-preview\"] span.k-shall').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"md-preview\"] span.k-shall').first()\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"md-preview\"] span.k-shall').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"md-preview\"] span.k-shall').first()\u001b[22m\n\n    at /Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/keyword-badge.e2e.test.ts:62:27",
+                    "location": {
+                      "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/keyword-badge.e2e.test.ts",
+                      "column": 27,
+                      "line": 62
+                    },
+                    "snippet": "  60 |\n  61 |   const shallSpan = page.locator('[data-testid=\"md-preview\"] span.k-shall').first();\n> 62 |   await expect(shallSpan).toBeVisible({ timeout: 5000 });\n     |                           ^\n  63 |\n  64 |   const styles = await shallSpan.evaluate((el) => {\n  65 |     const cs = getComputedStyle(el);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/keyword-badge.e2e.test.ts",
+                        "column": 27,
+                        "line": 62
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"md-preview\"] span.k-shall').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"md-preview\"] span.k-shall').first()\u001b[22m\n\n\n  60 |\n  61 |   const shallSpan = page.locator('[data-testid=\"md-preview\"] span.k-shall').first();\n> 62 |   await expect(shallSpan).toBeVisible({ timeout: 5000 });\n     |                           ^\n  63 |\n  64 |   const styles = await shallSpan.evaluate((el) => {\n  65 |     const cs = getComputedStyle(el);\n    at /Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/keyword-badge.e2e.test.ts:62:27"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:29:01.936Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/kagadminmac/project/mspec/packages/web-ui/test-results/e2e-keyword-badge.e2e-Keyw-046a6--has-badge-background-color-chromium/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/keyword-badge.e2e.test.ts",
+                    "column": 27,
+                    "line": 62
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "7b3991fd4d62504dacbf-16ceeb83f77b8d839682",
+          "file": "e2e/keyword-badge.e2e.test.ts",
+          "line": 50,
+          "column": 1
+        },
+        {
+          "title": "CodeBlock: prose pre has 1px outline border",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 2420,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:29:05.075Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b3991fd4d62504dacbf-8aad820d09f40e8b28c2",
+          "file": "e2e/keyword-badge.e2e.test.ts",
+          "line": 81,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "e2e/search-index.e2e.test.ts",
+      "file": "e2e/search-index.e2e.test.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "SearchIndex: artifact content requests are made on startup to build index",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 3888,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:29:07.512Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f47f875c0e796d812e9a-b6390482c1367d2e9d5a",
+          "file": "e2e/search-index.e2e.test.ts",
+          "line": 8,
+          "column": 1
+        },
+        {
+          "title": "SearchIndex: search matches across name field",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 9,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 4664,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n    at /Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/search-index.e2e.test.ts:39:17",
+                    "location": {
+                      "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/search-index.e2e.test.ts",
+                      "column": 17,
+                      "line": 39
+                    },
+                    "snippet": "  37 |   const rows = page.locator('[data-testid^=\"change-row-\"]');\n  38 |   const count = await rows.count();\n> 39 |   expect(count).toBeGreaterThan(0);\n     |                 ^\n  40 | });\n  41 |\n  42 | // T-009: search-index FR-003 — fallback to metadata search when index unavailable"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/search-index.e2e.test.ts",
+                        "column": 17,
+                        "line": 39
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\n  37 |   const rows = page.locator('[data-testid^=\"change-row-\"]');\n  38 |   const count = await rows.count();\n> 39 |   expect(count).toBeGreaterThan(0);\n     |                 ^\n  40 | });\n  41 |\n  42 | // T-009: search-index FR-003 — fallback to metadata search when index unavailable\n    at /Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/search-index.e2e.test.ts:39:17"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:29:08.215Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/kagadminmac/project/mspec/packages/web-ui/test-results/e2e-search-index.e2e-Searc-12e28-h-matches-across-name-field-chromium/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/search-index.e2e.test.ts",
+                    "column": 17,
+                    "line": 39
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "f47f875c0e796d812e9a-5d73509a17d3bbcab933",
+          "file": "e2e/search-index.e2e.test.ts",
+          "line": 26,
+          "column": 1
+        },
+        {
+          "title": "SearchIndex: search works even before full index is built (fallback)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 10,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 1220,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:29:09.046Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f47f875c0e796d812e9a-440a1bf128b021f114a4",
+          "file": "e2e/search-index.e2e.test.ts",
+          "line": 43,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "e2e/spec-viewer.e2e.test.ts",
+      "file": "e2e/spec-viewer.e2e.test.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Dashboard: Spec Viewer navigation link is present",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 10,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 881,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:29:10.401Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7017fba1abe346684261-e38e6d646958e8f1894d",
+          "file": "e2e/spec-viewer.e2e.test.ts",
+          "line": 8,
+          "column": 1
+        },
+        {
+          "title": "Spec Viewer: /spec-viewer shows capability list",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 10,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 845,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:29:11.289Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7017fba1abe346684261-9e868b79e3e64fbced25",
+          "file": "e2e/spec-viewer.e2e.test.ts",
+          "line": 15,
+          "column": 1
+        },
+        {
+          "title": "Spec Viewer: clicking a capability renders spec content",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 1353,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:29:11.411Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7017fba1abe346684261-ead506db031054e3b2a4",
+          "file": "e2e/spec-viewer.e2e.test.ts",
+          "line": 25,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "e2e/test-results.e2e.test.ts",
+      "file": "e2e/test-results.e2e.test.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "TestResults: badges or no-results message are visible",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 10,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 1162,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:29:12.150Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6be28e156d8f7fb5aa75-021b53c2ac55903f1545",
+          "file": "e2e/test-results.e2e.test.ts",
+          "line": 14,
+          "column": 1
+        },
+        {
+          "title": "TestResults: fail trace-panel expands when fail badge is clicked",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "No failed tests in this change — skipping trace panel test",
+                  "location": {
+                    "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/test-results.e2e.test.ts",
+                    "line": 53,
+                    "column": 10
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 1,
+                  "status": "skipped",
+                  "duration": 1186,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:29:12.777Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "No failed tests in this change — skipping trace panel test",
+                      "location": {
+                        "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/test-results.e2e.test.ts",
+                        "line": 53,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "6be28e156d8f7fb5aa75-372897646a3d79142f46",
+          "file": "e2e/test-results.e2e.test.ts",
+          "line": 39,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "e2e/theme-picker.e2e.test.ts",
+      "file": "e2e/theme-picker.e2e.test.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "ThemePicker: renders 4 theme pill buttons",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 11,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 985,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:29:13.936Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ec8c77f9f964a24e19b3-684c090ea704c836c909",
+          "file": "e2e/theme-picker.e2e.test.ts",
+          "line": 8,
+          "column": 1
+        },
+        {
+          "title": "ThemePicker: sepia theme sets data-theme and CSS variable",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 10,
+                  "parallelIndex": 3,
+                  "status": "timedOut",
+                  "duration": 30030,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/theme-picker.e2e.test.ts",
+                        "column": 18,
+                        "line": 31
+                      },
+                      "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"theme-picker\"] button[aria-label=\"sepia\"]')\u001b[22m\n\n\n  29 |\n  30 |   const sepiaBtn = page.locator('[data-testid=\"theme-picker\"] button[aria-label=\"sepia\"]');\n> 31 |   await sepiaBtn.click();\n     |                  ^\n  32 |   await page.waitForTimeout(100);\n  33 |\n  34 |   const dataTheme = await page.locator('html').getAttribute('data-theme');\n    at /Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/theme-picker.e2e.test.ts:31:18"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:29:13.328Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/kagadminmac/project/mspec/packages/web-ui/test-results/e2e-theme-picker.e2e-Theme-1f7eb-data-theme-and-CSS-variable-chromium/error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "ec8c77f9f964a24e19b3-d39bd8d7f6eeb04759c0",
+          "file": "e2e/theme-picker.e2e.test.ts",
+          "line": 26,
+          "column": 1
+        },
+        {
+          "title": "ThemePicker: green theme sets data-theme attribute",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 1,
+                  "status": "timedOut",
+                  "duration": 30021,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/theme-picker.e2e.test.ts",
+                        "column": 81,
+                        "line": 48
+                      },
+                      "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"theme-picker\"] button[aria-label=\"green\"]')\u001b[22m\n\n\n  46 |   await page.waitForLoadState('networkidle');\n  47 |\n> 48 |   await page.locator('[data-testid=\"theme-picker\"] button[aria-label=\"green\"]').click();\n     |                                                                                 ^\n  49 |   await page.waitForTimeout(100);\n  50 |\n  51 |   const dataTheme = await page.locator('html').getAttribute('data-theme');\n    at /Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/theme-picker.e2e.test.ts:48:81"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:29:13.978Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/kagadminmac/project/mspec/packages/web-ui/test-results/e2e-theme-picker.e2e-Theme-c04ba-e-sets-data-theme-attribute-chromium/error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "ec8c77f9f964a24e19b3-6f1f56984ef2a141a24e",
+          "file": "e2e/theme-picker.e2e.test.ts",
+          "line": 44,
+          "column": 1
+        },
+        {
+          "title": "ThemePicker: dark theme sets data-theme=\"dark\" and adds html.dark class",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 11,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 30040,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/theme-picker.e2e.test.ts",
+                        "column": 80,
+                        "line": 60
+                      },
+                      "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"theme-picker\"] button[aria-label=\"dark\"]')\u001b[22m\n\n\n  58 |   await page.waitForLoadState('networkidle');\n  59 |\n> 60 |   await page.locator('[data-testid=\"theme-picker\"] button[aria-label=\"dark\"]').click();\n     |                                                                                ^\n  61 |   await page.waitForTimeout(100);\n  62 |\n  63 |   const dataTheme = await page.locator('html').getAttribute('data-theme');\n    at /Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/theme-picker.e2e.test.ts:60:80"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:29:15.216Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/kagadminmac/project/mspec/packages/web-ui/test-results/e2e-theme-picker.e2e-Theme-774d6-rk-and-adds-html-dark-class-chromium/error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "ec8c77f9f964a24e19b3-85fe3a4e24f9efaf02bf",
+          "file": "e2e/theme-picker.e2e.test.ts",
+          "line": 56,
+          "column": 1
+        },
+        {
+          "title": "ThemePicker: selected theme persists across page reload",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 12,
+                  "parallelIndex": 2,
+                  "status": "timedOut",
+                  "duration": 30027,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/theme-picker.e2e.test.ts",
+                        "column": 80,
+                        "line": 79
+                      },
+                      "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"theme-picker\"] button[aria-label=\"dark\"]')\u001b[22m\n\n\n  77 |   await page.waitForLoadState('networkidle');\n  78 |\n> 79 |   await page.locator('[data-testid=\"theme-picker\"] button[aria-label=\"dark\"]').click();\n     |                                                                                ^\n  80 |   await page.waitForTimeout(300);\n  81 |\n  82 |   await page.reload();\n    at /Users/kagadminmac/project/mspec/packages/web-ui/tests/e2e/theme-picker.e2e.test.ts:79:80"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:29:17.261Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/kagadminmac/project/mspec/packages/web-ui/test-results/e2e-theme-picker.e2e-Theme-a9a69-persists-across-page-reload-chromium/error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "ec8c77f9f964a24e19b3-c3bfe2359c1674eb64bc",
+          "file": "e2e/theme-picker.e2e.test.ts",
+          "line": 71,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "e2e/web-ui-search.e2e.test.ts",
+      "file": "e2e/web-ui-search.e2e.test.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "WebUISearch: typing in search box filters the change list",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 13,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 1576,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:29:43.661Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9246aa0097e14d026468-ec0d096552c6fc9a6473",
+          "file": "e2e/web-ui-search.e2e.test.ts",
+          "line": 8,
+          "column": 1
+        },
+        {
+          "title": "WebUISearch: clearing search restores full change list",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 14,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 3619,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-27T04:29:44.337Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9246aa0097e14d026468-96dc7a30b0914630fb11",
+          "file": "e2e/web-ui-search.e2e.test.ts",
+          "line": 27,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-05-27T04:28:41.046Z",
+    "duration": 67043.35800000001,
+    "expected": 21,
+    "skipped": 1,
+    "unexpected": 13,
+    "flaky": 0
+  }
+}

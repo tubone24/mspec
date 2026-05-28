@@ -12,17 +12,25 @@ import { ArtifactPreview } from '../pages/ArtifactPreview.js';
 import { TestResults } from '../pages/TestResults.js';
 import { SpecViewer } from '../pages/SpecViewer.js';
 
+// AppRoutes: Routes only (BrowserRouter lives in App.tsx so QuickAccessPalette shares context)
+export function AppRoutes() {
+  return (
+    <Routes>
+      <Route path="/" element={<Dashboard />} />
+      <Route path="/changes/:id" element={<ChangeDetail />} />
+      <Route path="/changes/:id/artifacts/*" element={<ArtifactPreview />} />
+      <Route path="/changes/:id/test-results" element={<TestResults />} />
+      <Route path="/spec-viewer" element={<SpecViewer />} />
+      <Route path="/spec-viewer/:capability" element={<SpecViewer />} />
+    </Routes>
+  );
+}
+
+// AppRouter: kept for compatibility — wraps in BrowserRouter
 export function AppRouter() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/changes/:id" element={<ChangeDetail />} />
-        <Route path="/changes/:id/artifacts/*" element={<ArtifactPreview />} />
-        <Route path="/changes/:id/test-results" element={<TestResults />} />
-        <Route path="/spec-viewer" element={<SpecViewer />} />
-        <Route path="/spec-viewer/:capability" element={<SpecViewer />} />
-      </Routes>
+      <AppRoutes />
     </BrowserRouter>
   );
 }

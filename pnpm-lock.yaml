@@ -48,6 +48,9 @@ importers:
         specifier: ^3.23.8
         version: 3.25.76
     devDependencies:
+      '@mspec/web-ui':
+        specifier: workspace:*
+        version: link:../web-ui
       '@types/node':
         specifier: ^22.5.0
         version: 22.19.19
@@ -69,6 +72,9 @@ importers:
       mermaid:
         specifier: ^11.4.0
         version: 11.15.0
+      minisearch:
+        specifier: ^7.2.0
+        version: 7.2.0
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -4458,7 +4464,6 @@ packages:
 
   /minisearch@7.2.0:
     resolution: {integrity: sha512-dqT2XBYUOZOiC5t2HRnwADjhNS2cecp9u+TJRiJ1Qp/f5qjkeT5APcGPjHw+bz89Ms8Jp+cG4AlE+QZ/QnDglg==}
-    dev: true
 
   /mitt@3.0.1:
     resolution: {integrity: sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==}

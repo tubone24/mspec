@@ -2,11 +2,9 @@
 
 ## Security Capabilities
 
-<!-- proposalのsecurity質問（PRP-SEC-001〜004）の回答からmspec-proposalスキルが記述する -->
-<!-- 権限境界: <PRP-SEC-001の回答> -->
-<!-- アクセス増加: <PRP-SEC-002の回答> -->
-<!-- エージェント権限: <PRP-SEC-003の回答> -->
-<!-- ロールバック手段: <PRP-SEC-004の回答> -->
+<!-- mspec-security-analyzerサブエージェントが生成した動的セキュリティ質問と回答のペアをここに列挙する -->
+<!-- 例: 権限境界: <動的質問への回答> -->
+<!-- 例: ロールバック手段: <動的質問への回答> -->
 
 ## ADDED Requirements
 

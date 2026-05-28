@@ -1,6 +1,9 @@
 // @mspec-delta 2026-05-24-130128-mspec-web-ui/specs/change-dashboard/spec.md
 // Requirements implemented: FR-001, FR-002
 // Change: mspec-web-ui
+// @mspec-delta 2026-05-28-041724-web-ui-artifact-order-and-test-results/specs/test-result-viewer/spec.md
+// Requirements implemented: FR-008, FR-009
+// Change: web-ui-artifact-order-and-test-results
 // @mspec-delta 2026-05-25-062234-web-ui-viewer-improvements/specs/change-dashboard/spec.md
 // Requirements implemented: FR-007
 // Change: web-ui-viewer-improvements
@@ -11,7 +14,11 @@
 // Requirements implemented: FR-011
 // Change: web-ui-enhancements
 
-import { useQuery } from '@tanstack/react-query';
+// @mspec-delta 2026-05-28-114434-fix-checklist-ui-sync/specs/artifact-preview/spec.md
+// Requirements implemented: FR-013
+// Change: fix-checklist-ui-sync
+
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 export interface StepState {
   id: string;
@@ -51,6 +58,8 @@ export interface TestCase {
   duration: number;
   errorMessage?: string;
   stackTrace?: string;
+  checklistItemIds?: string[];
+  isResolved?: boolean;
 }
 
 export interface TestSuite {
@@ -118,6 +127,25 @@ export function useArtifactContent(changeId: string, relativePath: string) {
       return res.text();
     },
     enabled: !!relativePath,
+  });
+}
+
+export function usePatchChecklistItem(changeId: string, relativePath: string) {
+  const queryClient = useQueryClient();
+  return useMutation<void, Error, string>({
+    mutationFn: async (updatedContent: string) => {
+      const res = await fetch(`${BASE}/changes/${changeId}/artifacts/${relativePath}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+        body: updatedContent,
+      });
+      if (!res.ok) throw new Error(`PATCH failed: ${res.status}`);
+    },
+    onSuccess: () => {
+      void queryClient.invalidateQueries({
+        queryKey: ['artifact-content', changeId, relativePath],
+      });
+    },
   });
 }
 

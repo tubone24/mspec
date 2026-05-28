@@ -143,3 +143,29 @@ The system MUST write `version: 1` as the top-level field of the generated `.msp
 - WHEN 生成された `.mspec/config.yaml` を読み込む
 - THEN ファイルは `version: 1` を含む
 - AND `test`, `project`, `integrations` の各セクションが存在する
+
+### Requirement: FR-012 — Generate `.mspec/.gitignore` with runtime-generated file patterns
+
+<!-- risk_tier: trivial -->
+<!-- blast_radius: local -->
+
+`mspec init` のとき、このシステムは SHALL `.mspec/.gitignore` を新規作成し、`ui.pid` を含む実行時生成ファイルのパターンを記載する.
+
+#### Scenario: Fresh init creates .mspec/.gitignore
+- GIVEN プロジェクトルートに `.mspec/.gitignore` が存在しない
+- WHEN ユーザーが `mspec init` を実行する
+- THEN `.mspec/.gitignore` が新規作成される
+- AND ファイルには `ui.pid` 行が含まれる
+- AND コマンドは終了コード 0 で完了する
+
+#### Scenario: Existing .mspec/.gitignore is not overwritten without --force
+- GIVEN `.mspec/.gitignore` が既に存在する
+- WHEN ユーザーが `mspec init` を `--force` なしで実行する
+- THEN `.mspec/.gitignore` の内容は変更されない
+
+#### Scenario: Force re-init regenerates .mspec/.gitignore
+- GIVEN `.mspec/.gitignore` が既に存在する
+- WHEN ユーザーが `mspec init --force` を実行する
+- THEN `.mspec/.gitignore` が新しい内容で再生成される
+- AND ファイルには `ui.pid` 行が含まれる
+

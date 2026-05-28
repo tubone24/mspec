@@ -1,0 +1,3 @@
+{"step":"research","change":"2026-05-28-113128-init-gitignore-ui-pid","started_at":"2026-05-28T11:38:29.280Z","context_size_bytes":2074,"context_size_tokens":null,"required_artifacts":["specs/cli-init/spec.md"],"review_edits_count":null}
+{"step":"checklist","change":"2026-05-28-113128-init-gitignore-ui-pid","started_at":"2026-05-28T11:47:47.730Z","context_size_bytes":7511,"context_size_tokens":null,"required_artifacts":["specs/cli-init/spec.md","design.md"],"review_edits_count":null}
+{"step":"self-review","change":"2026-05-28-113128-init-gitignore-ui-pid","started_at":"2026-05-28T11:52:37.059Z","context_size_bytes":13126,"context_size_tokens":null,"required_artifacts":["checklist.md","design.md","architecture-overview.md"],"review_edits_count":2}

@@ -35,9 +35,9 @@ test('ThemePicker: sepia theme sets data-theme and CSS variable', async ({ page 
   expect(dataTheme).toBe('sepia');
 
   const bg = await page.evaluate(() =>
-    getComputedStyle(document.documentElement).getPropertyValue('--color-bg').trim(),
+    getComputedStyle(document.documentElement).getPropertyValue('--bg').trim(),
   );
-  expect(bg.toLowerCase()).toBe('#fbf0d9');
+  expect(bg.toLowerCase()).toBe('#f4ead5');
 });
 
 // T011b: web-ui-themes FR-002 — Green theme applies data-theme

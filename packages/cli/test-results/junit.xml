@@ -1,0 +1,967 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="363" failures="0" errors="0" time="3.894">
+    <testsuite name="tests/e2e/agent-run.e2e.test.ts" timestamp="2026-05-28T23:18:38.711Z" hostname="KAG2310119.local" tests="5" failures="0" errors="0" skipped="0" time="0.088890625">
+        <testcase classname="tests/e2e/agent-run.e2e.test.ts" name="agent-run record — FR-001: Subagent Run Logger Injection &gt; FR-001 Scenario: 正常な subagent 実行後のログ追記" time="0.014268958">
+        </testcase>
+        <testcase classname="tests/e2e/agent-run.e2e.test.ts" name="agent-run record — FR-001: Subagent Run Logger Injection &gt; FR-001 Scenario: change ディレクトリが存在しない場合のフォールバック" time="0.0223716249">
+        </testcase>
+        <testcase classname="tests/e2e/agent-run.e2e.test.ts" name="agent-run record — FR-002: Log Entry Schema &gt; FR-002 Scenario: 通常ステップのログエントリ（7フィールド + review_edits_count=null）" time="0.023348667">
+        </testcase>
+        <testcase classname="tests/e2e/agent-run.e2e.test.ts" name="agent-run record — FR-002: Log Entry Schema &gt; FR-002 Scenario: self-review ステップのログエントリ（review_edits_count に blocker 数）" time="0.01342">
+        </testcase>
+        <testcase classname="tests/e2e/agent-run.e2e.test.ts" name="agent-run record — FR-003: Log Sanitization &gt; FR-003 Scenario: 許可されたフィールドのみが .agent-runs.jsonl に出力される" time="0.014419083">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/anchor-false-positive.e2e.test.ts" timestamp="2026-05-28T23:18:38.712Z" hostname="KAG2310119.local" tests="10" failures="0" errors="0" skipped="0" time="0.026157375">
+        <testcase classname="tests/e2e/anchor-false-positive.e2e.test.ts" name="FR-015: fenced/HTML-comment @mspec-delta is silent &gt; フェンス内の @mspec-delta 例示は警告を出さない" time="0.002122292">
+        </testcase>
+        <testcase classname="tests/e2e/anchor-false-positive.e2e.test.ts" name="FR-015: fenced/HTML-comment @mspec-delta is silent &gt; HTML コメント内の @mspec-delta 例示は警告を出さない" time="0.000215042">
+        </testcase>
+        <testcase classname="tests/e2e/anchor-false-positive.e2e.test.ts" name="FR-015: fenced/HTML-comment @mspec-delta is silent &gt; チルダフェンス内の @mspec-delta も沈黙する" time="0.000124416">
+        </testcase>
+        <testcase classname="tests/e2e/anchor-false-positive.e2e.test.ts" name="FR-015: fenced/HTML-comment @mspec-delta is silent &gt; フェンス外の正規アンカーはフェンス内例示がある場合でも正しく検出される" time="0.0002069579">
+        </testcase>
+        <testcase classname="tests/e2e/anchor-false-positive.e2e.test.ts" name="FR-016: spec files are excluded from anchor scan &gt; specs/&lt;capability&gt;/spec.md は scanAnchors に含まれない" time="0.0105879581">
+        </testcase>
+        <testcase classname="tests/e2e/anchor-false-positive.e2e.test.ts" name="FR-016: spec files are excluded from anchor scan &gt; changes/*/specs/**/spec.md は scanAnchors に含まれない" time="0.0108865409">
+        </testcase>
+        <testcase classname="tests/e2e/anchor-false-positive.e2e.test.ts" name="FR-017: standalone @mspec-delta mention is silent &gt; 後続行に Requirements implemented: がない単発言及は警告を出さない" time="0.0002445829">
+        </testcase>
+        <testcase classname="tests/e2e/anchor-false-positive.e2e.test.ts" name="FR-017: standalone @mspec-delta mention is silent &gt; ブロック形状で path が不正なケースは引き続き警告する" time="0.000203833">
+        </testcase>
+        <testcase classname="tests/e2e/anchor-false-positive.e2e.test.ts" name="FR-005 MODIFIED: standalone doc mention does not cause check failure &gt; 単発の @mspec-delta 散文言及は警告を出さない" time="0.000237583">
+        </testcase>
+        <testcase classname="tests/e2e/anchor-false-positive.e2e.test.ts" name="FR-005 MODIFIED: standalone doc mention does not cause check failure &gt; Change: 行欠落のブロック形状アンカーは不完全として警告する" time="0.0001122921">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/archive-summary.e2e.test.ts" timestamp="2026-05-28T23:18:38.713Z" hostname="KAG2310119.local" tests="9" failures="0" errors="0" skipped="0" time="1.093063542">
+        <testcase classname="tests/e2e/archive-summary.e2e.test.ts" name="FR-013: printReport includes capability summary lines &gt; サマリ行に capability ごとの件数が並ぶ" time="0.058681833">
+        </testcase>
+        <testcase classname="tests/e2e/archive-summary.e2e.test.ts" name="FR-013: printReport includes capability summary lines &gt; 再実行でサマリがバイト一致する" time="0.0276123329">
+        </testcase>
+        <testcase classname="tests/e2e/archive-summary.e2e.test.ts" name="FR-014: dry-run output has preview header and no summary &gt; dry-run 出力はプレビューヘッダを持ちサマリ行を含まない" time="0.034015625">
+        </testcase>
+        <testcase classname="tests/e2e/archive-summary.e2e.test.ts" name="FR-023 T140: archive-completed readme has filled Summary section &gt; readme.md with real Lessons + Next Steps passes validate (exit 0)" time="0.192773625">
+        </testcase>
+        <testcase classname="tests/e2e/archive-summary.e2e.test.ts" name="FR-023 T140: archive-completed readme has filled Summary section &gt; filled Summary has ## Summary (Lessons / Next Steps) with ### Lessons (≥3 bullets) and ### Next Steps (≥2 bullets)" time="0.0003241249">
+        </testcase>
+        <testcase classname="tests/e2e/archive-summary.e2e.test.ts" name="FR-023 T141: placeholder-only Summary triggers validate warning/error &gt; ja placeholder in Summary section: non-strict validate emits warning text (exit 0)" time="0.195854959">
+        </testcase>
+        <testcase classname="tests/e2e/archive-summary.e2e.test.ts" name="FR-023 T141: placeholder-only Summary triggers validate warning/error &gt; ja placeholder in Summary section: --strict validate escalates to error (exit non-zero)" time="0.173363083">
+        </testcase>
+        <testcase classname="tests/e2e/archive-summary.e2e.test.ts" name="FR-023 T141: placeholder-only Summary triggers validate warning/error &gt; en placeholder in Summary section: non-strict validate emits warning text (exit 0)" time="0.2129625829">
+        </testcase>
+        <testcase classname="tests/e2e/archive-summary.e2e.test.ts" name="FR-023 T141: placeholder-only Summary triggers validate warning/error &gt; readme.md WITHOUT Summary section at all: no placeholder warning triggered" time="0.196205333">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" timestamp="2026-05-28T23:18:38.715Z" hostname="KAG2310119.local" tests="40" failures="0" errors="0" skipped="0" time="0.039259166">
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-001: artifact templates have doc_type frontmatter &gt; proposal.ja.md has doc_type: Explanation" time="0.0042347081">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-001: artifact templates have doc_type frontmatter &gt; proposal.en.md has doc_type: Explanation" time="0.0028924171">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-001: artifact templates have doc_type frontmatter &gt; research.ja.md has doc_type: Reference" time="0.004719208">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-001: artifact templates have doc_type frontmatter &gt; research.en.md has doc_type: Reference" time="0.000640708">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-001: artifact templates have doc_type frontmatter &gt; design.ja.md has doc_type: Reference" time="0.0004068749">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-001: artifact templates have doc_type frontmatter &gt; design.en.md has doc_type: Reference" time="0.00036225">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-001: artifact templates have doc_type frontmatter &gt; design-rationale.ja.md has doc_type: Explanation" time="0.00031225">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-001: artifact templates have doc_type frontmatter &gt; design-rationale.en.md has doc_type: Explanation" time="0.003832">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-001: artifact templates have doc_type frontmatter &gt; tasks.ja.md has doc_type: Reference" time="0.001707625">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-001: artifact templates have doc_type frontmatter &gt; tasks.en.md has doc_type: Reference" time="0.001078333">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-001: artifact templates have doc_type frontmatter &gt; checklist.ja.md has doc_type: Reference" time="0.000691375">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-001: artifact templates have doc_type frontmatter &gt; checklist.en.md has doc_type: Reference" time="0.000347">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-001: artifact templates have doc_type frontmatter &gt; quickstart.ja.md has doc_type: How-to" time="0.0009192499">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-001: artifact templates have doc_type frontmatter &gt; quickstart.en.md has doc_type: How-to" time="0.001310333">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-001: artifact templates have doc_type frontmatter &gt; architecture-overview.ja.md has doc_type: Reference" time="0.000451">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-001: artifact templates have doc_type frontmatter &gt; architecture-overview.en.md has doc_type: Reference" time="0.001277125">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-001: artifact templates have doc_type frontmatter &gt; readme.ja.md has doc_type: Tutorial" time="0.0007264171">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-001: artifact templates have doc_type frontmatter &gt; readme.en.md has doc_type: Tutorial" time="0.00062225">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-001: artifact templates have doc_type frontmatter &gt; glossary.ja.md has doc_type: Reference" time="0.000980125">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-001: artifact templates have doc_type frontmatter &gt; glossary.en.md has doc_type: Reference" time="0.000695666">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-002: doc_type values are one of the four Diátaxis doc types &gt; proposal.ja.md doc_type is one of Reference/Explanation/How-to/Tutorial" time="0.0010063339">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-002: doc_type values are one of the four Diátaxis doc types &gt; proposal.en.md doc_type is one of Reference/Explanation/How-to/Tutorial" time="0.000475708">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-002: doc_type values are one of the four Diátaxis doc types &gt; research.ja.md doc_type is one of Reference/Explanation/How-to/Tutorial" time="0.000680625">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-002: doc_type values are one of the four Diátaxis doc types &gt; research.en.md doc_type is one of Reference/Explanation/How-to/Tutorial" time="0.000308333">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-002: doc_type values are one of the four Diátaxis doc types &gt; design.ja.md doc_type is one of Reference/Explanation/How-to/Tutorial" time="0.000978458">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-002: doc_type values are one of the four Diátaxis doc types &gt; design.en.md doc_type is one of Reference/Explanation/How-to/Tutorial" time="0.0012870419">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-002: doc_type values are one of the four Diátaxis doc types &gt; design-rationale.ja.md doc_type is one of Reference/Explanation/How-to/Tutorial" time="0.00043375">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-002: doc_type values are one of the four Diátaxis doc types &gt; design-rationale.en.md doc_type is one of Reference/Explanation/How-to/Tutorial" time="0.0005717499">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-002: doc_type values are one of the four Diátaxis doc types &gt; tasks.ja.md doc_type is one of Reference/Explanation/How-to/Tutorial" time="0.000321166">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-002: doc_type values are one of the four Diátaxis doc types &gt; tasks.en.md doc_type is one of Reference/Explanation/How-to/Tutorial" time="0.000262833">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-002: doc_type values are one of the four Diátaxis doc types &gt; checklist.ja.md doc_type is one of Reference/Explanation/How-to/Tutorial" time="0.0004796669">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-002: doc_type values are one of the four Diátaxis doc types &gt; checklist.en.md doc_type is one of Reference/Explanation/How-to/Tutorial" time="0.0002859581">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-002: doc_type values are one of the four Diátaxis doc types &gt; quickstart.ja.md doc_type is one of Reference/Explanation/How-to/Tutorial" time="0.000182833">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-002: doc_type values are one of the four Diátaxis doc types &gt; quickstart.en.md doc_type is one of Reference/Explanation/How-to/Tutorial" time="0.0005382079">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-002: doc_type values are one of the four Diátaxis doc types &gt; architecture-overview.ja.md doc_type is one of Reference/Explanation/How-to/Tutorial" time="0.000641291">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-002: doc_type values are one of the four Diátaxis doc types &gt; architecture-overview.en.md doc_type is one of Reference/Explanation/How-to/Tutorial" time="0.000425917">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-002: doc_type values are one of the four Diátaxis doc types &gt; readme.ja.md doc_type is one of Reference/Explanation/How-to/Tutorial" time="0.000337333">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-002: doc_type values are one of the four Diátaxis doc types &gt; readme.en.md doc_type is one of Reference/Explanation/How-to/Tutorial" time="0.0003180001">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-002: doc_type values are one of the four Diátaxis doc types &gt; glossary.ja.md doc_type is one of Reference/Explanation/How-to/Tutorial" time="0.0001122921">
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-doc-type.e2e.test.ts" name="FR-002: doc_type values are one of the four Diátaxis doc types &gt; glossary.en.md doc_type is one of Reference/Explanation/How-to/Tutorial" time="0.0002904999">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/artifact-taxonomy-glossary.e2e.test.ts" timestamp="2026-05-28T23:18:38.722Z" hostname="KAG2310119.local" tests="4" failures="0" errors="0" skipped="0" time="0.0497153751">
+        <testcase classname="tests/e2e/artifact-taxonomy-glossary.e2e.test.ts" name="FR-003: mspec new generates glossary.md &gt; glossary.md が change ディレクトリに生成される" time="0.0195740421">
+            <system-out>
+✓ Created 2026-05-28-231836-my-feature
+  next: run /mspec:proposal
+
+            </system-out>
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-glossary.e2e.test.ts" name="FR-003: mspec new generates glossary.md &gt; 生成された glossary.md は ## Terms セクションを含む" time="0.0143397501">
+            <system-out>
+✓ Created 2026-05-28-231836-my-feature
+  next: run /mspec:proposal
+
+            </system-out>
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-glossary.e2e.test.ts" name="FR-003: mspec new generates glossary.md &gt; 生成された glossary.md は doc_type: Reference フロントマターを持つ" time="0.013917667">
+            <system-out>
+✓ Created 2026-05-28-231836-my-feature
+  next: run /mspec:proposal
+
+            </system-out>
+        </testcase>
+        <testcase classname="tests/e2e/artifact-taxonomy-glossary.e2e.test.ts" name="FR-003: research.md template refers to glossary.md &gt; research.md テンプレートに glossary.md への参照が含まれる" time="0.001210667">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/artifact-templates-i18n-en.e2e.test.ts" timestamp="2026-05-28T23:18:38.723Z" hostname="KAG2310119.local" tests="1" failures="0" errors="0" skipped="0" time="0.0798651659">
+        <testcase classname="tests/e2e/artifact-templates-i18n-en.e2e.test.ts" name="FR-005: artifact-templates-i18n — locale=en で missing template 警告なし &gt; locale=en の設定で mspec new 実行時に &quot;missing template&quot; 警告が出ない" time="0.079199083">
+            <system-out>
+✓ Created 2026-05-28-231838-test-feature
+  next: run /mspec:proposal
+
+            </system-out>
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/artifact-templates-i18n-ja.e2e.test.ts" timestamp="2026-05-28T23:18:38.724Z" hostname="KAG2310119.local" tests="1" failures="0" errors="0" skipped="0" time="0.0267102079">
+        <testcase classname="tests/e2e/artifact-templates-i18n-ja.e2e.test.ts" name="FR-005: artifact-templates-i18n — locale=ja で missing template 警告なし &gt; locale=ja の設定で mspec new 実行時に &quot;missing template&quot; 警告が出ない" time="0.026311583">
+            <system-out>
+✓ Created 2026-05-28-231838-test-feature
+  next: run /mspec:proposal
+
+            </system-out>
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/checklist-auditor-auto-priority.e2e.test.ts" timestamp="2026-05-28T23:18:38.724Z" hostname="KAG2310119.local" tests="4" failures="0" errors="0" skipped="0" time="0.004261333">
+        <testcase classname="tests/e2e/checklist-auditor-auto-priority.e2e.test.ts" name="FR-008: auditor applies verify:auto priority across all categories &gt; verify:cmd 形式が Constraints 節の優先順位リストに記述されている（runtime）" time="0.001336791">
+        </testcase>
+        <testcase classname="tests/e2e/checklist-auditor-auto-priority.e2e.test.ts" name="FR-008: auditor applies verify:auto priority across all categories &gt; CLI コマンドで検証可能な項目は verify:human を付与しないルールが記述されている（runtime）" time="0.0003665">
+        </testcase>
+        <testcase classname="tests/e2e/checklist-auditor-auto-priority.e2e.test.ts" name="FR-008: auditor applies verify:auto priority across all categories &gt; SoT Regression 項目への verify:auto 適用が記述されている（runtime）" time="0.000605167">
+        </testcase>
+        <testcase classname="tests/e2e/checklist-auditor-auto-priority.e2e.test.ts" name="FR-008: auditor applies verify:auto priority across all categories &gt; runtime と CLI テンプレートが同一内容である（FR-014 同期義務）" time="0.001013708">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/checklist-auditor-constitution-cmd.e2e.test.ts" timestamp="2026-05-28T23:18:38.725Z" hostname="KAG2310119.local" tests="4" failures="0" errors="0" skipped="0" time="0.008682917">
+        <testcase classname="tests/e2e/checklist-auditor-constitution-cmd.e2e.test.ts" name="FR-006 (MODIFIED): auditor uses verify:cmd for Constitution IV and VI &gt; Constitution IV は verify:cmd:mspec anchor check 形式を使用するルールが記述されている（runtime）" time="0.001599792">
+        </testcase>
+        <testcase classname="tests/e2e/checklist-auditor-constitution-cmd.e2e.test.ts" name="FR-006 (MODIFIED): auditor uses verify:cmd for Constitution IV and VI &gt; Constitution VI は verify:cmd:grep 形式を使用するルールが記述されている（runtime）" time="0.000738875">
+        </testcase>
+        <testcase classname="tests/e2e/checklist-auditor-constitution-cmd.e2e.test.ts" name="FR-006 (MODIFIED): auditor uses verify:cmd for Constitution IV and VI &gt; Constitution IV/VI のアノテーションに verify:human が使われていない（runtime）" time="0.0013742911">
+        </testcase>
+        <testcase classname="tests/e2e/checklist-auditor-constitution-cmd.e2e.test.ts" name="FR-006 (MODIFIED): auditor uses verify:cmd for Constitution IV and VI &gt; runtime と CLI テンプレートが同一内容である（FR-014 同期義務）" time="0.004415">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/checklist-auditor-constitution-precheck.e2e.test.ts" timestamp="2026-05-28T23:18:38.726Z" hostname="KAG2310119.local" tests="5" failures="0" errors="0" skipped="0" time="0.012867167">
+        <testcase classname="tests/e2e/checklist-auditor-constitution-precheck.e2e.test.ts" name="FR-006: auditor performs inline pre-check for Constitution IV &gt; Constraints 節に mspec anchor check の実行指示が記述されている（runtime）" time="0.0063417079">
+        </testcase>
+        <testcase classname="tests/e2e/checklist-auditor-constitution-precheck.e2e.test.ts" name="FR-006: auditor performs inline pre-check for Constitution IV &gt; Constitution IV（双方向アンカー）のインライン検証ルールが記述されている（runtime）" time="0.0005712919">
+        </testcase>
+        <testcase classname="tests/e2e/checklist-auditor-constitution-precheck.e2e.test.ts" name="FR-006: auditor performs inline pre-check for Constitution IV &gt; Constraints 節に Security Capabilities セクションの grep 確認指示が記述されている（runtime）" time="0.000400292">
+        </testcase>
+        <testcase classname="tests/e2e/checklist-auditor-constitution-precheck.e2e.test.ts" name="FR-006: auditor performs inline pre-check for Constitution IV &gt; Constitution VI（Security by Default）のインライン検証ルールが記述されている（runtime）" time="0.001157833">
+        </testcase>
+        <testcase classname="tests/e2e/checklist-auditor-constitution-precheck.e2e.test.ts" name="FR-006: auditor performs inline pre-check for Constitution IV &gt; runtime と CLI テンプレートが同一内容である（FR-014 同期義務）" time="0.003635125">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/checklist-auditor-human-steps.e2e.test.ts" timestamp="2026-05-28T23:18:38.727Z" hostname="KAG2310119.local" tests="3" failures="0" errors="0" skipped="0" time="0.0059897909">
+        <testcase classname="tests/e2e/checklist-auditor-human-steps.e2e.test.ts" name="FR-009: auditor requires child steps under verify:human items &gt; verify:human 付与時に子リスト確認手順を記載するルールが記述されている（runtime）" time="0.001516125">
+        </testcase>
+        <testcase classname="tests/e2e/checklist-auditor-human-steps.e2e.test.ts" name="FR-009: auditor requires child steps under verify:human items &gt; 確認手順の最低項目数（2 項目以上）が記述されている（runtime）" time="0.001216875">
+        </testcase>
+        <testcase classname="tests/e2e/checklist-auditor-human-steps.e2e.test.ts" name="FR-009: auditor requires child steps under verify:human items &gt; runtime と CLI テンプレートが同一内容である（FR-014 同期義務）" time="0.002400542">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/checklist-auditor-priority-order.e2e.test.ts" timestamp="2026-05-28T23:18:38.728Z" hostname="KAG2310119.local" tests="3" failures="0" errors="0" skipped="0" time="0.00395775">
+        <testcase classname="tests/e2e/checklist-auditor-priority-order.e2e.test.ts" name="FR-007 (MODIFIED): auditor priority order places verify:cmd before verify:human &gt; verify:cmd が verify:human より前の優先順位として定義されている（runtime）" time="0.0016443751">
+        </testcase>
+        <testcase classname="tests/e2e/checklist-auditor-priority-order.e2e.test.ts" name="FR-007 (MODIFIED): auditor priority order places verify:cmd before verify:human &gt; 優先順位リストが 4 段階以上（fr-NNN, cmd, Constitution IV, VI, human）を含む（runtime）" time="0.000707834">
+        </testcase>
+        <testcase classname="tests/e2e/checklist-auditor-priority-order.e2e.test.ts" name="FR-007 (MODIFIED): auditor priority order places verify:cmd before verify:human &gt; runtime と CLI テンプレートが同一内容である（FR-014 同期義務）" time="0.0011179579">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/checklist-auditor-self-validate.e2e.test.ts" timestamp="2026-05-28T23:18:38.728Z" hostname="KAG2310119.local" tests="3" failures="0" errors="0" skipped="0" time="0.0057877079">
+        <testcase classname="tests/e2e/checklist-auditor-self-validate.e2e.test.ts" name="FR-011: mspec-checklist-auditor self-validates all items have verify: annotation &gt; Constraints 節に全項目書き込み後の自己検証ステップの記述がある" time="0.003002708">
+        </testcase>
+        <testcase classname="tests/e2e/checklist-auditor-self-validate.e2e.test.ts" name="FR-011: mspec-checklist-auditor self-validates all items have verify: annotation &gt; アノテーションなし行を検出したら verify: human を付与する fallback ルールが記述されている" time="0.001168125">
+        </testcase>
+        <testcase classname="tests/e2e/checklist-auditor-self-validate.e2e.test.ts" name="FR-011: mspec-checklist-auditor self-validates all items have verify: annotation &gt; 完了宣言の前に自己検証を実行するという順序が記述されている" time="0.00059825">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/checklist-auditor-verify-annotation.e2e.test.ts" timestamp="2026-05-28T23:18:38.729Z" hostname="KAG2310119.local" tests="4" failures="0" errors="0" skipped="0" time="0.005154">
+        <testcase classname="tests/e2e/checklist-auditor-verify-annotation.e2e.test.ts" name="FR-011: mspec-checklist-auditor annotates E2E-verifiable items with fr-NNN &gt; Constraints 節に &lt;!-- verify: fr-NNN --&gt; 付与ルールが記述されている" time="0.0019327921">
+        </testcase>
+        <testcase classname="tests/e2e/checklist-auditor-verify-annotation.e2e.test.ts" name="FR-011: mspec-checklist-auditor annotates E2E-verifiable items with fr-NNN &gt; E2E Scenario 対応項目を fr-NNN でアノテーションする判定ルールが記述されている" time="0.000461">
+        </testcase>
+        <testcase classname="tests/e2e/checklist-auditor-verify-annotation.e2e.test.ts" name="FR-011: mspec-checklist-auditor annotates non-E2E items with human &gt; Constraints 節に &lt;!-- verify: human --&gt; 付与ルールが記述されている" time="0.000477916">
+        </testcase>
+        <testcase classname="tests/e2e/checklist-auditor-verify-annotation.e2e.test.ts" name="FR-011: mspec-checklist-auditor annotates non-E2E items with human &gt; 1 項目に付与する verify: アノテーションは 1 つという一意性ルールが記述されている" time="0.0016715419">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/checklist-auditor-verify-human-reason.e2e.test.ts" timestamp="2026-05-28T23:18:38.729Z" hostname="KAG2310119.local" tests="3" failures="0" errors="0" skipped="0" time="0.014227375">
+        <testcase classname="tests/e2e/checklist-auditor-verify-human-reason.e2e.test.ts" name="FR-007: auditor minimizes verify: human and requires reason when used &gt; verify: human を付与する際に理由を括弧書きで明記する義務が記述されている（runtime）" time="0.002002292">
+        </testcase>
+        <testcase classname="tests/e2e/checklist-auditor-verify-human-reason.e2e.test.ts" name="FR-007: auditor minimizes verify: human and requires reason when used &gt; verify: human の使用を最後の手段とする優先順位ルールが記述されている（runtime）" time="0.003199875">
+        </testcase>
+        <testcase classname="tests/e2e/checklist-auditor-verify-human-reason.e2e.test.ts" name="FR-007: auditor minimizes verify: human and requires reason when used &gt; runtime と CLI テンプレートが同一内容である（FR-014 同期義務）" time="0.008437958">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/claude-integration-skill-ears-locale.e2e.test.ts" timestamp="2026-05-28T23:18:38.730Z" hostname="KAG2310119.local" tests="3" failures="0" errors="0" skipped="0" time="0.0035415829">
+        <testcase classname="tests/e2e/claude-integration-skill-ears-locale.e2e.test.ts" name="FR-021: mspec-delta SKILL.md に locale 対応 EARS パターン例示が含まれる &gt; locale=ja 用の日本語 EARS パターン（このシステムは SHALL）が含まれる" time="0.00180425">
+        </testcase>
+        <testcase classname="tests/e2e/claude-integration-skill-ears-locale.e2e.test.ts" name="FR-021: mspec-delta SKILL.md に locale 対応 EARS パターン例示が含まれる &gt; locale=en 用の英語 EARS パターン（The system SHALL）が含まれる" time="0.0004588751">
+        </testcase>
+        <testcase classname="tests/e2e/claude-integration-skill-ears-locale.e2e.test.ts" name="FR-021: mspec-delta SKILL.md に locale 対応 EARS パターン例示が含まれる &gt; locale 分岐の指示が含まれる（locale=ja の場合 / locale=en の場合）" time="0.000519375">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/claude-integration-skill-ears.e2e.test.ts" timestamp="2026-05-28T23:18:38.731Z" hostname="KAG2310119.local" tests="5" failures="0" errors="0" skipped="0" time="0.0034855421">
+        <testcase classname="tests/e2e/claude-integration-skill-ears.e2e.test.ts" name="FR-010: mspec-delta SKILL.md references EARS format and RFC 2119 semantics &gt; Procedure 節に SHALL / MUST / SHOULD の使い分けの記述がある" time="0.0008314999">
+        </testcase>
+        <testcase classname="tests/e2e/claude-integration-skill-ears.e2e.test.ts" name="FR-010: mspec-delta SKILL.md references EARS format and RFC 2119 semantics &gt; Procedure 節に Scenario の必須化の記述がある" time="0.000406667">
+        </testcase>
+        <testcase classname="tests/e2e/claude-integration-skill-ears.e2e.test.ts" name="FR-010: mspec-delta SKILL.md references EARS format and RFC 2119 semantics &gt; Procedure 節に EARS の言及がある" time="0.000452167">
+        </testcase>
+        <testcase classname="tests/e2e/claude-integration-skill-ears.e2e.test.ts" name="FR-010: mspec-proposal SKILL.md acknowledges EARS+Scenario convention &gt; Procedure 節に EARS または delta ステップとの関連の注記がある" time="0.00056475">
+        </testcase>
+        <testcase classname="tests/e2e/claude-integration-skill-ears.e2e.test.ts" name="FR-010: mspec-design SKILL.md references EARS/Scenario alignment &gt; Procedure 節に Scenario との対応付け指示がある" time="0.0005650409">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/cli-delta-init-locale.e2e.test.ts" timestamp="2026-05-28T23:18:38.735Z" hostname="KAG2310119.local" tests="4" failures="0" errors="0" skipped="0" time="0.060529458">
+        <testcase classname="tests/e2e/cli-delta-init-locale.e2e.test.ts" name="delta init: locale 設定で Delta Spec スケルトンの本文が切り替わる &gt; locale: ja の config で日本語の GIVEN/WHEN/THEN 補足が出力される" time="0.0201817091">
+            <system-out>
+  note: treating &quot;search&quot; as NEW capability (FR-001 start)
+✓ /var/folders/mb/n67lb_6n56qf5n_f5pl7kym40000gq/T/mspec-locale-dPBGik/changes/2026-05-17-test-locale/specs/search/spec.md
+
+            </system-out>
+        </testcase>
+        <testcase classname="tests/e2e/cli-delta-init-locale.e2e.test.ts" name="delta init: locale 設定で Delta Spec スケルトンの本文が切り替わる &gt; locale: en の config で英語の precondition/action/result 補足が出力される" time="0.012414292">
+            <system-out>
+  note: treating &quot;search&quot; as NEW capability (FR-001 start)
+✓ /var/folders/mb/n67lb_6n56qf5n_f5pl7kym40000gq/T/mspec-locale-r9V2zo/changes/2026-05-17-test-locale/specs/search/spec.md
+
+            </system-out>
+        </testcase>
+        <testcase classname="tests/e2e/cli-delta-init-locale.e2e.test.ts" name="delta init: locale 設定で Delta Spec スケルトンの本文が切り替わる &gt; locale 未指定の config では既定値 (ja) で日本語スケルトンが出力される" time="0.016372291">
+            <system-out>
+  note: treating &quot;search&quot; as NEW capability (FR-001 start)
+✓ /var/folders/mb/n67lb_6n56qf5n_f5pl7kym40000gq/T/mspec-locale-aeuqZO/changes/2026-05-17-test-locale/specs/search/spec.md
+
+            </system-out>
+        </testcase>
+        <testcase classname="tests/e2e/cli-delta-init-locale.e2e.test.ts" name="delta init: locale 設定で Delta Spec スケルトンの本文が切り替わる &gt; locale を引数で渡すと config よりも優先される" time="0.010439208">
+            <system-out>
+  note: treating &quot;search&quot; as NEW capability (FR-001 start)
+✓ /var/folders/mb/n67lb_6n56qf5n_f5pl7kym40000gq/T/mspec-locale-iVyhHs/changes/2026-05-17-test-locale/specs/search/spec.md
+
+            </system-out>
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/cli-delta-spec-shall.e2e.test.ts" timestamp="2026-05-28T23:18:38.737Z" hostname="KAG2310119.local" tests="2" failures="0" errors="0" skipped="0" time="0.084822417">
+        <testcase classname="tests/e2e/cli-delta-spec-shall.e2e.test.ts" name="FR-011: delta-init uses SHALL as default ADDED Requirement keyword &gt; ADDED Requirement スタブが &quot;The system SHALL&quot; を含む (既存 capability)" time="0.0448505001">
+            <system-out>
+  note: existing capability detected, next FR-ID = FR-005
+✓ /var/folders/mb/n67lb_6n56qf5n_f5pl7kym40000gq/T/mspec-shall-N7NjSX/changes/2026-05-14-test-shall-keyword/specs/theme-engine/spec.md
+
+            </system-out>
+        </testcase>
+        <testcase classname="tests/e2e/cli-delta-spec-shall.e2e.test.ts" name="FR-011: new capability delta-init uses SHALL stub &gt; ADDED Requirement スタブが &quot;The system SHALL&quot; を含む (新規 capability)" time="0.038857625">
+            <system-out>
+  note: treating &quot;search&quot; as NEW capability (FR-001 start)
+✓ /var/folders/mb/n67lb_6n56qf5n_f5pl7kym40000gq/T/mspec-shall-M7gme0/changes/2026-05-14-test-shall-keyword/specs/search/spec.md
+
+            </system-out>
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/command-name-consistency-docs.e2e.test.ts" timestamp="2026-05-28T23:18:38.739Z" hostname="KAG2310119.local" tests="4" failures="0" errors="0" skipped="0" time="0.007722917">
+        <testcase classname="tests/e2e/command-name-consistency-docs.e2e.test.ts" name="FR-002: documentation files SHALL use /mspec:&lt;step&gt; format only &gt; README.md contains no /mspec-&lt;step&gt; slash command references" time="0.0026518331">
+        </testcase>
+        <testcase classname="tests/e2e/command-name-consistency-docs.e2e.test.ts" name="FR-002: documentation files SHALL use /mspec:&lt;step&gt; format only &gt; docs/design/mspec-design.md contains no /mspec-&lt;step&gt; references" time="0.0011840839">
+        </testcase>
+        <testcase classname="tests/e2e/command-name-consistency-docs.e2e.test.ts" name="FR-002: documentation files SHALL use /mspec:&lt;step&gt; format only &gt; specs/claude-integration/spec.md contains no /mspec-&lt;step&gt; references" time="0.0019699999">
+        </testcase>
+        <testcase classname="tests/e2e/command-name-consistency-docs.e2e.test.ts" name="FR-002: documentation files SHALL use /mspec:&lt;step&gt; format only &gt; specs/cli-init/spec.md contains no /mspec-&lt;step&gt; references" time="0.0008736659">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/command-name-consistency-skills.e2e.test.ts" timestamp="2026-05-28T23:18:38.743Z" hostname="KAG2310119.local" tests="2" failures="0" errors="0" skipped="0" time="0.0436283339">
+        <testcase classname="tests/e2e/command-name-consistency-skills.e2e.test.ts" name="FR-017: skill and command files SHALL use /mspec:&lt;step&gt; format only &gt; runtime SKILL.md files contain no /mspec-&lt;step&gt; slash command references" time="0.0225244579">
+        </testcase>
+        <testcase classname="tests/e2e/command-name-consistency-skills.e2e.test.ts" name="FR-017: skill and command files SHALL use /mspec:&lt;step&gt; format only &gt; runtime command .md files contain no /mspec-&lt;step&gt; slash command references" time="0.0206120839">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/command-name-consistency-templates.e2e.test.ts" timestamp="2026-05-28T23:18:38.743Z" hostname="KAG2310119.local" tests="6" failures="0" errors="0" skipped="0" time="0.0258363341">
+        <testcase classname="tests/e2e/command-name-consistency-templates.e2e.test.ts" name="FR-001: CLI templates and source SHALL use /mspec:&lt;step&gt; format only &gt; template command .md files contain no /mspec-&lt;step&gt; references" time="0.004899292">
+        </testcase>
+        <testcase classname="tests/e2e/command-name-consistency-templates.e2e.test.ts" name="FR-001: CLI templates and source SHALL use /mspec:&lt;step&gt; format only &gt; template SKILL.md files contain no /mspec-&lt;step&gt; references" time="0.017407708">
+        </testcase>
+        <testcase classname="tests/e2e/command-name-consistency-templates.e2e.test.ts" name="FR-001: CLI templates and source SHALL use /mspec:&lt;step&gt; format only &gt; workflow.yaml command: fields use colon format" time="0.000879083">
+        </testcase>
+        <testcase classname="tests/e2e/command-name-consistency-templates.e2e.test.ts" name="FR-001: CLI templates and source SHALL use /mspec:&lt;step&gt; format only &gt; workflow.default.yaml command: fields use colon format" time="0.000812959">
+        </testcase>
+        <testcase classname="tests/e2e/command-name-consistency-templates.e2e.test.ts" name="FR-001: CLI templates and source SHALL use /mspec:&lt;step&gt; format only &gt; CLI source init.ts contains no /mspec-&lt;step&gt; references" time="0.000641416">
+        </testcase>
+        <testcase classname="tests/e2e/command-name-consistency-templates.e2e.test.ts" name="FR-001: CLI templates and source SHALL use /mspec:&lt;step&gt; format only &gt; CLI source new.ts contains no /mspec-&lt;step&gt; references" time="0.000548208">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/continue-envelope.e2e.test.ts" timestamp="2026-05-28T23:18:38.744Z" hostname="KAG2310119.local" tests="4" failures="0" errors="0" skipped="0" time="0.162831833">
+        <testcase classname="tests/e2e/continue-envelope.e2e.test.ts" name="FR-015: upstream_skipped regression &gt; skip 済み research ステップが upstream_skipped に含まれる" time="0.072731958">
+        </testcase>
+        <testcase classname="tests/e2e/continue-envelope.e2e.test.ts" name="FR-015: upstream_skipped regression &gt; skip がない場合は upstream_skipped が空配列" time="0.0171265">
+        </testcase>
+        <testcase classname="tests/e2e/continue-envelope.e2e.test.ts" name="FR-016: constitution_principles in continue output &gt; design ステップが全宣言原則を列挙する" time="0.038425042">
+        </testcase>
+        <testcase classname="tests/e2e/continue-envelope.e2e.test.ts" name="FR-016: constitution_principles in continue output &gt; Constitution Check が無効な new ステップでは空配列" time="0.033925375">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/delta-spec-risk-tier.e2e.test.ts" timestamp="2026-05-28T23:18:38.745Z" hostname="KAG2310119.local" tests="7" failures="0" errors="0" skipped="0" time="0.019178208">
+        <testcase classname="tests/e2e/delta-spec-risk-tier.e2e.test.ts" name="FR-001: risk_tier フィールドのパース &gt; risk_tier: critical を含む FR を正常にパースする" time="0.00766175">
+        </testcase>
+        <testcase classname="tests/e2e/delta-spec-risk-tier.e2e.test.ts" name="FR-002: blast_radius フィールドのパース &gt; blast_radius: external を含む FR を正常にパースする" time="0.0016758341">
+        </testcase>
+        <testcase classname="tests/e2e/delta-spec-risk-tier.e2e.test.ts" name="FR-003: risk_tier 未記載 FR は standard デフォルト &gt; risk_tier 未記載 FR を standard として返す" time="0.002717958">
+        </testcase>
+        <testcase classname="tests/e2e/delta-spec-risk-tier.e2e.test.ts" name="FR-004: 無効 risk_tier 値で errors が非空 &gt; risk_tier: unknown で errors が非空になる" time="0.001094041">
+        </testcase>
+        <testcase classname="tests/e2e/delta-spec-risk-tier.e2e.test.ts" name="FR-005: 無効 blast_radius 値で errors が非空 &gt; blast_radius: global で errors が非空になる" time="0.000845875">
+        </testcase>
+        <testcase classname="tests/e2e/delta-spec-risk-tier.e2e.test.ts" name="verify-routing FR-003: trivial FR が checklist に出現したら warning &gt; trivial FR が checklist.md に存在した場合 warning を出す" time="0.003721959">
+        </testcase>
+        <testcase classname="tests/e2e/delta-spec-risk-tier.e2e.test.ts" name="verify-routing FR-005: risk_tier 未記載 FR の後方互換動作 &gt; risk_tier なし FR が standard として解釈され従来動作を維持する" time="0.000874541">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/design-two-files.e2e.test.ts" timestamp="2026-05-28T23:18:38.746Z" hostname="KAG2310119.local" tests="7" failures="0" errors="0" skipped="2" time="0.900432458">
+        <testcase classname="tests/e2e/design-two-files.e2e.test.ts" name="T120: FR-022 — design step produces lists design.md AND design-rationale.md &gt; mspec status --json returns design step with produces containing design.md and design-rationale.md" time="0.0741607081">
+        </testcase>
+        <testcase classname="tests/e2e/design-two-files.e2e.test.ts" name="T121: FR-022 — design-rationale.md missing → validate reports blocker (RED: not yet implemented) &gt; mspec validate exits non-zero and reports design-rationale.md as missing blocker when only design.md exists" time="0">
+            <skipped/>
+        </testcase>
+        <testcase classname="tests/e2e/design-two-files.e2e.test.ts" name="T121: FR-022 — design-rationale.md missing → validate reports blocker (RED: not yet implemented) &gt; mspec continue --json returns next_action: validate_failed when design-rationale.md is missing" time="0">
+            <skipped/>
+        </testcase>
+        <testcase classname="tests/e2e/design-two-files.e2e.test.ts" name="T122: FR-022 — design.md only → current_step remains design &gt; mspec continue --json has current_step: design and next_action: validate_failed or execute when design-rationale.md is absent" time="0.0388785">
+        </testcase>
+        <testcase classname="tests/e2e/design-two-files.e2e.test.ts" name="T123: FR-022 — both design.md and design-rationale.md present → design step done &gt; mspec validate passes and mspec status reports design as done when all three files are present" time="0.249780458">
+        </testcase>
+        <testcase classname="tests/e2e/design-two-files.e2e.test.ts" name="T123: FR-022 — both design.md and design-rationale.md present → design step done &gt; design-rationale.md has doc_type: Explanation in frontmatter" time="0.230790333">
+        </testcase>
+        <testcase classname="tests/e2e/design-two-files.e2e.test.ts" name="T123: FR-022 — both design.md and design-rationale.md present → design step done &gt; design.md has doc_type: Reference in frontmatter" time="0.30623725">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/doc-type-enforcement.e2e.test.ts" timestamp="2026-05-28T23:18:38.747Z" hostname="KAG2310119.local" tests="3" failures="0" errors="0" skipped="0" time="0.575915917">
+        <testcase classname="tests/e2e/doc-type-enforcement.e2e.test.ts" name="FR-015: doc_type value enforcement (artifact-taxonomy FR-002) &gt; rejects invalid doc_type &quot;Mixed&quot; with the spec-mandated error message" time="0.201153041">
+        </testcase>
+        <testcase classname="tests/e2e/doc-type-enforcement.e2e.test.ts" name="FR-015: doc_type value enforcement (artifact-taxonomy FR-002) &gt; rejects a template declaring doc_type: AI-Internal (exit non-zero)" time="0.1771017089">
+        </testcase>
+        <testcase classname="tests/e2e/doc-type-enforcement.e2e.test.ts" name="FR-015: doc_type value enforcement (artifact-taxonomy FR-002) &gt; rejects an artifact missing the doc_type field" time="0.196927291">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/done-command.e2e.test.ts" timestamp="2026-05-28T23:18:38.747Z" hostname="KAG2310119.local" tests="4" failures="0" errors="0" skipped="0" time="0.060819875">
+        <testcase classname="tests/e2e/done-command.e2e.test.ts" name="done command — FR-003: produces ガード &gt; T110: produces を持つステップに doneCommand を実行するとエラーメッセージが throw される" time="0.0179797909">
+        </testcase>
+        <testcase classname="tests/e2e/done-command.e2e.test.ts" name="done command — FR-003: produces ガード &gt; T111: ガードエラー後に done-log.json が変更されない" time="0.00767925">
+        </testcase>
+        <testcase classname="tests/e2e/done-command.e2e.test.ts" name="done command — FR-004: implement ステップの validate 連携 &gt; T112: enforce_anchor が満たされた状態で doneCommand(&quot;implement&quot;) が done-log を保存する" time="0.023077875">
+            <system-out>
+done: implement
+
+            </system-out>
+        </testcase>
+        <testcase classname="tests/e2e/done-command.e2e.test.ts" name="done command — FR-004: implement ステップの validate 連携 &gt; T113: enforce_anchor が未満足の状態で doneCommand(&quot;implement&quot;) がエラーを throw し done-log を更新しない" time="0.01133025">
+            <system-err>
+✗ enforce_anchor: no @mspec-delta anchor blocks found in code/tests referencing change &quot;2026-05-14-000000-test-done-cmd&quot;
+
+            </system-err>
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/done-log.e2e.test.ts" timestamp="2026-05-28T23:18:38.747Z" hostname="KAG2310119.local" tests="3" failures="0" errors="0" skipped="0" time="0.0490122499">
+        <testcase classname="tests/e2e/done-log.e2e.test.ts" name="done-log.ts — FR-001/FR-002 &gt; T101: done-log.json が存在しない状態で recordDone が新規エントリを作成する" time="0.014679667">
+        </testcase>
+        <testcase classname="tests/e2e/done-log.e2e.test.ts" name="done-log.ts — FR-001/FR-002 &gt; T102: 同一ステップへの 2 回目実行でタイムスタンプが上書きされる" time="0.028141625">
+        </testcase>
+        <testcase classname="tests/e2e/done-log.e2e.test.ts" name="done-log.ts — FR-001/FR-002 &gt; T103: loadDoneLog が Record&lt;string, Record&lt;string, { done_at }&gt;&gt; のネスト形式を返す" time="0.0056362079">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/dynamic-security-questions-generated.e2e.test.ts" timestamp="2026-05-28T23:18:38.747Z" hostname="KAG2310119.local" tests="6" failures="0" errors="0" skipped="0" time="0.015058542">
+        <testcase classname="tests/e2e/dynamic-security-questions-generated.e2e.test.ts" name="FR-003: mspec-security-analyzer エージェント定義が存在する &gt; .claude/agents/mspec-security-analyzer.md が作成されている" time="0.0019675829">
+        </testcase>
+        <testcase classname="tests/e2e/dynamic-security-questions-generated.e2e.test.ts" name="FR-003: mspec-security-analyzer エージェント定義が存在する &gt; エージェント定義に specs/ スコープへの読み取り制約が記述されている" time="0.0016704171">
+        </testcase>
+        <testcase classname="tests/e2e/dynamic-security-questions-generated.e2e.test.ts" name="FR-003: mspec-security-analyzer エージェント定義が存在する &gt; エージェント定義に読み取り専用制約が記述されている" time="0.003560125">
+        </testcase>
+        <testcase classname="tests/e2e/dynamic-security-questions-generated.e2e.test.ts" name="FR-004: SKILL.md にサブエージェント呼び出し手順が追加されている &gt; SKILL.md に手順 4a (mspec-security-analyzer 起動) の記述がある" time="0.00326175">
+        </testcase>
+        <testcase classname="tests/e2e/dynamic-security-questions-generated.e2e.test.ts" name="FR-004: SKILL.md にサブエージェント呼び出し手順が追加されている &gt; SKILL.md に動的質問を AskUserQuestion で提示する手順 4b の記述がある" time="0.0020094579">
+        </testcase>
+        <testcase classname="tests/e2e/dynamic-security-questions-generated.e2e.test.ts" name="FR-004: SKILL.md にサブエージェント呼び出し手順が追加されている &gt; SKILL.md にセキュリティ質問数 3〜5 問の制約が記述されている" time="0.0019790419">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/dynamic-security-questions-removed.e2e.test.ts" timestamp="2026-05-28T23:18:38.748Z" hostname="KAG2310119.local" tests="5" failures="0" errors="0" skipped="0" time="0.0052305">
+        <testcase classname="tests/e2e/dynamic-security-questions-removed.e2e.test.ts" name="FR-001: 固定 PRP-SEC-001〜004 が proposal.yaml から削除されている &gt; proposal.yaml に PRP-SEC-001 エントリが存在しない" time="0.001155959">
+        </testcase>
+        <testcase classname="tests/e2e/dynamic-security-questions-removed.e2e.test.ts" name="FR-001: 固定 PRP-SEC-001〜004 が proposal.yaml から削除されている &gt; proposal.yaml に PRP-SEC-004 エントリが存在しない" time="0.000533792">
+        </testcase>
+        <testcase classname="tests/e2e/dynamic-security-questions-removed.e2e.test.ts" name="FR-001: 固定 PRP-SEC-001〜004 が proposal.yaml から削除されている &gt; proposal.yaml に category: security のエントリが存在しない" time="0.0014577091">
+        </testcase>
+        <testcase classname="tests/e2e/dynamic-security-questions-removed.e2e.test.ts" name="FR-001: SKILL.md から PRP-SEC 固定提示の手順が削除されている &gt; SKILL.md に PRP-SEC-001〜004 の 4 問を必ず提示すること という記述が存在しない" time="0.000989625">
+        </testcase>
+        <testcase classname="tests/e2e/dynamic-security-questions-removed.e2e.test.ts" name="FR-001: SKILL.md から PRP-SEC 固定提示の手順が削除されている &gt; SKILL.md の ## Decisions 記録指示に PRP-SEC 固定 ID 参照が存在しない" time="0.0004645001">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/ears-japanese-body-valid.e2e.test.ts" timestamp="2026-05-28T23:18:38.750Z" hostname="KAG2310119.local" tests="3" failures="0" errors="0" skipped="0" time="0.0094515001">
+        <testcase classname="tests/e2e/ears-japanese-body-valid.e2e.test.ts" name="FR-002/FR-003: 日本語本文の Requirement が parse を通過する &gt; FR-002: 日本語本文の spec.md が parseDeltaSpec でパースエラーなし" time="0.004860625">
+        </testcase>
+        <testcase classname="tests/e2e/ears-japanese-body-valid.e2e.test.ts" name="FR-002/FR-003: 日本語本文の Requirement が parse を通過する &gt; FR-003: 既存の英語のみ spec.md も locale:ja 環境下でパースエラーなし" time="0.0012997919">
+        </testcase>
+        <testcase classname="tests/e2e/ears-japanese-body-valid.e2e.test.ts" name="FR-002/FR-003: 日本語本文の Requirement が parse を通過する &gt; FR-004: 日本語シナリオ名の H4 アンカーが認識される" time="0.0028574589">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/ears-keywords-english.e2e.test.ts" timestamp="2026-05-28T23:18:38.750Z" hostname="KAG2310119.local" tests="2" failures="0" errors="0" skipped="0" time="0.0014966249">
+        <testcase classname="tests/e2e/ears-keywords-english.e2e.test.ts" name="FR-001: locale:ja でも EARS キーワードは英語のまま維持される &gt; EARS キーワード（SHALL, WHEN, GIVEN, THEN）は英語固定の識別子" time="0.000831333">
+        </testcase>
+        <testcase classname="tests/e2e/ears-keywords-english.e2e.test.ts" name="FR-001: locale:ja でも EARS キーワードは英語のまま維持される &gt; Requirement: と Scenario: の H3/H4 識別子は英語固定" time="0.000111792">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/human-friendly-artifacts.e2e.test.ts" timestamp="2026-05-28T23:18:38.751Z" hostname="KAG2310119.local" tests="7" failures="0" errors="0" skipped="0" time="0.034535875">
+        <testcase classname="tests/e2e/human-friendly-artifacts.e2e.test.ts" name="FR-006: 人間向けアーティファクトテンプレートは自然語・会話的文体を採用する &gt; checklist.ja.md の各 H2 セクション直下に自然語説明文が存在する" time="0.005172917">
+        </testcase>
+        <testcase classname="tests/e2e/human-friendly-artifacts.e2e.test.ts" name="FR-006: 人間向けアーティファクトテンプレートは自然語・会話的文体を採用する &gt; design.ja.md の ## Summary 直下にリード文が存在する（コメントでない）" time="0.012123541">
+        </testcase>
+        <testcase classname="tests/e2e/human-friendly-artifacts.e2e.test.ts" name="FR-006: 人間向けアーティファクトテンプレートは自然語・会話的文体を採用する &gt; proposal.ja.md の ## Why セクション直下に一文の説明が存在する" time="0.001596583">
+        </testcase>
+        <testcase classname="tests/e2e/human-friendly-artifacts.e2e.test.ts" name="FR-007: checklist.md テンプレートはカテゴリ別グループ構造と視覚的階層を持つ &gt; checklist.ja.md の見出しが 機能確認 / リグレッションリスク / デプロイ前確認 になっている" time="0.0006900001">
+        </testcase>
+        <testcase classname="tests/e2e/human-friendly-artifacts.e2e.test.ts" name="FR-007: checklist.md テンプレートはカテゴリ別グループ構造と視覚的階層を持つ &gt; checklist.en.md の見出しが Functional Verification / Regression Risk / Pre-deploy Checklist になっている" time="0.011331625">
+        </testcase>
+        <testcase classname="tests/e2e/human-friendly-artifacts.e2e.test.ts" name="FR-007: checklist.md テンプレートはカテゴリ別グループ構造と視覚的階層を持つ &gt; mspec-checklist-auditor.md のセクション名が新見出しと一致している" time="0.002034333">
+        </testcase>
+        <testcase classname="tests/e2e/human-friendly-artifacts.e2e.test.ts" name="FR-008: design.md テンプレートは ## Summary 直下にリード文プレースホルダを持つ &gt; design.en.md の ## Summary 直下にリード文が存在する（コメントでない）" time="0.000876917">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/implement-auto-check.e2e.test.ts" timestamp="2026-05-28T23:18:38.752Z" hostname="KAG2310119.local" tests="4" failures="0" errors="0" skipped="0" time="0.010336625">
+        <testcase classname="tests/e2e/implement-auto-check.e2e.test.ts" name="FR-012: mspec-implement auto-checks checklist items when task goes GREEN &gt; Procedure に verify: fr-NNN アノテーション付き項目を - [x] に更新する手順が記述されている" time="0.0023275">
+        </testcase>
+        <testcase classname="tests/e2e/implement-auto-check.e2e.test.ts" name="FR-012: mspec-implement auto-checks checklist items when task goes GREEN &gt; Procedure に - [ ] から - [x] への更新ロジックが記述されている" time="0.003480625">
+        </testcase>
+        <testcase classname="tests/e2e/implement-auto-check.e2e.test.ts" name="FR-012: mspec-implement auto-checks checklist items when task goes GREEN &gt; Procedure に task アンカーから FR-NNN を解決する手順が記述されている" time="0.001644459">
+        </testcase>
+        <testcase classname="tests/e2e/implement-auto-check.e2e.test.ts" name="FR-012: checklist unchanged when no matching verify annotation &gt; Procedure に verify: アノテーションが存在しない場合は checklist.md を変更しない旨が記述されている" time="0.0022825841">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/implement-unchecked-report.e2e.test.ts" timestamp="2026-05-28T23:18:38.753Z" hostname="KAG2310119.local" tests="5" failures="0" errors="0" skipped="0" time="0.005102542">
+        <testcase classname="tests/e2e/implement-unchecked-report.e2e.test.ts" name="FR-013: mspec-implement reports unchecked human items at end of step &gt; 全タスク完了後のステップに verify: human 未チェック項目の提示とブロック手順が記述されている" time="0.001183167">
+        </testcase>
+        <testcase classname="tests/e2e/implement-unchecked-report.e2e.test.ts" name="FR-013: mspec-implement reports unchecked human items at end of step &gt; 人間レビュー要求とブロックの記述がある" time="0.0016592909">
+        </testcase>
+        <testcase classname="tests/e2e/implement-unchecked-report.e2e.test.ts" name="FR-013: mspec-implement warns about unchecked fr-annotated items (gap) &gt; verify: fr-NNN 未チェック項目があった場合のギャップ警告手順が記述されている" time="0.000569875">
+        </testcase>
+        <testcase classname="tests/e2e/implement-unchecked-report.e2e.test.ts" name="FR-013: mspec-implement warns about unchecked fr-annotated items (gap) &gt; FR 番号の報告とブロックの記述がある" time="0.000532792">
+        </testcase>
+        <testcase classname="tests/e2e/implement-unchecked-report.e2e.test.ts" name="FR-013: mspec-implement declares completion when all items checked &gt; 全項目チェック済みの場合に実装完了を宣言する手順が記述されている" time="0.0004367081">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/improve-postmortem-quality.e2e.test.ts" timestamp="2026-05-28T23:18:38.753Z" hostname="KAG2310119.local" tests="3" failures="0" errors="0" skipped="0" time="0.01512475">
+        <testcase classname="tests/e2e/improve-postmortem-quality.e2e.test.ts" name="FR-003: improve-postmortem-quality — agent definition verification &gt; mspec-lessons-analyzer: concreteness detection logic is present" time="0.00779825">
+        </testcase>
+        <testcase classname="tests/e2e/improve-postmortem-quality.e2e.test.ts" name="FR-003: improve-postmortem-quality — agent definition verification &gt; mspec-nextaction-planner: request_summary field is present in output contract" time="0.0056678751">
+        </testcase>
+        <testcase classname="tests/e2e/improve-postmortem-quality.e2e.test.ts" name="FR-003: improve-postmortem-quality — agent definition verification &gt; mspec-archive: --request flag is present in step 6" time="0.000887416">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/init-agent-install.e2e.test.ts" timestamp="2026-05-28T23:18:38.754Z" hostname="KAG2310119.local" tests="1" failures="0" errors="0" skipped="0" time="0.003903834">
+        <testcase classname="tests/e2e/init-agent-install.e2e.test.ts" name="T201: FR-004 — mspec-visual-prototype-runner.md exists in agents template &gt; templates/claude/agents/mspec-visual-prototype-runner.md exists for mspec init to install" time="0.0034671661">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/init-gitignore.e2e.test.ts" timestamp="2026-05-28T23:18:38.754Z" hostname="KAG2310119.local" tests="7" failures="0" errors="0" skipped="0" time="0.016502959">
+        <testcase classname="tests/e2e/init-gitignore.e2e.test.ts" name="T002-S1: FR-012 — mspec init creates .mspec/.gitignore &gt; templates/mspec-gitignore テンプレートファイルが存在する" time="0.001088958">
+        </testcase>
+        <testcase classname="tests/e2e/init-gitignore.e2e.test.ts" name="T002-S1: FR-012 — mspec init creates .mspec/.gitignore &gt; templates/mspec-gitignore に ui.pid 行が含まれる" time="0.002890167">
+        </testcase>
+        <testcase classname="tests/e2e/init-gitignore.e2e.test.ts" name="T002-S1: FR-012 — mspec init creates .mspec/.gitignore &gt; init.ts が .mspec/.gitignore を plan に追加している" time="0.0017432079">
+        </testcase>
+        <testcase classname="tests/e2e/init-gitignore.e2e.test.ts" name="T002-S1: FR-012 — mspec init creates .mspec/.gitignore &gt; init.ts が mspec-gitignore テンプレートを参照している" time="0.0044092079">
+        </testcase>
+        <testcase classname="tests/e2e/init-gitignore.e2e.test.ts" name="T002-S2: FR-012 — collisions check protects existing .mspec/.gitignore &gt; init.ts の collisions チェックが plan の各 to パスの存在確認を行う" time="0.002443917">
+        </testcase>
+        <testcase classname="tests/e2e/init-gitignore.e2e.test.ts" name="T002-S3: FR-012 — --force re-generates .mspec/.gitignore &gt; init.ts の --force フラグが collisions チェックをスキップする" time="0.001061625">
+        </testcase>
+        <testcase classname="tests/e2e/init-gitignore.e2e.test.ts" name="T002-S3: FR-012 — --force re-generates .mspec/.gitignore &gt; init.ts の writeFile ループが plan の全エントリを書き込む（--force 時も同様）" time="0.002073416">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/init-global-link.e2e.test.ts" timestamp="2026-05-28T23:18:38.756Z" hostname="KAG2310119.local" tests="8" failures="0" errors="0" skipped="0" time="0.005040583">
+        <testcase classname="tests/e2e/init-global-link.e2e.test.ts" name="FR-001: ensureGlobalLink runs npm run build then npm link in dev-mode &gt; init.ts が ensureGlobalLink 関数をエクスポートしている" time="0.00102925">
+        </testcase>
+        <testcase classname="tests/e2e/init-global-link.e2e.test.ts" name="FR-001: ensureGlobalLink runs npm run build then npm link in dev-mode &gt; init.ts が spawnSync を使用して npm run build を実行する" time="0.000275417">
+        </testcase>
+        <testcase classname="tests/e2e/init-global-link.e2e.test.ts" name="FR-001: ensureGlobalLink runs npm run build then npm link in dev-mode &gt; init.ts が spawnSync を使用して npm link を実行する" time="0.000216166">
+        </testcase>
+        <testcase classname="tests/e2e/init-global-link.e2e.test.ts" name="FR-001: ensureGlobalLink runs npm run build then npm link in dev-mode &gt; initCommand 末尾で ensureGlobalLink が呼ばれる（done ログの前）" time="0.000338083">
+        </testcase>
+        <testcase classname="tests/e2e/init-global-link.e2e.test.ts" name="FR-002: ensureGlobalLink skips when not in dev-mode &gt; init.ts が tsconfig.json の存在確認を dev-mode 検出に使用している" time="0.0006366249">
+        </testcase>
+        <testcase classname="tests/e2e/init-global-link.e2e.test.ts" name="FR-002: ensureGlobalLink skips when not in dev-mode &gt; init.ts が package.json の存在確認を dev-mode 検出に使用している" time="0.0006177911">
+        </testcase>
+        <testcase classname="tests/e2e/init-global-link.e2e.test.ts" name="FR-003: ensureGlobalLink warns and continues on build or link failure &gt; init.ts がビルド失敗時に console.warn を呼ぶ" time="0.000342917">
+        </testcase>
+        <testcase classname="tests/e2e/init-global-link.e2e.test.ts" name="FR-003: ensureGlobalLink warns and continues on build or link failure &gt; init.ts がリンク失敗時に console.warn を呼ぶ" time="0.0006305829">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/learn.e2e.test.ts" timestamp="2026-05-28T23:18:38.757Z" hostname="KAG2310119.local" tests="3" failures="0" errors="0" skipped="0" time="0.056378875">
+        <testcase classname="tests/e2e/learn.e2e.test.ts" name="FR-006: mspec learn コマンド &gt; Scenario 3: archive が空の場合は patterns: [] を出力して exit 0" time="0.014151792">
+        </testcase>
+        <testcase classname="tests/e2e/learn.e2e.test.ts" name="FR-006: mspec learn コマンド &gt; Scenario 1: review_edits_count &gt; 0 のエントリから review-blocker パターンを抽出する" time="0.022423667">
+        </testcase>
+        <testcase classname="tests/e2e/learn.e2e.test.ts" name="FR-006: mspec learn コマンド &gt; Scenario 2: verify: human 未チェック項目から unchecked-human-verify パターンを抽出する" time="0.0185480421">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/lightweight-change-mode.e2e.test.ts" timestamp="2026-05-28T23:18:38.757Z" hostname="KAG2310119.local" tests="4" failures="0" errors="0" skipped="0" time="0.137321291">
+        <testcase classname="tests/e2e/lightweight-change-mode.e2e.test.ts" name="FR-019: モード由来スキップ (state-engine + continue) &gt; typo モードで proposal が state:skipped になり delta が current_step になる" time="0.0225061671">
+        </testcase>
+        <testcase classname="tests/e2e/lightweight-change-mode.e2e.test.ts" name="FR-019: モード由来スキップ (state-engine + continue) &gt; FR-020: モード未指定で proposal が ready になる（後方互換）" time="0.045422125">
+        </testcase>
+        <testcase classname="tests/e2e/lightweight-change-mode.e2e.test.ts" name="FR-021: force チェック (skip コマンド) &gt; bugfix モードで research スキップが拒否される" time="0.032677125">
+        </testcase>
+        <testcase classname="tests/e2e/lightweight-change-mode.e2e.test.ts" name="FR-021: force チェック (skip コマンド) &gt; 非 force ステップは bugfix モードでもスキップ可能" time="0.0227952091">
+            <system-out>
+skipped: proposal (proposal is not in force list for bugfix)
+
+            </system-out>
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/locale-config-default.e2e.test.ts" timestamp="2026-05-28T23:18:38.758Z" hostname="KAG2310119.local" tests="2" failures="0" errors="0" skipped="0" time="0.013714834">
+        <testcase classname="tests/e2e/locale-config-default.e2e.test.ts" name="FR-002: locale キー未指定のとき既定 ja が適用される &gt; locale キーがない場合 resolvedLocale.locale === ja" time="0.0082190421">
+        </testcase>
+        <testcase classname="tests/e2e/locale-config-default.e2e.test.ts" name="FR-002: locale キー未指定のとき既定 ja が適用される &gt; locale キーがない場合 unsupported は false" time="0.0045677079">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/locale-config-new-ja.e2e.test.ts" timestamp="2026-05-28T23:18:38.758Z" hostname="KAG2310119.local" tests="2" failures="0" errors="0" skipped="0" time="0.087553208">
+        <testcase classname="tests/e2e/locale-config-new-ja.e2e.test.ts" name="FR-001: locale:ja のとき readme.md が ja テンプレートから生成される &gt; config に locale: ja が設定されている場合、readme.ja.md テンプレートが選択される" time="0.0202748331">
+            <system-out>
+✓ Created 2026-05-28-231836-test-feature
+  next: run /mspec:proposal
+
+            </system-out>
+        </testcase>
+        <testcase classname="tests/e2e/locale-config-new-ja.e2e.test.ts" name="FR-001: locale:ja のとき readme.md が ja テンプレートから生成される &gt; config に locale: en が設定されている場合、readme.en.md テンプレートが選択される" time="0.066146542">
+            <system-out>
+✓ Created 2026-05-28-231836-test-feature
+  next: run /mspec:proposal
+
+            </system-out>
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/locale-config-third-party.e2e.test.ts" timestamp="2026-05-28T23:18:38.760Z" hostname="KAG2310119.local" tests="2" failures="0" errors="0" skipped="0" time="0.010202458">
+        <testcase classname="tests/e2e/locale-config-third-party.e2e.test.ts" name="FR-004: サードパーティ locale を追加するだけで自動認識される &gt; templates/artifacts/*.zh.md を追加すると scanSupportedLocales が zh を含む" time="0.0040335001">
+        </testcase>
+        <testcase classname="tests/e2e/locale-config-third-party.e2e.test.ts" name="FR-004: サードパーティ locale を追加するだけで自動認識される &gt; loadConfig が zh テンプレート追加後に locale: zh を valid と解決する" time="0.0052030829">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/locale-config-unsupported.e2e.test.ts" timestamp="2026-05-28T23:18:38.761Z" hostname="KAG2310119.local" tests="2" failures="0" errors="0" skipped="0" time="0.014317084">
+        <testcase classname="tests/e2e/locale-config-unsupported.e2e.test.ts" name="FR-003: 未対応 locale のとき loadConfig は throw せず unsupported:true を返す &gt; locale: xx で loadConfig が resolvedLocale.unsupported === true を返す" time="0.0106056659">
+        </testcase>
+        <testcase classname="tests/e2e/locale-config-unsupported.e2e.test.ts" name="FR-003: 未対応 locale のとき loadConfig は throw せず unsupported:true を返す &gt; loadConfig は unsupported locale でも throw しない" time="0.003262625">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/mock-command.e2e.test.ts" timestamp="2026-05-28T23:18:38.761Z" hostname="KAG2310119.local" tests="3" failures="0" errors="0" skipped="0" time="0.029912375">
+        <testcase classname="tests/e2e/mock-command.e2e.test.ts" name="TASK-010: FR-004 — mspec mock normal execution flow &gt; outputs server URL and feedback prompt when run with a valid change" time="0.008705791">
+        </testcase>
+        <testcase classname="tests/e2e/mock-command.e2e.test.ts" name="T101: FR-001/FR-002 — prototypeCommand creates prototype/ directory &gt; prototype server output contains &quot;prototype&quot; and localhost URL" time="0.016069083">
+        </testcase>
+        <testcase classname="tests/e2e/mock-command.e2e.test.ts" name="TASK-011: FR-004 — mspec mock no active change error &gt; exits with non-zero and stderr contains &quot;no active change found&quot; when changes/ is empty" time="0.0040885">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/mock-generation.e2e.test.ts" timestamp="2026-05-28T23:18:38.762Z" hostname="KAG2310119.local" tests="7" failures="0" errors="0" skipped="0" time="0.07746525">
+        <testcase classname="tests/e2e/mock-generation.e2e.test.ts" name="TASK-012: FR-001 — prototype/index.html generation &gt; prototype/index.html exists and is parseable HTML" time="0.0103357919">
+        </testcase>
+        <testcase classname="tests/e2e/mock-generation.e2e.test.ts" name="TASK-012: FR-001 — prototype/index.html generation &gt; framework detector identifies @mui/material from package.json" time="0.003675584">
+        </testcase>
+        <testcase classname="tests/e2e/mock-generation.e2e.test.ts" name="TASK-013: FR-002 — HTTP server startup and URL &gt; startPrototypeServer() returns port &gt;= 3737" time="0.00276325">
+        </testcase>
+        <testcase classname="tests/e2e/mock-generation.e2e.test.ts" name="TASK-013: FR-002 — HTTP server startup and URL &gt; http://localhost:&lt;port&gt; serves index.html content" time="0.0306813329">
+        </testcase>
+        <testcase classname="tests/e2e/mock-generation.e2e.test.ts" name="TASK-013: FR-002 — HTTP server startup and URL &gt; auto-increments port when preferred port is in use" time="0.0084619999">
+        </testcase>
+        <testcase classname="tests/e2e/mock-generation.e2e.test.ts" name="TASK-014: FR-003 — feedback file saved after mock &gt; prototype-feedback.md is created with correct format" time="0.0164252501">
+        </testcase>
+        <testcase classname="tests/e2e/mock-generation.e2e.test.ts" name="TASK-014: FR-003 — feedback file saved after mock &gt; prototype-feedback.md is overwritten on second run" time="0.003983291">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/mspec-archive-purpose-generation.e2e.test.ts" timestamp="2026-05-28T23:18:38.762Z" hostname="KAG2310119.local" tests="4" failures="0" errors="0" skipped="0" time="0.0147726669">
+        <testcase classname="tests/e2e/mspec-archive-purpose-generation.e2e.test.ts" name="FR-005: mspec-archive SKILL.md — Purpose auto-generation step &gt; T002-A: SKILL.md contains step 3d Purpose generation procedure" time="0.0072722499">
+        </testcase>
+        <testcase classname="tests/e2e/mspec-archive-purpose-generation.e2e.test.ts" name="FR-005: mspec-archive SKILL.md — Purpose auto-generation step &gt; T002-B: step 3d specifies skip-and-continue for partial failures" time="0.002134958">
+        </testcase>
+        <testcase classname="tests/e2e/mspec-archive-purpose-generation.e2e.test.ts" name="FR-005: mspec-archive SKILL.md — Purpose auto-generation step &gt; T002-C: step 3d is positioned after step 3c (postmortem hook)" time="0.0034827911">
+        </testcase>
+        <testcase classname="tests/e2e/mspec-archive-purpose-generation.e2e.test.ts" name="FR-005: mspec-archive SKILL.md — Purpose auto-generation step &gt; T002-D: Purpose already filled case is handled (idempotent skip)" time="0.000396292">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/npm-publish-package-config.e2e.test.ts" timestamp="2026-05-28T23:18:38.764Z" hostname="KAG2310119.local" tests="3" failures="0" errors="0" skipped="0" time="0.0188640419">
+        <testcase classname="tests/e2e/npm-publish-package-config.e2e.test.ts" name="FR-001: npm パッケージ公開設定 (package.json) &gt; package.json に publishConfig.access が &quot;public&quot; で設定されていること" time="0.01013125">
+        </testcase>
+        <testcase classname="tests/e2e/npm-publish-package-config.e2e.test.ts" name="FR-001: npm パッケージ公開設定 (package.json) &gt; package.json の version が semver (X.Y.Z 形式) であること" time="0.003477041">
+        </testcase>
+        <testcase classname="tests/e2e/npm-publish-package-config.e2e.test.ts" name="FR-001: npm パッケージ公開設定 (package.json) &gt; package.json の files フィールドに dist と templates が含まれること" time="0.004447209">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/npm-publish-version-dynamic.e2e.test.ts" timestamp="2026-05-28T23:18:38.766Z" hostname="KAG2310119.local" tests="2" failures="0" errors="0" skipped="0" time="0.0035636671">
+        <testcase classname="tests/e2e/npm-publish-version-dynamic.e2e.test.ts" name="FR-001: src/index.ts のバージョン動的参照 &gt; src/index.ts が createRequire を使ってバージョンを動的参照していること" time="0.001103333">
+        </testcase>
+        <testcase classname="tests/e2e/npm-publish-version-dynamic.e2e.test.ts" name="FR-001: src/index.ts のバージョン動的参照 &gt; src/index.ts が import.meta.url を使っていること" time="0.002048416">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/npm-publish-workflow.e2e.test.ts" timestamp="2026-05-28T23:18:38.767Z" hostname="KAG2310119.local" tests="4" failures="0" errors="0" skipped="0" time="0.003913458">
+        <testcase classname="tests/e2e/npm-publish-workflow.e2e.test.ts" name="FR-001/FR-002/FR-003: GitHub Actions publish.yml 設定 &gt; publish.yml が存在すること" time="0.0008536249">
+        </testcase>
+        <testcase classname="tests/e2e/npm-publish-workflow.e2e.test.ts" name="FR-001/FR-002/FR-003: GitHub Actions publish.yml 設定 &gt; publish.yml に v* タグトリガーが設定されていること" time="0.0005984581">
+        </testcase>
+        <testcase classname="tests/e2e/npm-publish-workflow.e2e.test.ts" name="FR-001/FR-002/FR-003: GitHub Actions publish.yml 設定 &gt; publish.yml に release.types: [released] トリガーが設定されていること" time="0.000455875">
+        </testcase>
+        <testcase classname="tests/e2e/npm-publish-workflow.e2e.test.ts" name="FR-001/FR-002/FR-003: GitHub Actions publish.yml 設定 &gt; defaults.run.working-directory が packages/cli に設定されていること" time="0.001233042">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/postmortem-archive-integration.e2e.test.ts" timestamp="2026-05-28T23:18:38.768Z" hostname="KAG2310119.local" tests="15" failures="0" errors="0" skipped="0" time="0.006530166">
+        <testcase classname="tests/e2e/postmortem-archive-integration.e2e.test.ts" name="postmortem-archive-integration: SKILL.md files &gt; mspec-lessons-analyzer skill &gt; SKILL.md exists at runtime path" time="0.000965">
+        </testcase>
+        <testcase classname="tests/e2e/postmortem-archive-integration.e2e.test.ts" name="postmortem-archive-integration: SKILL.md files &gt; mspec-lessons-analyzer skill &gt; SKILL.md contains @mspec-delta anchor for FR-001" time="0.000259542">
+        </testcase>
+        <testcase classname="tests/e2e/postmortem-archive-integration.e2e.test.ts" name="postmortem-archive-integration: SKILL.md files &gt; mspec-lessons-analyzer skill &gt; SKILL.md contains fixed enum target_section constraint" time="0.0002924579">
+        </testcase>
+        <testcase classname="tests/e2e/postmortem-archive-integration.e2e.test.ts" name="postmortem-archive-integration: SKILL.md files &gt; mspec-lessons-analyzer skill &gt; SKILL.md declares read-only (no write operations)" time="0.0001697091">
+        </testcase>
+        <testcase classname="tests/e2e/postmortem-archive-integration.e2e.test.ts" name="postmortem-archive-integration: SKILL.md files &gt; mspec-nextaction-planner skill &gt; SKILL.md exists at runtime path" time="0.000447917">
+        </testcase>
+        <testcase classname="tests/e2e/postmortem-archive-integration.e2e.test.ts" name="postmortem-archive-integration: SKILL.md files &gt; mspec-nextaction-planner skill &gt; SKILL.md contains kebab-case normalization pattern" time="0.000150084">
+        </testcase>
+        <testcase classname="tests/e2e/postmortem-archive-integration.e2e.test.ts" name="postmortem-archive-integration: SKILL.md files &gt; mspec-nextaction-planner skill &gt; SKILL.md prohibits using original text as kebab_name" time="0.000160084">
+        </testcase>
+        <testcase classname="tests/e2e/postmortem-archive-integration.e2e.test.ts" name="postmortem-archive-integration: SKILL.md files &gt; mspec-archive skill postmortem hook &gt; SKILL.md contains postmortem-hook version marker (postmortem-hook: v1)" time="0.000366208">
+        </testcase>
+        <testcase classname="tests/e2e/postmortem-archive-integration.e2e.test.ts" name="postmortem-archive-integration: SKILL.md files &gt; mspec-archive skill postmortem hook &gt; SKILL.md contains postmortem hook section" time="0.0002300841">
+        </testcase>
+        <testcase classname="tests/e2e/postmortem-archive-integration.e2e.test.ts" name="postmortem-archive-integration: SKILL.md files &gt; mspec-archive skill postmortem hook &gt; SKILL.md contains MUST NOT write guard" time="0.000135375">
+        </testcase>
+        <testcase classname="tests/e2e/postmortem-archive-integration.e2e.test.ts" name="postmortem-archive-integration: SKILL.md files &gt; mspec-archive skill postmortem hook &gt; SKILL.md contains mspec-lessons-analyzer subagent invocation" time="0.0004413329">
+        </testcase>
+        <testcase classname="tests/e2e/postmortem-archive-integration.e2e.test.ts" name="postmortem-archive-integration: SKILL.md files &gt; mspec-archive skill postmortem hook &gt; SKILL.md contains mspec-nextaction-planner subagent invocation" time="0.000403458">
+        </testcase>
+        <testcase classname="tests/e2e/postmortem-archive-integration.e2e.test.ts" name="postmortem-archive-integration: SKILL.md files &gt; mspec-archive skill postmortem hook &gt; archive SKILL.md has @mspec-delta anchor for postmortem change" time="0.000396">
+        </testcase>
+        <testcase classname="tests/e2e/postmortem-archive-integration.e2e.test.ts" name="postmortem-archive-integration: SKILL.md files &gt; template sync verification &gt; lessons-analyzer template matches runtime" time="0.0005102921">
+        </testcase>
+        <testcase classname="tests/e2e/postmortem-archive-integration.e2e.test.ts" name="postmortem-archive-integration: SKILL.md files &gt; template sync verification &gt; nextaction-planner template matches runtime" time="0.0005894589">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/questions-bank-ja.e2e.test.ts" timestamp="2026-05-28T23:18:38.770Z" hostname="KAG2310119.local" tests="2" failures="0" errors="0" skipped="0" time="0.0024055001">
+        <testcase classname="tests/e2e/questions-bank-ja.e2e.test.ts" name="FR-001: locale:ja のとき質問が日本語で返る &gt; question が per-locale オブジェクトの場合 active locale の文字列を返す" time="0.000722333">
+        </testcase>
+        <testcase classname="tests/e2e/questions-bank-ja.e2e.test.ts" name="FR-001: locale:ja のとき質問が日本語で返る &gt; options が per-locale オブジェクト配列の場合 active locale の文字列配列を返す" time="0.000315208">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/questions-legacy-scalar.e2e.test.ts" timestamp="2026-05-28T23:18:38.770Z" hostname="KAG2310119.local" tests="2" failures="0" errors="0" skipped="0" time="0.002132625">
+        <testcase classname="tests/e2e/questions-legacy-scalar.e2e.test.ts" name="FR-004: 旧スカラ表記の質問エントリが後方互換で動作する &gt; 旧スカラ question は en 互換でそのまま返す" time="0.00082525">
+        </testcase>
+        <testcase classname="tests/e2e/questions-legacy-scalar.e2e.test.ts" name="FR-004: 旧スカラ表記の質問エントリが後方互換で動作する &gt; 旧スカラ options 配列はそのまま返す" time="0.000288708">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/questions-partial-fallback.e2e.test.ts" timestamp="2026-05-28T23:18:38.770Z" hostname="KAG2310119.local" tests="1" failures="0" errors="0" skipped="0" time="0.0010793749">
+        <testcase classname="tests/e2e/questions-partial-fallback.e2e.test.ts" name="FR-003: 一部質問のみ ja 翻訳欠落のとき en フォールバック + 警告1回 &gt; ja キーが欠落している場合 en フォールバックし、警告は1回のみ emit される" time="0.000703208">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/readme-artifacts-checkbox.e2e.test.ts" timestamp="2026-05-28T23:18:38.771Z" hostname="KAG2310119.local" tests="9" failures="0" errors="0" skipped="0" time="0.0106711251">
+        <testcase classname="tests/e2e/readme-artifacts-checkbox.e2e.test.ts" name="FR-015: mspec-proposal updates readme.md Artifacts checkbox &gt; Procedure に readme.md の proposal.md 行を - [x] に更新する指示が含まれる" time="0.002092625">
+        </testcase>
+        <testcase classname="tests/e2e/readme-artifacts-checkbox.e2e.test.ts" name="FR-015: mspec-proposal updates readme.md Artifacts checkbox &gt; Procedure に mspec validate 失敗時のロールバック指示が含まれる" time="0.0007433749">
+        </testcase>
+        <testcase classname="tests/e2e/readme-artifacts-checkbox.e2e.test.ts" name="FR-015: mspec-delta updates readme.md Artifacts checkbox &gt; Procedure に readme.md の specs/*/spec.md 行を - [x] に更新する指示が含まれる" time="0.002049042">
+        </testcase>
+        <testcase classname="tests/e2e/readme-artifacts-checkbox.e2e.test.ts" name="FR-015: mspec-delta updates readme.md Artifacts checkbox &gt; Procedure に mspec validate 失敗時のロールバック指示が含まれる" time="0.0007338331">
+        </testcase>
+        <testcase classname="tests/e2e/readme-artifacts-checkbox.e2e.test.ts" name="FR-015: remaining step skills update readme.md Artifacts checkbox &gt; mspec-research に Artifacts 更新指示が含まれる" time="0.0007788329">
+        </testcase>
+        <testcase classname="tests/e2e/readme-artifacts-checkbox.e2e.test.ts" name="FR-015: remaining step skills update readme.md Artifacts checkbox &gt; mspec-design に Artifacts 更新指示が含まれる" time="0.000701125">
+        </testcase>
+        <testcase classname="tests/e2e/readme-artifacts-checkbox.e2e.test.ts" name="FR-015: remaining step skills update readme.md Artifacts checkbox &gt; mspec-quickstart に Artifacts 更新指示が含まれる" time="0.001034125">
+        </testcase>
+        <testcase classname="tests/e2e/readme-artifacts-checkbox.e2e.test.ts" name="FR-015: remaining step skills update readme.md Artifacts checkbox &gt; mspec-checklist に Artifacts 更新指示が含まれる" time="0.000760625">
+        </testcase>
+        <testcase classname="tests/e2e/readme-artifacts-checkbox.e2e.test.ts" name="FR-015: remaining step skills update readme.md Artifacts checkbox &gt; mspec-tasks に Artifacts 更新指示が含まれる" time="0.0007915419">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/readme-tutorial-summary.e2e.test.ts" timestamp="2026-05-28T23:18:38.771Z" hostname="KAG2310119.local" tests="3" failures="0" errors="0" skipped="0" time="0.039475083">
+        <testcase classname="tests/e2e/readme-tutorial-summary.e2e.test.ts" name="FR-005: mspec new generates Tutorial readme with Summary placeholder &gt; readme.ja.md template has `## Summary (Lessons / Next Steps)` and placeholder comment" time="0.0018227501">
+        </testcase>
+        <testcase classname="tests/e2e/readme-tutorial-summary.e2e.test.ts" name="FR-005: mspec new generates Tutorial readme with Summary placeholder &gt; readme.en.md template has `## Summary (Lessons / Next Steps)` and placeholder comment" time="0.001224625">
+        </testcase>
+        <testcase classname="tests/e2e/readme-tutorial-summary.e2e.test.ts" name="FR-005: mspec new generates Tutorial readme with Summary placeholder &gt; mspec new &lt;feature&gt; generates readme.md whose end contains Summary section + placeholder" time="0.035953709">
+            <system-out>
+✓ Created 2026-05-28-231836-summary-test
+  next: run /mspec:proposal
+
+            </system-out>
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/runtime-template-sync.e2e.test.ts" timestamp="2026-05-28T23:18:38.772Z" hostname="KAG2310119.local" tests="11" failures="0" errors="0" skipped="0" time="0.143465084">
+        <testcase classname="tests/e2e/runtime-template-sync.e2e.test.ts" name="FR-014: mspec-checklist-auditor runtime/template sync &gt; runtime ファイルに verify: アノテーション手順が含まれている" time="0.0034495839">
+        </testcase>
+        <testcase classname="tests/e2e/runtime-template-sync.e2e.test.ts" name="FR-014: mspec-checklist-auditor runtime/template sync &gt; runtime と template の内容が完全に一致している" time="0.001364791">
+        </testcase>
+        <testcase classname="tests/e2e/runtime-template-sync.e2e.test.ts" name="FR-014: mspec-implement SKILL.md runtime/template sync &gt; runtime ファイルに auto-check / unchecked-report 手順が含まれている" time="0.0006935">
+        </testcase>
+        <testcase classname="tests/e2e/runtime-template-sync.e2e.test.ts" name="FR-014: mspec-implement SKILL.md runtime/template sync &gt; runtime と template の内容が完全に一致している" time="0.003235458">
+        </testcase>
+        <testcase classname="tests/e2e/runtime-template-sync.e2e.test.ts" name="FR-014: mspec-proposal SKILL.md runtime/template sync &gt; runtime と template の内容が完全に一致している" time="0.041831166">
+        </testcase>
+        <testcase classname="tests/e2e/runtime-template-sync.e2e.test.ts" name="FR-014: mspec-delta SKILL.md runtime/template sync &gt; runtime と template の内容が完全に一致している" time="0.0011694579">
+        </testcase>
+        <testcase classname="tests/e2e/runtime-template-sync.e2e.test.ts" name="FR-014: mspec-research SKILL.md runtime/template sync &gt; runtime と template の内容が完全に一致している" time="0.0221075">
+        </testcase>
+        <testcase classname="tests/e2e/runtime-template-sync.e2e.test.ts" name="FR-014: mspec-design SKILL.md runtime/template sync &gt; runtime と template の内容が完全に一致している" time="0.00142625">
+        </testcase>
+        <testcase classname="tests/e2e/runtime-template-sync.e2e.test.ts" name="FR-014: mspec-quickstart SKILL.md runtime/template sync &gt; runtime と template の内容が完全に一致している" time="0.007465">
+        </testcase>
+        <testcase classname="tests/e2e/runtime-template-sync.e2e.test.ts" name="FR-014: mspec-checklist SKILL.md runtime/template sync &gt; runtime と template の内容が完全に一致している" time="0.0353000001">
+        </testcase>
+        <testcase classname="tests/e2e/runtime-template-sync.e2e.test.ts" name="FR-014: mspec-tasks SKILL.md runtime/template sync &gt; runtime と template の内容が完全に一致している" time="0.023607">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/security-as-default.e2e.test.ts" timestamp="2026-05-28T23:18:38.778Z" hostname="KAG2310119.local" tests="10" failures="0" errors="0" skipped="0" time="0.027993709">
+        <testcase classname="tests/e2e/security-as-default.e2e.test.ts" name="FR-001 / FR-002 (superseded by dynamic-security-questions): proposal.yaml の security カテゴリ固定4問が削除されている &gt; question-bank に PRP-SEC-001〜004 が含まれない（動的生成に移行済み）" time="0.017910916">
+        </testcase>
+        <testcase classname="tests/e2e/security-as-default.e2e.test.ts" name="FR-001 (delta-spec-template): 3つの delta-spec テンプレートに ## Security Capabilities セクションが存在する &gt; delta-spec.ja.md に ## Security Capabilities が存在する" time="0.004257583">
+        </testcase>
+        <testcase classname="tests/e2e/security-as-default.e2e.test.ts" name="FR-001 (delta-spec-template): 3つの delta-spec テンプレートに ## Security Capabilities セクションが存在する &gt; delta-spec.en.md に ## Security Capabilities が存在する" time="0.000591208">
+        </testcase>
+        <testcase classname="tests/e2e/security-as-default.e2e.test.ts" name="FR-001 (delta-spec-template): 3つの delta-spec テンプレートに ## Security Capabilities セクションが存在する &gt; delta-spec.md に ## Security Capabilities が存在する" time="0.000820791">
+        </testcase>
+        <testcase classname="tests/e2e/security-as-default.e2e.test.ts" name="FR-001 (delta-spec-template): 3つの delta-spec テンプレートに ## Security Capabilities セクションが存在する &gt; delta-spec.ja.md の ## Security Capabilities は ## ADDED Requirements より前に配置される" time="0.000473958">
+        </testcase>
+        <testcase classname="tests/e2e/security-as-default.e2e.test.ts" name="FR-001 (constitution): memory/constitution.md に ### VI. Security by Default が存在する &gt; memory/constitution.md に VI. Security by Default が存在する" time="0.0006207501">
+        </testcase>
+        <testcase classname="tests/e2e/security-as-default.e2e.test.ts" name="FR-001 (constitution): memory/constitution.md に ### VI. Security by Default が存在する &gt; memory/constitution.md の Version が 1.1.0 に更新されている" time="0.000411375">
+        </testcase>
+        <testcase classname="tests/e2e/security-as-default.e2e.test.ts" name="FR-002 (constitution): templates/constitution.md に ### VI. Security by Default が存在する &gt; templates/constitution.md に VI. Security by Default が存在する" time="0.000948625">
+        </testcase>
+        <testcase classname="tests/e2e/security-as-default.e2e.test.ts" name="FR-001 (mspec-proposal): SKILL.md にサブエージェント呼び出し手順が存在する &gt; SKILL.md に mspec-security-analyzer への言及がある（動的生成移行後）" time="0.0005526659">
+        </testcase>
+        <testcase classname="tests/e2e/security-as-default.e2e.test.ts" name="FR-001 (mspec-proposal): SKILL.md にサブエージェント呼び出し手順が存在する &gt; SKILL.md に security-as-default の @mspec-delta アンカーがある" time="0.0004317499">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/spec-grep.e2e.test.ts" timestamp="2026-05-28T23:18:38.780Z" hostname="KAG2310119.local" tests="15" failures="0" errors="0" skipped="0" time="0.146844709">
+        <testcase classname="tests/e2e/spec-grep.e2e.test.ts" name="FR-013 Scenario 1: capability 名が昇順で列挙される &gt; capability 名がアルファベット昇順で出力される" time="0.0144963341">
+        </testcase>
+        <testcase classname="tests/e2e/spec-grep.e2e.test.ts" name="FR-013 Scenario 2: `specs/` が存在しない場合のエラー &gt; specs/ が存在しないとき exit code が非ゼロになる" time="0.001660208">
+        </testcase>
+        <testcase classname="tests/e2e/spec-grep.e2e.test.ts" name="FR-013 (追加): archive ディレクトリが capability 一覧に含まれない &gt; archive が capability 一覧に含まれない" time="0.0063384169">
+        </testcase>
+        <testcase classname="tests/e2e/spec-grep.e2e.test.ts" name="FR-014 Scenario 3: list-capabilities --json が構造化 JSON を返す &gt; --json が {command, results, meta} 構造を返す" time="0.008879625">
+        </testcase>
+        <testcase classname="tests/e2e/spec-grep.e2e.test.ts" name="FR-011 Scenario 1: 全 capability の Requirement が capability ヘッダ付きグループで出力される &gt; 各 capability のヘッダと FR-ID・タイトルが出力される" time="0.015465292">
+        </testcase>
+        <testcase classname="tests/e2e/spec-grep.e2e.test.ts" name="FR-011 Scenario 2: glob フィルタが正しく適用される &gt; glob &quot;cli-spec*&quot; で cli-spec-lint のみが含まれる" time="0.0074367499">
+        </testcase>
+        <testcase classname="tests/e2e/spec-grep.e2e.test.ts" name="FR-011 (追加): glob でゼロ件一致のとき空の結果を exit 0 で返す &gt; マッチしない glob は exit 0 で空の結果を返す" time="0.0039224169">
+        </testcase>
+        <testcase classname="tests/e2e/spec-grep.e2e.test.ts" name="FR-014 Scenario 1: list-requirements --json が構造化 JSON を返す &gt; --json が {command, results:[{capability, fr_id, title}], meta} を返す" time="0.004527459">
+        </testcase>
+        <testcase classname="tests/e2e/spec-grep.e2e.test.ts" name="FR-012 Scenario 1: SoT スペックの FR が正確に返される &gt; SoT spec の FR-001 ブロックが返される" time="0.0138978751">
+        </testcase>
+        <testcase classname="tests/e2e/spec-grep.e2e.test.ts" name="FR-012 Scenario 2: Delta Spec の FR も検索対象に含まれる &gt; Delta Spec 内の FR-011 ブロックが返される" time="0.012486208">
+        </testcase>
+        <testcase classname="tests/e2e/spec-grep.e2e.test.ts" name="FR-012 Scenario 3: 不正な形式の ID はエラーになる &gt; INVALID-ID は exit 1 でエラーメッセージを出力する" time="0.014306792">
+        </testcase>
+        <testcase classname="tests/e2e/spec-grep.e2e.test.ts" name="FR-012 Scenario 3: 不正な形式の ID はエラーになる &gt; FR-12345 (5桁) は exit 1 でエラーになる" time="0.0133779579">
+        </testcase>
+        <testcase classname="tests/e2e/spec-grep.e2e.test.ts" name="FR-012 Scenario 3: 不正な形式の ID はエラーになる &gt; fr-001 (小文字) は有効フォーマットとして受理される (i フラグ)" time="0.005089875">
+        </testcase>
+        <testcase classname="tests/e2e/spec-grep.e2e.test.ts" name="FR-012 Scenario 4: 有効な形式だが存在しない FR-ID は exit 0 で空の結果を返す &gt; FR-999 は exit 0 で空の結果を返す" time="0.0160082079">
+        </testcase>
+        <testcase classname="tests/e2e/spec-grep.e2e.test.ts" name="FR-014 Scenario 2: spec grep --json が構造化 JSON を返す &gt; --json が {command, results:[{fr_id, file, block}], meta} を返す" time="0.007293083">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/spec-lint-formalize.e2e.test.ts" timestamp="2026-05-28T23:18:38.782Z" hostname="KAG2310119.local" tests="10" failures="0" errors="0" skipped="0" time="0.0982500839">
+        <testcase classname="tests/e2e/spec-lint-formalize.e2e.test.ts" name="FR-001: 3 カテゴリの違反がそれぞれ出力される &gt; 3 カテゴリ (shell-command/library-name/impl-verb) の違反がそれぞれ出力される" time="0.012686167">
+        </testcase>
+        <testcase classname="tests/e2e/spec-lint-formalize.e2e.test.ts" name="FR-002: 違反レポートにルール ID とヒントが含まれる &gt; 違反レポートに kebab-case ルール ID とヒントが含まれる" time="0.011021875">
+        </testcase>
+        <testcase classname="tests/e2e/spec-lint-formalize.e2e.test.ts" name="FR-003: デフォルト走査で全 SoT スペックがカバーされる &gt; デフォルト走査で全 SoT スペックがカバーされる" time="0.004148083">
+        </testcase>
+        <testcase classname="tests/e2e/spec-lint-formalize.e2e.test.ts" name="FR-004: HTML コメント内の禁止トークンは沈黙する &gt; HTML コメント内の禁止トークンは沈黙する (0 件)" time="0.005456333">
+        </testcase>
+        <testcase classname="tests/e2e/spec-lint-formalize.e2e.test.ts" name="FR-005: フェンス内の禁止トークンは沈黙する &gt; フェンス内の禁止トークンは沈黙する (0 件)" time="0.014931125">
+        </testcase>
+        <testcase classname="tests/e2e/spec-lint-formalize.e2e.test.ts" name="FR-006: 再実行で出力がバイト一致する &gt; --json 2 回でバイト一致" time="0.011614583">
+        </testcase>
+        <testcase classname="tests/e2e/spec-lint-formalize.e2e.test.ts" name="FR-007: --allow でルール個別無効化 &gt; --allow lib-zod で違反が抑制される" time="0.0051765419">
+        </testcase>
+        <testcase classname="tests/e2e/spec-lint-formalize.e2e.test.ts" name="FR-008: --json エンベロープに violations と summary が含まれる &gt; --json に violations と summary 2 キーが含まれる" time="0.0113882921">
+        </testcase>
+        <testcase classname="tests/e2e/spec-lint-formalize.e2e.test.ts" name="FR-009: 違反検出で非ゼロ終了コード &gt; 違反検出で process.exitCode が非ゼロになる" time="0.0127505831">
+        </testcase>
+        <testcase classname="tests/e2e/spec-lint-formalize.e2e.test.ts" name="FR-010: mspec validate --strict への組み込み &gt; spec-lint は lintSotSpecs 関数経由で validate --strict から呼べる" time="0.0073017501">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/state-engine-produces-less.e2e.test.ts" timestamp="2026-05-28T23:18:38.783Z" hostname="KAG2310119.local" tests="3" failures="0" errors="0" skipped="0" time="0.0945567499">
+        <testcase classname="tests/e2e/state-engine-produces-less.e2e.test.ts" name="state-engine — FR-001/FR-002: produces-less step state transitions &gt; T120: implement が done-log に記録済みのとき state が &quot;done&quot; になる" time="0.048885875">
+        </testcase>
+        <testcase classname="tests/e2e/state-engine-produces-less.e2e.test.ts" name="state-engine — FR-001/FR-002: produces-less step state transitions &gt; T121: implement が done-log に未記録のとき state が &quot;ready&quot; になる（前ステップ done 済み）" time="0.026575791">
+        </testcase>
+        <testcase classname="tests/e2e/state-engine-produces-less.e2e.test.ts" name="state-engine — FR-001/FR-002: produces-less step state transitions &gt; T122: done-log.json が存在しない場合（doneLog: {}）も &quot;ready&quot; が返される" time="0.0179578331">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/tasks-checkbox-update.e2e.test.ts" timestamp="2026-05-28T23:18:38.783Z" hostname="KAG2310119.local" tests="3" failures="0" errors="0" skipped="0" time="0.007402458">
+        <testcase classname="tests/e2e/tasks-checkbox-update.e2e.test.ts" name="FR-016: mspec-implement updates tasks.md checkbox when task reaches GREEN &gt; Procedure に tasks.md の TNNN チェックボックス更新指示が含まれる" time="0.002009708">
+        </testcase>
+        <testcase classname="tests/e2e/tasks-checkbox-update.e2e.test.ts" name="FR-016: mspec-implement updates tasks.md checkbox when task reaches GREEN &gt; Procedure に expect-green 成功後の tasks.md 更新の記述がある" time="0.0033720831">
+        </testcase>
+        <testcase classname="tests/e2e/tasks-checkbox-update.e2e.test.ts" name="FR-016: tasks.md checkbox is NOT updated when tests are still failing &gt; Procedure にテスト GREEN の場合のみ更新するという条件分岐または冪等の記述がある" time="0.000793417">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/tasks-feedback.e2e.test.ts" timestamp="2026-05-28T23:18:38.784Z" hostname="KAG2310119.local" tests="2" failures="0" errors="0" skipped="0" time="0.0119350001">
+        <testcase classname="tests/e2e/tasks-feedback.e2e.test.ts" name="TASK-015: FR-004 — tasks.md reflects prototype-feedback.md &gt; prototype-feedback.md with real content is readable and not a skipped placeholder" time="0.003691958">
+        </testcase>
+        <testcase classname="tests/e2e/tasks-feedback.e2e.test.ts" name="TASK-015: FR-004 — tasks.md reflects prototype-feedback.md &gt; prototype-feedback.md contains SKIPPED_PLACEHOLDER_MARKER when step was skipped" time="0.0046538329">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/template-doc-type-invariant.e2e.test.ts" timestamp="2026-05-28T23:18:38.784Z" hostname="KAG2310119.local" tests="2" failures="0" errors="0" skipped="0" time="0.0119050829">
+        <testcase classname="tests/e2e/template-doc-type-invariant.e2e.test.ts" name="FR-007: doc_type frontmatter が ja/en テンプレート間で locale-invariant &gt; ja テンプレートと en テンプレートで doc_type が同一識別子を持つ" time="0.007933417">
+        </testcase>
+        <testcase classname="tests/e2e/template-doc-type-invariant.e2e.test.ts" name="FR-007: doc_type frontmatter が ja/en テンプレート間で locale-invariant &gt; tasks.md の Reference 識別子も ja/en テンプレート間で locale-invariant" time="0.0029825001">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/template-fallback-en.e2e.test.ts" timestamp="2026-05-28T23:18:38.785Z" hostname="KAG2310119.local" tests="2" failures="0" errors="0" skipped="0" time="0.017476917">
+        <testcase classname="tests/e2e/template-fallback-en.e2e.test.ts" name="FR-002: ja テンプレート欠落のとき en フォールバック + stderr 警告 &gt; proposal.ja.md が欠落して proposal.en.md がある場合 en フォールバック（fellBack:true）" time="0.009517042">
+        </testcase>
+        <testcase classname="tests/e2e/template-fallback-en.e2e.test.ts" name="FR-002: ja テンプレート欠落のとき en フォールバック + stderr 警告 &gt; 同一 (locale, artifact) 組み合わせで warning は1回のみ emit される" time="0.006971625">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/template-resolve-ja.e2e.test.ts" timestamp="2026-05-28T23:18:38.785Z" hostname="KAG2310119.local" tests="2" failures="0" errors="0" skipped="0" time="0.02556925">
+        <testcase classname="tests/e2e/template-resolve-ja.e2e.test.ts" name="FR-001: locale:ja のとき proposal.ja.md テンプレートが選択される &gt; proposal.ja.md が存在する場合 fellBack:false で ja コンテンツを返す" time="0.016314958">
+        </testcase>
+        <testcase classname="tests/e2e/template-resolve-ja.e2e.test.ts" name="FR-001: locale:ja のとき proposal.ja.md テンプレートが選択される &gt; locale:en のとき proposal.en.md が選択される" time="0.008589375">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/upgrade-command.e2e.test.ts" timestamp="2026-05-28T23:18:38.788Z" hostname="KAG2310119.local" tests="7" failures="0" errors="0" skipped="0" time="0.004401958">
+        <testcase classname="tests/e2e/upgrade-command.e2e.test.ts" name="upgrade command e2e (FR-001, FR-002, FR-003, FR-004) &gt; FR-001: upgradeCommand export exists and is callable" time="0.000608875">
+        </testcase>
+        <testcase classname="tests/e2e/upgrade-command.e2e.test.ts" name="upgrade command e2e (FR-001, FR-002, FR-003, FR-004) &gt; FR-002: displays current and latest version lines to stdout" time="0.000852084">
+        </testcase>
+        <testcase classname="tests/e2e/upgrade-command.e2e.test.ts" name="upgrade command e2e (FR-001, FR-002, FR-003, FR-004) &gt; FR-003: runs npm install -g when newer version and --yes flag set" time="0.001201834">
+        </testcase>
+        <testcase classname="tests/e2e/upgrade-command.e2e.test.ts" name="upgrade command e2e (FR-001, FR-002, FR-003, FR-004) &gt; FR-004: shows already up-to-date message when versions match" time="0.000653666">
+        </testcase>
+        <testcase classname="tests/e2e/upgrade-command.e2e.test.ts" name="upgrade command e2e (FR-001, FR-002, FR-003, FR-004) &gt; version-check FR-001: fetchLatestVersion returns version string" time="0.0001225829">
+        </testcase>
+        <testcase classname="tests/e2e/upgrade-command.e2e.test.ts" name="upgrade command e2e (FR-001, FR-002, FR-003, FR-004) &gt; version-check FR-002: exits non-zero on fetch failure" time="0.000328167">
+        </testcase>
+        <testcase classname="tests/e2e/upgrade-command.e2e.test.ts" name="upgrade command e2e (FR-001, FR-002, FR-003, FR-004) &gt; version-check FR-003: uses /latest endpoint to exclude pre-release" time="0.000113083">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/validate-mermaid.e2e.test.ts" timestamp="2026-05-28T23:18:38.789Z" hostname="KAG2310119.local" tests="7" failures="0" errors="0" skipped="0" time="0.00466775">
+        <testcase classname="tests/e2e/validate-mermaid.e2e.test.ts" name="FR-017: architecture-overview.md Mermaid validation &gt; Mermaid ブロック欠落で validate エラーを報告する" time="0.000856042">
+        </testcase>
+        <testcase classname="tests/e2e/validate-mermaid.e2e.test.ts" name="FR-017: architecture-overview.md Mermaid validation &gt; Mermaid ブロックがあれば要件を満たす（エラーなし）" time="0.002525625">
+        </testcase>
+        <testcase classname="tests/e2e/validate-mermaid.e2e.test.ts" name="FR-017: architecture-overview.md Mermaid validation &gt; チルダフェンスの mermaid ブロックも有効" time="0.000125625">
+        </testcase>
+        <testcase classname="tests/e2e/validate-mermaid.e2e.test.ts" name="FR-017: architecture-overview.md Mermaid validation &gt; mermaid の後に属性が続いても検出する" time="0.000102375">
+        </testcase>
+        <testcase classname="tests/e2e/validate-mermaid.e2e.test.ts" name="FR-017: architecture-overview.md Mermaid validation &gt; text タグ付きフェンスは Mermaid とみなさない" time="0.0001496251">
+        </testcase>
+        <testcase classname="tests/e2e/validate-mermaid.e2e.test.ts" name="FR-017: architecture-overview.md Mermaid validation &gt; タグなしフェンスは Mermaid とみなさない" time="0.0000543751">
+        </testcase>
+        <testcase classname="tests/e2e/validate-mermaid.e2e.test.ts" name="FR-017: architecture-overview.md Mermaid validation &gt; 通常の validate（非 strict）でもハードフェイルする" time="0.000051">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/verify-llm.e2e.test.ts" timestamp="2026-05-28T23:18:38.790Z" hostname="KAG2310119.local" tests="3" failures="0" errors="0" skipped="0" time="0.0887594999">
+        <testcase classname="tests/e2e/verify-llm.e2e.test.ts" name="FR-005: mspec verify --llm コマンド &gt; Scenario 1: FR-IDごとのプロンプトJSONを stdout に出力する" time="0.05748825">
+        </testcase>
+        <testcase classname="tests/e2e/verify-llm.e2e.test.ts" name="FR-005: mspec verify --llm コマンド &gt; Scenario 2: --json フラグでも同一の JSON が出力される" time="0.013004959">
+        </testcase>
+        <testcase classname="tests/e2e/verify-llm.e2e.test.ts" name="FR-005: mspec verify --llm コマンド &gt; Scenario 3: specs/*/spec.md が存在しない場合は exit code 1 で終了する" time="0.0177038749">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/verify-routing-prompt.e2e.test.ts" timestamp="2026-05-28T23:18:38.790Z" hostname="KAG2310119.local" tests="7" failures="0" errors="0" skipped="0" time="0.010057916">
+        <testcase classname="tests/e2e/verify-routing-prompt.e2e.test.ts" name="verify-routing FR-001: delta init でプレースホルダーが生成される &gt; delta-spec.ja.md に risk_tier コメントプレースホルダーが含まれる" time="0.002805667">
+        </testcase>
+        <testcase classname="tests/e2e/verify-routing-prompt.e2e.test.ts" name="verify-routing FR-001: delta init でプレースホルダーが生成される &gt; delta-spec.ja.md に blast_radius コメントプレースホルダーが含まれる" time="0.000837875">
+        </testcase>
+        <testcase classname="tests/e2e/verify-routing-prompt.e2e.test.ts" name="verify-routing FR-002: mspec-tasks/SKILL.md に risk_tier 分岐ルールがある &gt; SKILL.md に critical → verify: human ルールが記述されている" time="0.0007863339">
+        </testcase>
+        <testcase classname="tests/e2e/verify-routing-prompt.e2e.test.ts" name="verify-routing FR-002: mspec-tasks/SKILL.md に risk_tier 分岐ルールがある &gt; SKILL.md に trivial → アノテーションなしのルールが記述されている" time="0.0012383749">
+        </testcase>
+        <testcase classname="tests/e2e/verify-routing-prompt.e2e.test.ts" name="verify-routing FR-003: mspec-checklist-auditor.md に trivial スキップルールがある &gt; mspec-checklist-auditor.md に trivial FR はスキップするルールが記述されている" time="0.0004170411">
+        </testcase>
+        <testcase classname="tests/e2e/verify-routing-prompt.e2e.test.ts" name="verify-routing FR-003: mspec-checklist-auditor.md に trivial スキップルールがある &gt; mspec-checklist-auditor.md に critical → verify: human ルールが記述されている" time="0.0004399581">
+        </testcase>
+        <testcase classname="tests/e2e/verify-routing-prompt.e2e.test.ts" name="verify-routing FR-004: mspec-implement/SKILL.md に critical 未達警告ルールがある &gt; mspec-implement/SKILL.md に critical FR の verify: human 未達警告ルールが記述されている" time="0.001467291">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/workflow-skippable.e2e.test.ts" timestamp="2026-05-28T23:18:38.791Z" hostname="KAG2310119.local" tests="2" failures="0" errors="0" skipped="0" time="0.1949050421">
+        <testcase classname="tests/e2e/workflow-skippable.e2e.test.ts" name="workflow.yaml — FR-018: skippable フラグ削除 &gt; T130: implement・archive・self-review は skippable: true を持たず、research・quickstart・checklist は保持する" time="0.013053208">
+        </testcase>
+        <testcase classname="tests/e2e/workflow-skippable.e2e.test.ts" name="workflow.yaml — FR-018: skippable フラグ削除 &gt; T131: skipCommand が skippable でないステップを拒否する" time="0.180982666">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/workflow-visual-mock.e2e.test.ts" timestamp="2026-05-28T23:18:38.791Z" hostname="KAG2310119.local" tests="3" failures="0" errors="0" skipped="0" time="0.1426869581">
+        <testcase classname="tests/e2e/workflow-visual-mock.e2e.test.ts" name="TASK-008: FR-023 — visual-mock step appears in workflow after proposal &gt; mspec continue returns current_step: &quot;visual-mock&quot; with block_after: true" time="0.0278037499">
+        </testcase>
+        <testcase classname="tests/e2e/workflow-visual-mock.e2e.test.ts" name="TASK-009: FR-023 — visual-mock skip flow &gt; after skip, mspec continue returns delta as next step" time="0.071864834">
+            <system-out>
+skipped: visual-mock (skipping for test purposes)
+
+            </system-out>
+        </testcase>
+        <testcase classname="tests/e2e/workflow-visual-mock.e2e.test.ts" name="TASK-009: FR-023 — visual-mock skip flow &gt; after skip, mspec status returns visual-mock as skipped" time="0.0422751659">
+            <system-out>
+skipped: visual-mock (skipping for test purposes)
+
+            </system-out>
+        </testcase>
+    </testsuite>
+</testsuites>

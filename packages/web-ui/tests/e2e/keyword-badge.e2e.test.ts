@@ -10,11 +10,25 @@ async function getFirstChangeId(page: import('@playwright/test').Page): Promise<
   return changes.length > 0 ? changes[0]!.id : null;
 }
 
+async function artifactExists(
+  page: import('@playwright/test').Page,
+  changeId: string,
+  relativePath: string,
+): Promise<boolean> {
+  const response = await page.request.get(`/api/changes/${changeId}/artifacts`);
+  const artifacts = await response.json() as Array<{ relativePath: string }>;
+  return artifacts.some((a) => a.relativePath === relativePath);
+}
+
 // T101: code-syntax-highlight FR-004 — GIVEN keyword renders as badge (blue-100 background)
 test('KeywordBadge: GIVEN keyword has badge background-color and border-radius', async ({ page }) => {
   const changeId = await getFirstChangeId(page);
   if (!changeId) {
     test.skip(true, 'No active changes found — skipping keyword badge test');
+    return;
+  }
+  if (!(await artifactExists(page, changeId, 'specs/code-syntax-highlight/spec.md'))) {
+    test.skip(true, 'specs/code-syntax-highlight/spec.md not found — skipping keyword badge test');
     return;
   }
 
@@ -53,6 +67,10 @@ test('KeywordBadge: SHALL keyword has badge background-color', async ({ page }) 
     test.skip(true, 'No active changes found — skipping keyword badge test');
     return;
   }
+  if (!(await artifactExists(page, changeId, 'specs/code-syntax-highlight/spec.md'))) {
+    test.skip(true, 'specs/code-syntax-highlight/spec.md not found — skipping keyword badge test');
+    return;
+  }
 
   await page.goto(`/changes/${changeId}/artifacts/specs/code-syntax-highlight/spec.md`);
   await page.waitForLoadState('networkidle');
@@ -82,6 +100,10 @@ test('CodeBlock: prose pre has 1px outline border', async ({ page }) => {
   const changeId = await getFirstChangeId(page);
   if (!changeId) {
     test.skip(true, 'No active changes found — skipping code block border test');
+    return;
+  }
+  if (!(await artifactExists(page, changeId, 'design.md'))) {
+    test.skip(true, 'design.md not found — skipping code block border test');
     return;
   }
 

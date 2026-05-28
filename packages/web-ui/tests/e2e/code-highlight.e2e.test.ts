@@ -1,6 +1,9 @@
 // @mspec-delta 2026-05-26-041226-reading-mode-themes/specs/code-syntax-highlight/spec.md
 // Requirements implemented: FR-001, FR-002, FR-003
 // Change: reading-mode-themes
+// @mspec-delta 2026-05-27-131059-fix-pre-tag-checklist-ui/specs/code-syntax-highlight/spec.md
+// Requirements implemented: FR-006
+// Change: fix-pre-tag-checklist-ui
 
 import { test, expect } from '@playwright/test';
 
@@ -10,11 +13,25 @@ async function getFirstChangeId(page: import('@playwright/test').Page): Promise<
   return changes.length > 0 ? changes[0]!.id : null;
 }
 
+async function artifactExists(
+  page: import('@playwright/test').Page,
+  changeId: string,
+  relativePath: string,
+): Promise<boolean> {
+  const response = await page.request.get(`/api/changes/${changeId}/artifacts`);
+  const artifacts = await response.json() as Array<{ relativePath: string }>;
+  return artifacts.some((a) => a.relativePath === relativePath);
+}
+
 // T014: code-syntax-highlight FR-001 — Shiki highlights JavaScript code block
 test('CodeBlock: javascript code block gets syntax highlighting spans', async ({ page }) => {
   const changeId = await getFirstChangeId(page);
   if (!changeId) {
     test.skip(true, 'No active changes found — skipping CodeBlock test');
+    return;
+  }
+  if (!(await artifactExists(page, changeId, 'quickstart.md'))) {
+    test.skip(true, 'quickstart.md not found — skipping CodeBlock syntax highlight test');
     return;
   }
 
@@ -60,6 +77,10 @@ test('rehypeCommentDim: HTML comments in markdown render as .md-comment spans', 
     test.skip(true, 'No active changes found');
     return;
   }
+  if (!(await artifactExists(page, changeId, 'specs/web-ui-themes/spec.md'))) {
+    test.skip(true, 'specs/web-ui-themes/spec.md not found — skipping md-comment test');
+    return;
+  }
 
   // spec.md files contain <!-- @mspec-delta --> comments
   await page.goto(`/changes/${changeId}/artifacts/specs/web-ui-themes/spec.md`);
@@ -73,4 +94,58 @@ test('rehypeCommentDim: HTML comments in markdown render as .md-comment spans', 
     parseFloat(getComputedStyle(el).opacity),
   );
   expect(opacity).toBeLessThanOrEqual(0.5);
+});
+
+// T010: code-syntax-highlight FR-006 — pre タグが二重にネストしない（AskUserQuestion コードブロックの正常描画）
+test('CodeBlock: pre tag is not double-wrapped — no nested <pre> inside <pre>', async ({ page }) => {
+  const changeId = await getFirstChangeId(page);
+  if (!changeId) {
+    test.skip(true, 'No active changes found');
+    return;
+  }
+
+  // design.md には複数のコードブロックが含まれる
+  if (!(await artifactExists(page, changeId, 'design.md'))) {
+    test.skip(true, 'design.md not found — skipping pre double-wrap test');
+    return;
+  }
+
+  await page.goto(`/changes/${changeId}/artifacts/design.md`);
+  await page.waitForLoadState('networkidle');
+  await page.waitForTimeout(1000);
+
+  // <pre> が二重になっていないこと: pre の子孫に pre が存在しない
+  const nestedPre = page.locator('[data-testid="md-preview"] pre pre');
+  await expect(nestedPre).toHaveCount(0);
+});
+
+// T011: code-syntax-highlight FR-006 — 通常の Markdown コードフェンスでも pre が 1 層のみ
+test('CodeBlock: standard markdown code fence renders with single <pre> layer and Shiki highlight', async ({ page }) => {
+  const changeId = await getFirstChangeId(page);
+  if (!changeId) {
+    test.skip(true, 'No active changes found');
+    return;
+  }
+
+  if (!(await artifactExists(page, changeId, 'design.md'))) {
+    test.skip(true, 'design.md not found — skipping single pre layer test');
+    return;
+  }
+
+  await page.goto(`/changes/${changeId}/artifacts/design.md`);
+  await page.waitForLoadState('networkidle');
+  await page.waitForTimeout(1000);
+
+  // Shiki コンテナ（data-testid="shiki-container"）が存在すること
+  const shikiContainer = page.locator('[data-testid="md-preview"] pre[data-testid="shiki-container"]');
+  const count = await shikiContainer.count();
+  if (count === 0) {
+    // shiki-container がない場合は pre の有無だけ確認
+    const anyPre = page.locator('[data-testid="md-preview"] pre');
+    await expect(anyPre.first()).toBeVisible({ timeout: 5000 });
+  }
+
+  // いずれにせよ二重 pre がないこと
+  const nestedPre = page.locator('[data-testid="md-preview"] pre pre');
+  await expect(nestedPre).toHaveCount(0);
 });

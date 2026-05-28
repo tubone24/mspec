@@ -4,7 +4,7 @@
 
 ## Purpose
 
-<このスペックがカバーする外部から観測可能な振る舞いの概要>
+Web UI のアーティファクトビューアが Markdown コンテンツを正確にレンダリングし（Mermaid 図・EARS/Gherkin ハイライト・コードシンタックス・プロトタイプ HTML 等）、ユーザーが checklist.md のチェックボックスをインタラクティブに操作してファイルに永続化できる振る舞いをカバーする。
 
 ## Requirements
 
@@ -166,6 +166,46 @@ Playwright E2E テストを実行したとき、このシステムは SHALL spec
 - GIVEN あるアーティファクトファイルに YAML frontmatter がない、または `doc_type` フィールドが存在しない
 - WHEN アーティファクト一覧でそのカードが表示される
 - THEN ニュートラルカラー（グレー系）が適用され、他の色付きカードと区別される
+
+### Requirement: FR-012 — verify:cmd アノテーション付き項目への amber ハイライト
+
+<!-- risk_tier: standard -->
+<!-- blast_radius: local -->
+
+checklist.md の Markdown プレビューを表示するとき、このシステムは SHALL `<!-- verify: cmd:... -->` アノテーションが付与された checklist 項目に対して `<!-- verify: human -->` と同じ amber ハイライトを適用する。
+
+#### Scenario: verify:cmd 項目の amber ハイライト表示
+
+- GIVEN checklist.md に `- [ ] FR-006 検証 <!-- verify: cmd:mspec anchor check -->` という行が存在する
+- WHEN ユーザーが Web UI で checklist.md をプレビュー表示する
+- THEN 当該行が `<!-- verify: human -->` 項目と同様の amber 背景色でハイライトされる
+
+#### Scenario: verify:fr-NNN 項目はハイライトされない
+
+- GIVEN checklist.md に `- [x] FR-001 検証 <!-- verify: fr-001 -->` という行が存在する
+- WHEN ユーザーが Web UI で checklist.md をプレビュー表示する
+- THEN 当該行には amber ハイライトが適用されない（通常表示のまま）
+
+---
+
+### Requirement: FR-013 — checklist.md チェックボックス操作の永続化とファイル初期状態の復元
+
+<!-- risk_tier: standard -->
+<!-- blast_radius: module -->
+
+checklist.md が表示される間、このシステムは SHALL ファイル内容の `- [x]` パターンを解析してチェックボックスの初期状態を復元し、ユーザーがチェックボックスをトグルしたときに更新済みコンテンツを `PATCH /api/changes/:id/artifacts/checklist.md` へ送信してファイルに永続化する.
+
+#### Scenario: ページ再表示時のチェック状態復元
+- GIVEN checklist.md の一部項目が `- [x]` でチェック済みである
+- WHEN Web UI が checklist.md を表示する
+- THEN チェック済み項目が初期状態でチェックマーク付きで表示される（React state は `- [x]` の出現インデックスから初期化される）
+
+#### Scenario: チェックボックストグルのファイル永続化
+- GIVEN Web UI に checklist.md が表示されており、未チェックの項目がある
+- WHEN ユーザーが未チェックの項目をクリックする
+- THEN その項目がチェック済みに変わり、PATCH API が呼び出されてファイルに書き込まれ、次回表示時も状態が保持される
+
+
 
 
 
