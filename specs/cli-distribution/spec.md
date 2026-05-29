@@ -4,7 +4,7 @@
 
 ## Purpose
 
-<このスペックがカバーする外部から観測可能な振る舞いの概要>
+`@mspec/cli` を npm install または npx 経由でインストールした際に `mspec` コマンドがすぐに使用可能になり、配布 tarball には `dist/` と `templates/` のみが含まれる。バージョン `1.0.0` 未満は `--tag beta` で公開され `latest` タグを汚染しない npm 配布設定を定義する。
 
 ## Requirements
 

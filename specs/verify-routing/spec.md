@@ -4,7 +4,7 @@
 
 ## Purpose
 
-<このスペックがカバーする外部から観測可能な振る舞いの概要>
+各 FR の `risk_tier`（critical / standard / trivial）に応じて、tasks.md・checklist.md の verify アノテーションが自動で振り分けられる。`verify: human` は自動検証不可能な場合のみ使用され、理由と確認手順の明記が義務付けられる。
 
 ## Requirements
 

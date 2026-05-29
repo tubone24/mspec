@@ -4,7 +4,7 @@
 
 ## Purpose
 
-<このスペックがカバーする外部から観測可能な振る舞いの概要>
+すべての成果物テンプレートの YAML フロントマターに Diátaxis 4分類（Reference / Explanation / How-to / Tutorial）のいずれかを `doc_type:` フィールドで宣言し、廃止された `AI-Internal` 型はバリデーションエラーとして拒否される。また `mspec new` で生成される change ディレクトリには用語集 `glossary.md` が必ず含まれる。
 
 ## Requirements
 

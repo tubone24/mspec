@@ -4,7 +4,7 @@
 
 ## Purpose
 
-<このスペックがカバーする外部から観測可能な振る舞いの概要>
+`mspec prototype` コマンドによってチェンジの UI プロトタイプ HTML ファイルを生成・ローカルサーバーで提供し、ユーザーがフィードバックを入力すると `prototype-feedback.md` に保存して後続の tasks ステップへ反映する。
 
 ## Requirements
 

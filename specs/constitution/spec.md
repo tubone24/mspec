@@ -4,7 +4,7 @@
 
 ## Purpose
 
-<このスペックがカバーする外部から観測可能な振る舞いの概要>
+`memory/constitution.md` と `packages/cli/templates/constitution.md` に「VI. Security by Default」原則が追加され、すべての change が proposal にセキュリティ質問（PRP-SEC-001〜004）の回答を含むことが義務付けられる。`mspec init` で新規作成したプロジェクトにも VI 原則が自動的に引き継がれる。
 
 ## Requirements
 

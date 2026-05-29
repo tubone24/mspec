@@ -26,7 +26,7 @@ FR-005 の実装（`fix-specviewer-purpose-regression`）では新規 archive �
 - [ ] design-rationale.md
 - [ ] quickstart.md
 - [x] checklist.md
-- [ ] tasks.md
+- [x] tasks.md
 
 ## Skipped Steps
 

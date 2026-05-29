@@ -4,7 +4,7 @@
 
 ## Purpose
 
-<このスペックがカバーする外部から観測可能な振る舞いの概要>
+`mspec done <step-id>` コマンドが `.mspec/cache/done-log.json` にステップ完了を冪等にupsert記録し、`implement` ステップでは事前バリデーションを通過した場合のみ記録される仕組みを定義する。produces を持つステップへの誤用はエラーで拒否されるガードも備える。
 
 ## Requirements
 

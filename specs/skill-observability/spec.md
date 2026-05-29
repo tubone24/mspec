@@ -4,7 +4,7 @@
 
 ## Purpose
 
-<このスペックがカバーする外部から観測可能な振る舞いの概要>
+subagent を呼び出す各ステップの SKILL.md に、`.agent-runs.jsonl` へのログ記録タイミング・記録先パス・記録項目が明記される。これにより research・checklist・self-review の 3 スキルが実行観測可能な状態になる。
 
 ## Requirements
 

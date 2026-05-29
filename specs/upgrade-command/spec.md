@@ -4,7 +4,7 @@
 
 ## Purpose
 
-<このスペックがカバーする外部から観測可能な振る舞いの概要>
+グローバル・ローカルどちらの環境でも `mspec upgrade` が `Cannot find module` エラーを出さずに正常完了する。`__dirname` を基点とした絶対パスで `package.json` を参照することで、実行ディレクトリに依存しない安定した動作が保証される。
 
 ## Requirements
 

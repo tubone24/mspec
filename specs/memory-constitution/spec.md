@@ -4,7 +4,7 @@
 
 ## Purpose
 
-<このスペックがカバーする外部から観測可能な振る舞いの概要>
+ユーザーが承認した場合にのみ、mspec-lessons-analyzer の提案した原則・制約テキストが `memory/constitution.md` の指定セクションに追記される。ユーザーが承認しない限り、constitution.md への書き込みは一切行われない。
 
 ## Requirements
 

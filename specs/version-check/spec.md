@@ -4,7 +4,7 @@
 
 ## Purpose
 
-<このスペックがカバーする外部から観測可能な振る舞いの概要>
+npm registry から `@mspec/cli` の最新 stable バージョン（`latest` タグのみ）を取得し、beta・RC などの pre-release バージョンは比較対象から除外される。ネットワークエラー時は分かりやすいエラーメッセージが表示され、非ゼロの終了コードで終了する。
 
 ## Requirements
 

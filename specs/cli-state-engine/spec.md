@@ -4,7 +4,7 @@
 
 ## Purpose
 
-<このスペックがカバーする外部から観測可能な振る舞いの概要>
+`produces: []` を持つ produces レスステップについて、`.mspec/cache/done-log.json` への記録有無に基づき `'done'` または `'ready'` のステップ状態を正確に返すことで、ワークフロー進行判定の一貫性を保証する。
 
 ## Requirements
 

@@ -4,7 +4,7 @@
 
 ## Purpose
 
-<このスペックがカバーする外部から観測可能な振る舞いの概要>
+Delta Spec の各 Requirement ブロックに `risk_tier`（critical / standard / trivial）と `blast_radius`（local / module / system / external）のオプションフィールドを付与でき、未指定の場合は `risk_tier: standard` として後方互換性を保つ。無効な値が指定された場合はバリデーションエラーを出力して処理を中断する。
 
 ## Requirements
 

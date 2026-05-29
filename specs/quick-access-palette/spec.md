@@ -4,7 +4,7 @@
 
 ## Purpose
 
-<このスペックがカバーする外部から観測可能な振る舞いの概要>
+⌘K（macOS）または Ctrl+K（Windows/Linux）でクイックアクセスパレットをオーバーレイ表示し、Spec・Change・Capability・次ワークフローステップをインクリメンタル検索でナビゲートできるようにする。
 
 ## Requirements
 

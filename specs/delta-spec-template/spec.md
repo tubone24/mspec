@@ -4,7 +4,7 @@
 
 ## Purpose
 
-<このスペックがカバーする外部から観測可能な振る舞いの概要>
+Delta Spec テンプレートに `## Security Capabilities` セクションを追加し、mspec-proposal スキルがセキュリティ質問の回答を基にそのセクションを半自動で記述できるようにする。
 
 ## Requirements
 

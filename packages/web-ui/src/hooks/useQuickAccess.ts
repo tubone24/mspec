@@ -7,7 +7,7 @@ import { useState, useEffect, useCallback } from 'react';
 function getIsMac(): boolean {
   // FR-002: UA文字列はクライアントのキーバインド判定のみに使用（サーバー送信しない）
   if (typeof navigator === 'undefined') return false;
-  const platform = navigator.userAgentData?.platform ?? navigator.platform ?? '';
+  const platform = (navigator as any).userAgentData?.platform ?? navigator.platform ?? '';
   return /mac/i.test(platform);
 }
 

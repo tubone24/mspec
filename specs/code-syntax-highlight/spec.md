@@ -4,7 +4,7 @@
 
 ## Purpose
 
-<このスペックがカバーする外部から観測可能な振る舞いの概要>
+Shiki を使用してコードブロックを言語別に色分け表示し、コメント・Markdown HTML コメントを薄い色で、GIVEN/WHEN/THEN/SHALL 等のキーワードをバッジスタイルで視覚的に識別できるようにする。
 
 ## Requirements
 

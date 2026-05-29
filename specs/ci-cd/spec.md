@@ -4,7 +4,7 @@
 
 ## Purpose
 
-<このスペックがカバーする外部から観測可能な振る舞いの概要>
+`v*` パターンの git tag プッシュまたは GitHub Release 作成をトリガーとして、ビルド・テスト通過後に `@mspec/cli` が npm registry へ自動公開される。タグなしプッシュでは CI チェックのみが実行され、publish は行われない。
 
 ## Requirements
 

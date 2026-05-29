@@ -4,7 +4,7 @@
 
 ## Purpose
 
-<このスペックがカバーする外部から観測可能な振る舞いの概要>
+CLI が出力するすべての次ステップ案内・ドキュメントで mspec コマンド参照をコロン形式（`/mspec:<step>`）に統一し、ハイフン形式の文字列が一切現れないことを保証する。また `mspec archive` 後の done-log 記録、`mspec mock` による visual mock 生成、`mspec verify --llm` による LLM 評価プロンプト出力、`mspec learn` によるパターン抽出など、コアとなるサブコマンド群の外部動作を定義する。
 
 ## Requirements
 

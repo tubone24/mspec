@@ -4,7 +4,7 @@
 
 ## Purpose
 
-<このスペックがカバーする外部から観測可能な振る舞いの概要>
+`mspec spec lint` コマンドが Source-of-Truth スペックを走査して禁止語彙違反を 3 カテゴリ分類・行番号順で報告し、違反時は非ゼロ終了コードで CI を自動失敗させる。また `mspec spec list-requirements`・`mspec spec grep`・`mspec spec list-capabilities` の各サブコマンドでスペック群のナビゲーションを可能にし、すべて `--json` フラグで機械可読出力に切り替えられる。
 
 ## Requirements
 

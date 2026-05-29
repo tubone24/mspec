@@ -7,7 +7,7 @@
 
 const isMacPlatform =
   typeof navigator !== 'undefined' &&
-  /mac/i.test(navigator.userAgentData?.platform ?? navigator.platform ?? '');
+  /mac/i.test((navigator as any).userAgentData?.platform ?? navigator.platform ?? '');
 
 interface SearchProps {
   value: string;
