@@ -1,6 +1,6 @@
 {
   "name": "@mspec/web-ui",
-  "version": "0.1.4",
+  "version": "0.1.8",
   "description": "MSPEC Web UI — visual dashboard for the mspec workflow",
   "type": "module",
   "files": [
