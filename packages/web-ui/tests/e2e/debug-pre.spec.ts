@@ -1,3 +1,6 @@
+// @mspec-delta 2026-05-29-133745-fix-e2e-flakiness-verify-cmd-auto-execute/specs/e2e-stability/spec.md
+// Requirements implemented: FR-001
+// Change: fix-e2e-flakiness-verify-cmd-auto-execute
 import { test } from '@playwright/test';
 test('debug pre pre', async ({ page }) => {
   const errors: string[] = [];
@@ -10,8 +13,7 @@ test('debug pre pre', async ({ page }) => {
   
   await page.goto(`/changes/${id}/artifacts/design.md`);
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(2000);
-  
+
   const nested = page.locator('[data-testid="md-preview"] pre pre').first();
   const count = await page.locator('[data-testid="md-preview"] pre pre').count();
   console.log('pre pre count:', count);

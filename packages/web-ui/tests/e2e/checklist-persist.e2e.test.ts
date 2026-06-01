@@ -1,3 +1,6 @@
+// @mspec-delta 2026-05-29-133745-fix-e2e-flakiness-verify-cmd-auto-execute/specs/e2e-stability/spec.md
+// Requirements implemented: FR-001
+// Change: fix-e2e-flakiness-verify-cmd-auto-execute
 // @mspec-delta 2026-05-28-114434-fix-checklist-ui-sync/specs/artifact-preview/spec.md
 // Requirements implemented: FR-013
 // Change: fix-checklist-ui-sync
@@ -27,6 +30,10 @@ test('ChecklistPersist: toggling a checkbox persists to file and survives page r
     return;
   }
 
+  // テスト後に復元するため元の内容を保存する
+  const originalRes = await page.request.get(`/api/changes/${changeId}/artifacts/checklist.md`);
+  const originalContent = await originalRes.text();
+
   // 初期状態を PATCH で設定（決定論的テスト: item 0 は - [ ] 未チェック）
   const initialContent = '# ChecklistPersist Test Fixture\n\n- [ ] item-0-unchecked\n- [ ] item-1-unchecked\n';
   const initRes = await page.request.fetch(`/api/changes/${changeId}/artifacts/checklist.md`, {
@@ -39,7 +46,6 @@ test('ChecklistPersist: toggling a checkbox persists to file and survives page r
   // ページ読み込み
   await page.goto(`/changes/${changeId}/artifacts/checklist.md`);
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(500);
 
   const checkboxes = page.locator('[data-testid="md-preview"] input[type="checkbox"]');
   const count = await checkboxes.count();
@@ -69,10 +75,16 @@ test('ChecklistPersist: toggling a checkbox persists to file and survives page r
   // リロード後も - [x] 状態が保持されていること（FR-013: ページ再表示時のチェック状態復元）
   await page.reload();
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(500);
 
   // リロード後: clickedIdx 番目のチェックボックスが checked になっていること
   const reloadedCheckbox = page.locator(`[data-testid="md-preview"] input[data-idx="${clickedIdx}"]`);
   await expect(reloadedCheckbox).not.toBeDisabled();
   await expect(reloadedCheckbox).toBeChecked({ timeout: 5000 });
+
+  // テスト後に元の内容を復元する（他のテストに影響しないようにする）
+  await page.request.fetch(`/api/changes/${changeId}/artifacts/checklist.md`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+    data: originalContent,
+  });
 });

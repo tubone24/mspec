@@ -205,6 +205,68 @@ checklist.md が表示される間、このシステムは SHALL ファイル内
 - WHEN ユーザーが未チェックの項目をクリックする
 - THEN その項目がチェック済みに変わり、PATCH API が呼び出されてファイルに書き込まれ、次回表示時も状態が保持される
 
+### Requirement: FR-014 — verify:cmd アノテーション付き項目のインライン実行と結果表示
+
+<!-- risk_tier: standard -->
+<!-- blast_radius: module -->
+
+`verify: cmd:<command>` アノテーションを持つ checklist.md 項目を表示しているとき、このシステムは SHALL 各項目の隣に実行ボタンを表示する.
+
+実行ボタンがクリックされたとき、このシステムは SHALL アノテーションに指定されたコマンドを実行し、終了コード・stdout・stderr をその項目のインライン領域に表示する.
+
+コマンドの実行中、このシステムは SHALL 実行ボタンを無効化してローディング状態を示す.
+
+#### Scenario: verify:cmd 項目に実行ボタンが表示される
+- GIVEN checklist.md に `- [ ] FR-006 検証 <!-- verify: cmd:mspec anchor check -->` という行が存在する
+- WHEN ユーザーが当該 checklist.md のプレビュー画面を開く
+- THEN その項目の隣に「実行」ボタンが表示される
+
+#### Scenario: 実行ボタンクリックでコマンド結果がインラインに表示される
+- GIVEN `verify: cmd:mspec validate --change foo` アノテーションを持つ項目の「実行」ボタンが表示されている
+- WHEN ユーザーが「実行」ボタンをクリックする
+- THEN コマンドの終了コード・stdout・stderr が当該項目の直下にインライン表示される
+
+#### Scenario: コマンド実行中はボタンが無効化される
+- GIVEN 実行ボタンがクリックされてコマンドが実行中である
+- WHEN コマンドがまだ完了していない
+- THEN 実行ボタンは disabled 状態かつローディングインジケータが表示される
+
+#### Scenario: verify:fr アノテーションのみの項目には実行ボタンが表示されない
+- GIVEN checklist.md に `- [ ] FR-001 確認 <!-- verify: fr-001 -->` という行が存在する（verify:cmd なし）
+- WHEN ユーザーが当該 checklist.md のプレビュー画面を開く
+- THEN その項目には実行ボタンが表示されない
+
+### Requirement: FR-015 — Mermaid シンタックスエラー表示の抑制
+
+<!-- risk_tier: standard -->
+<!-- blast_radius: local -->
+
+Mermaid コードブロックのレンダリングが失敗したとき、このシステムは SHALL 「Syntax error in text」「mermaid version X.Y.Z」などの生のエラーメッセージを大きく表示せず、コンパクトなインラインエラーインジケータ（例: 「⚠ Mermaid 構文エラー」）を代わりに表示する.
+
+#### Scenario: シンタックスエラー時に大きなエラーメッセージが表示されない
+- GIVEN Markdown 内に構文エラーを含む Mermaid コードブロックが存在する
+- WHEN プレビューエリアがそのブロックをレンダリングしようとする
+- THEN 「Syntax error in text」や「mermaid version」を含む大きなエラー文字列は表示されず、代わりにコンパクトなエラーインジケータのみが表示される
+
+#### Scenario: 正常な Mermaid は通常通り SVG として描画される
+- GIVEN 構文的に正しい Mermaid コードブロックが存在する
+- WHEN プレビューエリアがそのブロックをレンダリングする
+- THEN 従来どおり SVG ダイアグラムとして正常に描画される（エラーインジケータは表示されない）
+
+### Requirement: FR-016 — Mermaid レンダリング前構文バリデーション
+
+<!-- risk_tier: trivial -->
+<!-- blast_radius: local -->
+
+Mermaid コードブロックを描画する前、このシステムは SHALL `mermaid.parse()` または同等の API を用いて構文の事前バリデーションを行い、エラー検出時はレンダリングをスキップして FR-015 のエラーインジケータを表示する.
+
+#### Scenario: parse() による事前バリデーションでエラーを検出する
+- GIVEN 不正な Mermaid 構文（例: `graph TD A--` のような未完成ブロック）を含む MD ファイルが表示されている
+- WHEN システムが `mermaid.parse()` を呼び出す
+- THEN parse が例外を返し、システムはレンダリングをスキップしてエラーインジケータを表示する
+
+
+
 
 
 

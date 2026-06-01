@@ -1,6 +1,9 @@
 // @mspec-delta 2026-05-27-032635-multi-test-runner-support/specs/cli-test-tdd/spec.md
 // Requirements implemented: FR-011, FR-012, FR-013
 // Change: multi-test-runner-support
+// @mspec-delta 2026-05-30-222051-fix-test-results-webui-display/specs/test-result-viewer/spec.md
+// Requirements implemented: FR-012
+// Change: fix-test-results-webui-display
 
 import { spawn } from 'node:child_process';
 import { readFile, writeFile, mkdir, copyFile, stat } from 'node:fs/promises';
@@ -11,6 +14,7 @@ import { projectPaths } from '../workflow/paths.js';
 import { loadConfig } from '../workflow/config-loader.js';
 import { findChange, listChanges, fileExists } from '../lib/change-discovery.js';
 import { ask } from '../lib/prompt.js';
+import { convertTestResults } from './testResults.js';
 import type { ChangeLocation } from '../lib/change-discovery.js';
 import type { Config } from '../types/config.js';
 
@@ -146,6 +150,9 @@ async function runTestEvidence(
   const out = join(dir, `${change.name}__${taskId}.json`);
   await writeFile(out, JSON.stringify(evidence, null, 2) + '\n', 'utf8');
   console.log(`${pc.green('✓')} evidence saved: ${out}`);
+
+  // FR-012: auto-generate test-results.json after test run
+  await convertTestResults(change.dir).catch(() => undefined);
 }
 
 async function ensureTestCommand(configPath: string, current: string): Promise<string> {

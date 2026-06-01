@@ -75,6 +75,22 @@ test('TestResults: unresolved-warning badge shown for dangling checklist referen
   expect(count).toBeGreaterThanOrEqual(0);
 });
 
+// @mspec-delta 2026-05-30-222051-fix-test-results-webui-display/specs/test-result-viewer/spec.md
+// Requirements implemented: FR-011
+// Change: fix-test-results-webui-display
+
+// T208: test-result-viewer FR-011 — change not found shows "No test results found." gracefully
+test('TestResults: nonexistent change shows no-results message, not error', async ({ page }) => {
+  await page.goto('/changes/nonexistent-change-id-that-does-not-exist/test-results');
+  await page.waitForLoadState('networkidle');
+
+  const noResults = page.locator('text=No test results found.');
+  const errorMsg = page.locator('text=Error loading test results.');
+
+  await expect(noResults).toBeVisible({ timeout: 5000 });
+  await expect(errorMsg).not.toBeVisible();
+});
+
 // T207: test-result-viewer FR-006 — Fail trace panel expands on click
 test('TestResults: fail trace-panel expands when fail badge is clicked', async ({ page }) => {
   const changeId = await getFirstChangeId(page);

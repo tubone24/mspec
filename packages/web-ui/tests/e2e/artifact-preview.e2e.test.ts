@@ -1,3 +1,11 @@
+// @mspec-delta 2026-05-30-223816-fix-mermaid-error-display/specs/artifact-preview/spec.md
+// Requirements implemented: FR-015
+// Change: fix-mermaid-error-display
+
+// @mspec-delta 2026-05-29-133745-fix-e2e-flakiness-verify-cmd-auto-execute/specs/e2e-stability/spec.md
+// Requirements implemented: FR-001
+// Change: fix-e2e-flakiness-verify-cmd-auto-execute
+
 // @mspec-delta 2026-05-25-012714-mspec-web-ui-e2e/specs/artifact-preview/spec.md
 // Requirements implemented: FR-006, FR-007, FR-008
 // Change: mspec-web-ui-e2e
@@ -54,7 +62,8 @@ test('ArtifactPreview: theme toggle persists after reload', async ({ page }) => 
 
   // Select dark mode via ThemePicker
   await page.locator('[data-testid="theme-picker"] button[aria-label="dark"]').click();
-  await page.waitForTimeout(300);
+  // dark モードが html 要素に反映されるまで条件ベースで待機
+  await expect(page.locator('html')).toHaveClass(/dark/);
 
   // Reload and verify persistence
   await page.reload();
@@ -160,4 +169,60 @@ test('ChangeDetail: clicking artifact opens split-pane without navigation', asyn
   await expect(page.locator('[data-testid="artifact-viewer-panel"]')).toBeVisible();
   // Artifact list should still be visible
   await expect(page.locator('[data-testid="artifact-list"]')).toBeVisible();
+});
+
+// T401: artifact-preview FR-015 — Mermaid syntax error does not display raw error message
+test('MermaidRenderer: suppresses raw "Syntax error in text" on invalid Mermaid', async ({ page }) => {
+  const changeId = await getFirstChangeId(page);
+  if (!changeId) {
+    test.skip(true, 'No active changes found — skipping Mermaid error suppression test');
+    return;
+  }
+
+  const BAD_MERMAID_MD = '# Test\n\n```mermaid\ngraph TD A--\n```\n';
+
+  // Intercept the artifact content API to inject bad Mermaid syntax
+  await page.route(`**/api/changes/${changeId}/artifacts/design.md`, async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'text/plain; charset=utf-8',
+      body: BAD_MERMAID_MD,
+    });
+  });
+
+  await page.goto(`/changes/${changeId}/artifacts/design.md`);
+  await page.waitForLoadState('networkidle');
+
+  // Wait for Mermaid to attempt rendering (allow async parse/render to settle)
+  await page.waitForTimeout(4000);
+
+  // The raw Mermaid error strings must NOT appear anywhere in the page
+  const bodyText = await page.locator('body').innerText();
+  expect(bodyText).not.toContain('Syntax error in text');
+  expect(bodyText).not.toContain('mermaid version');
+
+  // A compact error indicator should be visible instead
+  await expect(page.locator('[data-testid="mermaid-error"]')).toBeVisible();
+});
+
+// T402: artifact-preview FR-015 — valid Mermaid still renders as SVG after fix
+test('MermaidRenderer: valid Mermaid still renders SVG after error-suppression fix', async ({ page }) => {
+  const changeId = await getFirstChangeId(page);
+  if (!changeId) {
+    test.skip(true, 'No active changes found — skipping Mermaid SVG regression test');
+    return;
+  }
+  if (!(await artifactExists(page, changeId, 'architecture-overview.md'))) {
+    test.skip(true, 'architecture-overview.md not found — skipping Mermaid SVG regression test');
+    return;
+  }
+
+  await page.goto(`/changes/${changeId}/artifacts/architecture-overview.md`);
+  await page.waitForSelector('[data-testid="mermaid-svg"] svg', { timeout: 15000 });
+  const svgCount = await page.locator('[data-testid="mermaid-svg"] svg').count();
+  expect(svgCount).toBeGreaterThan(0);
+
+  // Compact error indicator must NOT appear for valid Mermaid
+  const errorCount = await page.locator('[data-testid="mermaid-error"]').count();
+  expect(errorCount).toBe(0);
 });

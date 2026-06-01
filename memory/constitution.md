@@ -47,6 +47,7 @@ Spec / Delta Spec / Archive のステップは `workflow.yaml` スキーマか�
 - `.claude/agents/` Write 保護対応パターン: `.claude/agents/` 配下のエージェント定義ファイルは自動モード分類器により Edit ツールでの直接書き込みがブロックされる。変更は `packages/cli/templates/claude/agents/` のテンプレートファイルを先に更新し、ユーザーが `cp` コマンドで runtime に同期する手順をタスクに明示すること。または Claude Code の permissions 設定に `.claude/agents/**` の Write 権限を追加して自動化する。（Lesson: checklist-reduce-verify-human）
 - auditor ルール変更後は checklist.md を必ず再生成する: `mspec-checklist-auditor.md` の verify アノテーション規則（verify:human / verify:cmd / verify:fr-NNN）を変更した場合、既存の checklist.md は古いルールで生成されたままのため、auditor 更新後に `mspec checklist --change <change-dir>` を再実行して最新ルールを反映させる。（Lesson: checklist-reduce-verify-human）
 - リスク判定は命名の類似性ではなく実コード確認を根拠とする: checklist や self-review でリスク判定する場合、関数名・変数名の類似性だけで HIGH 判定せず、実際のコードパスとファイルパスを確認して干渉の有無を実証的に評価する。（Lesson: init-gitignore-ui-pid）
+- E2E RED タスクの GREEN 証跡は対応する実装タスク完了後に記録する: E2E RED タスク（テストが失敗することを確認）と実装タスクがペアになる場合、GREEN 証跡は実装タスク完了後に記録する。tasks.md に「このタスクの GREEN 証跡は T〇〇（実装タスク）完了後に記録する」と明記し、TDD サイクルの順序を実行者に伝える。（Lesson: fix-e2e-flakiness-verify-cmd-auto-execute）
 - リサーチフェーズの仕様制約は Delta Spec 本文にも反映させる: リサーチフェーズで判明した仕様制約（CLI フラグの文字数制限・形式制約など）は、設計成果物（design.md）だけでなく Delta Spec の Requirement 本文にも反映させ、実装フェーズで設計と仕様の矛盾が生じないようにする。（Lesson: improve-postmortem-quality）
 
 ## Development Workflow & Governance

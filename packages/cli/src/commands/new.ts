@@ -110,10 +110,20 @@ export async function newCommand(feature: string, opts: NewOptions = {}): Promis
 
   console.log(`${pc.green('✓')} Created ${pc.cyan(changeName)}`);
 
-  // Launch Web UI in background (non-blocking; gracefully skips if @mspec/web-ui not installed)
-  launchWebUiIfNeeded(cwd, paths.configFile).catch(() => {
-    // Silently ignore UI launch errors — CLI must not fail because of this
-  });
+  // Launch Web UI (FR-007: trigger on mspec new; FR-012: show URL)
+  launchWebUiIfNeeded(cwd, paths.configFile)
+    .then((result) => {
+      if (result) {
+        if (result.reused) {
+          console.log(pc.gray(`  Web UI already running at ${pc.cyan(result.url)}`));
+        } else {
+          console.log(pc.green(`  Web UI started at ${pc.cyan(result.url)}`));
+        }
+      }
+    })
+    .catch(() => {
+      // Silently ignore UI launch errors — CLI must not fail because of this
+    });
 
   console.log(`  ${pc.gray('next: run /mspec:proposal')}`);
 }

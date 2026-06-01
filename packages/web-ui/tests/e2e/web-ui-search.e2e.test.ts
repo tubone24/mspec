@@ -1,3 +1,6 @@
+// @mspec-delta 2026-05-29-133745-fix-e2e-flakiness-verify-cmd-auto-execute/specs/e2e-stability/spec.md
+// Requirements implemented: FR-001
+// Change: fix-e2e-flakiness-verify-cmd-auto-execute
 // @mspec-delta 2026-05-27-000005-full-text-search/specs/web-ui-search/spec.md
 // Requirements implemented: FR-001, FR-002
 // Change: full-text-search
@@ -19,7 +22,8 @@ test('WebUISearch: typing in search box filters the change list', async ({ page 
 
   // Type a query that should narrow results
   await searchInput.fill('zzz-no-match-xyz-99999');
-  await page.waitForTimeout(500);
+  // Wait for the filter to apply: either no rows remain or count changes
+  await expect(allRows).not.toHaveCount(totalBefore, { timeout: 5000 }).catch(() => {});
 
   const afterFilter = await allRows.count();
   // Either 0 results (correct filtering) or same count (all match — both are valid)
@@ -30,7 +34,6 @@ test('WebUISearch: typing in search box filters the change list', async ({ page 
 test('WebUISearch: clearing search restores full change list', async ({ page }) => {
   await page.goto('/');
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(2000);
 
   const searchInput = page.locator('input[placeholder*="Search"]');
   const rows = page.locator('[data-testid^="change-row-"]');
@@ -39,11 +42,13 @@ test('WebUISearch: clearing search restores full change list', async ({ page }) 
 
   // Apply a filter
   await searchInput.fill('zzz-no-match-xyz');
-  await page.waitForTimeout(300);
+  // Wait for filter to apply (rows should decrease or stay same)
+  await expect(rows).not.toHaveCount(countBefore, { timeout: 5000 }).catch(() => {});
 
   // Clear the filter
   await searchInput.fill('');
-  await page.waitForTimeout(300);
+  // Wait for rows to restore to original count
+  await expect(rows).toHaveCount(countBefore, { timeout: 5000 });
 
   const countAfter = await rows.count();
   // Clearing search should restore original count
@@ -54,14 +59,14 @@ test('WebUISearch: clearing search restores full change list', async ({ page }) 
 test('WebUISearch: snippet displayed for body-only keyword match', async ({ page }) => {
   await page.goto('/');
   await page.waitForLoadState('networkidle');
-  // Wait for index to build
-  await page.waitForTimeout(3000);
+  // Wait for index to build — wait until change rows are visible
+  const rows = page.locator('[data-testid^="change-row-"]');
+  await expect(rows.first()).toBeVisible({ timeout: 10000 });
 
   const searchInput = page.locator('input[placeholder*="Search"]');
   await searchInput.fill('SHALL');
-  await page.waitForTimeout(600);
-
-  const rows = page.locator('[data-testid^="change-row-"]');
+  // Wait for results to render after fill — snippet or empty state
+  await expect(rows.first().or(page.locator('text=No active changes found.'))).toBeVisible({ timeout: 5000 });
   const rowCount = await rows.count();
   // We expect at least one result (changes have spec.md with SHALL)
   if (rowCount > 0) {
@@ -76,17 +81,20 @@ test('WebUISearch: snippet displayed for body-only keyword match', async ({ page
 test('WebUISearch: AND condition with space-separated keywords narrows results', async ({ page }) => {
   await page.goto('/');
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(3000);
+  // Wait for index to build
+  const rows = page.locator('[data-testid^="change-row-"]');
+  await expect(rows.first()).toBeVisible({ timeout: 10000 });
 
   const searchInput = page.locator('input[placeholder*="Search"]');
-  const rows = page.locator('[data-testid^="change-row-"]');
 
   await searchInput.fill('SHALL');
-  await page.waitForTimeout(500);
+  // Wait for SHALL results to render
+  await expect(rows.first().or(page.locator('text=No active changes found.'))).toBeVisible({ timeout: 5000 });
   const singleCount = await rows.count();
 
   await searchInput.fill('SHALL nonexistent-xyz-99999');
-  await page.waitForTimeout(500);
+  // Wait for AND condition to filter down to 0
+  await expect(rows).toHaveCount(0, { timeout: 5000 });
   const andCount = await rows.count();
 
   // AND condition: nonexistent token filters everything out

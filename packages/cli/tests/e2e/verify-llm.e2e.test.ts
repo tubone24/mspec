@@ -1,3 +1,7 @@
+// @mspec-delta 2026-05-29-133745-fix-e2e-flakiness-verify-cmd-auto-execute/specs/e2e-stability/spec.md
+// Requirements implemented: FR-002
+// Change: fix-e2e-flakiness-verify-cmd-auto-execute
+
 // @mspec-delta 2026-05-26-131033-p1-llm-verify/specs/cli-core/spec.md
 // Requirements implemented: FR-005
 // Change: p1-llm-verify

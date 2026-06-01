@@ -1,3 +1,6 @@
+// @mspec-delta 2026-05-29-133745-fix-e2e-flakiness-verify-cmd-auto-execute/specs/e2e-stability/spec.md
+// Requirements implemented: FR-001
+// Change: fix-e2e-flakiness-verify-cmd-auto-execute
 // @mspec-delta 2026-05-26-041226-reading-mode-themes/specs/web-ui-themes/spec.md
 // Requirements implemented: FR-001, FR-002, FR-003
 // Change: reading-mode-themes
@@ -29,7 +32,7 @@ test('ThemePicker: sepia theme sets data-theme and CSS variable', async ({ page 
 
   const sepiaBtn = page.locator('[data-testid="theme-picker"] button[aria-label="sepia"]');
   await sepiaBtn.click();
-  await page.waitForTimeout(100);
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'sepia');
 
   const dataTheme = await page.locator('html').getAttribute('data-theme');
   expect(dataTheme).toBe('sepia');
@@ -46,7 +49,7 @@ test('ThemePicker: green theme sets data-theme attribute', async ({ page }) => {
   await page.waitForLoadState('networkidle');
 
   await page.locator('[data-testid="theme-picker"] button[aria-label="green"]').click();
-  await page.waitForTimeout(100);
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'green');
 
   const dataTheme = await page.locator('html').getAttribute('data-theme');
   expect(dataTheme).toBe('green');
@@ -58,7 +61,7 @@ test('ThemePicker: dark theme sets data-theme="dark" and adds html.dark class', 
   await page.waitForLoadState('networkidle');
 
   await page.locator('[data-testid="theme-picker"] button[aria-label="dark"]').click();
-  await page.waitForTimeout(100);
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 
   const dataTheme = await page.locator('html').getAttribute('data-theme');
   expect(dataTheme).toBe('dark');
@@ -77,7 +80,7 @@ test('ThemePicker: selected theme persists across page reload', async ({ page })
   await page.waitForLoadState('networkidle');
 
   await page.locator('[data-testid="theme-picker"] button[aria-label="dark"]').click();
-  await page.waitForTimeout(300);
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 
   await page.reload();
   await page.waitForLoadState('networkidle');

@@ -7,6 +7,9 @@
 // @mspec-delta 2026-05-28-041724-web-ui-artifact-order-and-test-results/specs/test-result-viewer/spec.md
 // Requirements implemented: FR-008, FR-009
 // Change: web-ui-artifact-order-and-test-results
+// @mspec-delta 2026-05-30-222051-fix-test-results-webui-display/specs/test-result-viewer/spec.md
+// Requirements implemented: FR-011
+// Change: fix-test-results-webui-display
 
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -27,7 +30,7 @@ export function TestResults() {
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
 
   if (isLoading) return <div className="p-8 text-gray-500">Loading…</div>;
-  if (error) return <div className="p-8 text-red-500">Error loading test results.</div>;
+  if (error) return <div className="p-8 text-gray-400" data-testid="no-results">{en.testResults.noResults}</div>;
 
   const allTests: (TestCase & { suite: string })[] = (suites ?? []).flatMap((s) =>
     s.tests.map((t) => ({ ...t, suite: s.suiteName })),

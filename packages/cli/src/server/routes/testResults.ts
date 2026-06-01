@@ -4,6 +4,9 @@
 // @mspec-delta 2026-05-28-041724-web-ui-artifact-order-and-test-results/specs/test-result-viewer/spec.md
 // Requirements implemented: FR-007, FR-001
 // Change: web-ui-artifact-order-and-test-results
+// @mspec-delta 2026-05-30-222051-fix-test-results-webui-display/specs/test-result-viewer/spec.md
+// Requirements implemented: FR-011
+// Change: fix-test-results-webui-display
 
 import type { FastifyInstance } from 'fastify';
 import { readdir, readFile } from 'node:fs/promises';
@@ -58,7 +61,7 @@ export async function registerTestResultsRoutes(
     '/api/changes/:id/test-results',
     async (req, reply) => {
       const change = await findChange(paths, req.params.id);
-      if (!change) return reply.code(404).send({ error: 'change not found' });
+      if (!change) return reply.code(200).send([]);
 
       // D-2: Prefer test-results.json (new schema); fallback to e2e-results/ (Playwright/JUnit)
       const suites = await readTestResults(change.dir);

@@ -1,3 +1,7 @@
+// @mspec-delta 2026-05-29-133745-fix-e2e-flakiness-verify-cmd-auto-execute/specs/artifact-preview/spec.md
+// Requirements implemented: FR-014
+// Change: fix-e2e-flakiness-verify-cmd-auto-execute
+
 // @mspec-delta 2026-05-25-062234-web-ui-viewer-improvements/specs/artifact-preview/spec.md
 // Requirements implemented: FR-009, FR-010
 // Change: web-ui-viewer-improvements
@@ -31,7 +35,64 @@ import rehypeGherkinEars from '../lib/rehypeGherkinEars.js';
 import { rehypeInlineCodeProperty } from 'react-shiki';
 import type { Components } from 'react-markdown';
 import type { Element } from 'hast';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, type ReactNode, type HTMLAttributes } from 'react';
+
+function extractVerifyCmd(node: Element | undefined): string | null {
+  for (const child of node?.children ?? []) {
+    if (child.type !== 'element') continue;
+    const el = child as Element;
+    const classes = Array.isArray(el.properties?.className) ? el.properties.className : [];
+    if (!classes.includes('md-comment')) continue;
+    for (const c of el.children ?? []) {
+      if (c.type !== 'text' || !('value' in c)) continue;
+      const m = String(c.value).match(/verify:\s*cmd:(.+)/);
+      if (m) return m[1]!.trim();
+    }
+  }
+  return null;
+}
+
+interface VerifyCmdLiProps {
+  children: ReactNode;
+  verifyCmd: string;
+  liProps: HTMLAttributes<HTMLLIElement>;
+}
+
+function VerifyCmdLi({ children, verifyCmd, liProps }: VerifyCmdLiProps) {
+  const [running, setRunning] = useState(false);
+  const [result, setResult] = useState<{ exitCode: number; stdout: string; stderr: string } | null>(null);
+
+  return (
+    <li {...liProps} className="bg-amber-50 border-l-4 border-amber-400 pl-2 rounded-sm">
+      {children}
+      <button
+        data-testid="verify-cmd-run-btn"
+        disabled={running}
+        onClick={async () => {
+          setRunning(true);
+          try {
+            const res = await fetch('/api/run-cmd', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ cmd: verifyCmd }),
+            });
+            setResult(await res.json() as { exitCode: number; stdout: string; stderr: string });
+          } finally {
+            setRunning(false);
+          }
+        }}
+        className="ml-2 text-xs px-2 py-0.5 rounded bg-amber-200 hover:bg-amber-300 disabled:opacity-50"
+      >
+        {running ? '実行中…' : '実行'}
+      </button>
+      {result !== null && (
+        <pre data-testid="verify-cmd-result" className="text-xs mt-1 bg-gray-100 dark:bg-gray-800 p-1 rounded overflow-auto">
+          {'exit: ' + String(result.exitCode) + '\n' + result.stdout + result.stderr}
+        </pre>
+      )}
+    </li>
+  );
+}
 
 export interface ArtifactViewerProps {
   changeId: string;
@@ -77,6 +138,10 @@ export function ArtifactViewer({ changeId, relativePath, onClose }: ArtifactView
         return false;
       }) ?? false;
       if (isVerifyHuman) {
+        const verifyCmd = extractVerifyCmd(node as Element | undefined);
+        if (verifyCmd) {
+          return <VerifyCmdLi verifyCmd={verifyCmd} liProps={props}>{children}</VerifyCmdLi>;
+        }
         return (
           <li
             {...props}

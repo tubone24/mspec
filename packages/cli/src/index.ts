@@ -41,6 +41,10 @@ import { verifyLlmCommand } from './commands/verify.js';
 // Requirements implemented: FR-006
 // Change: p4-learn-command
 import { learnCommand } from './commands/learn.js';
+// @mspec-delta 2026-05-29-070058-web-ui-smart-launch/specs/cli-core/spec.md
+// Requirements implemented: FR-008
+// Change: web-ui-smart-launch
+import { openCommand } from './commands/open.js';
 
 const require = createRequire(import.meta.url);
 const { version } = require('../package.json') as { version: string };
@@ -246,6 +250,16 @@ program
   .description('Extract post-condition candidates from archived changes (C3 learning feedback)')
   .option('--json', 'Output JSON (default for this command)')
   .action((opts: { json?: boolean }) => learnCommand(opts));
+
+program
+  .command('open')
+  .description('Start the Web UI and open it in the browser')
+  .option('--root <path>', 'mspec project root directory', process.cwd())
+  .action((opts: { root: string }) =>
+    openCommand({ root: opts.root }).catch(() => {
+      // Silently ignore errors — CLI must not fail because of this
+    }),
+  );
 
 program
   .command('upgrade')

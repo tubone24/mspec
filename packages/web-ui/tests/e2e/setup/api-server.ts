@@ -1,12 +1,20 @@
+// @mspec-delta 2026-05-29-133745-fix-e2e-flakiness-verify-cmd-auto-execute/specs/artifact-preview/spec.md
+// Requirements implemented: FR-014
+// Change: fix-e2e-flakiness-verify-cmd-auto-execute
+
 // @mspec-delta 2026-05-25-012714-mspec-web-ui-e2e/specs/change-dashboard/spec.md
 // Requirements implemented: FR-005, FR-006
 // Change: mspec-web-ui-e2e
+// @mspec-delta 2026-05-29-070058-web-ui-smart-launch/specs/web-ui-server/spec.md
+// Requirements implemented: FR-011
+// Change: web-ui-smart-launch
 
 import Fastify from 'fastify';
 import { registerChangesRoutes } from '@mspec/cli/src/server/routes/changes.js';
 import { registerArtifactsRoutes } from '@mspec/cli/src/server/routes/artifacts.js';
 import { registerTestResultsRoutes } from '@mspec/cli/src/server/routes/testResults.js';
 import { registerSpecsRoutes } from '@mspec/cli/src/server/routes/specs.js';
+import { registerRunCmdRoute } from '@mspec/cli/src/server/routes/runCmd.js';
 import { writePid, clearPid } from '@mspec/cli/src/server/pidManager.js';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -21,6 +29,7 @@ await registerChangesRoutes(app, root);
 await registerArtifactsRoutes(app, root);
 await registerTestResultsRoutes(app, root);
 await registerSpecsRoutes(app, root);
+await registerRunCmdRoute(app, root);
 // Note: /api/health is already registered by registerChangesRoutes
 
 app.setNotFoundHandler(async (_req, reply) => {
@@ -28,7 +37,7 @@ app.setNotFoundHandler(async (_req, reply) => {
 });
 
 await app.listen({ port, host: '127.0.0.1' });
-await writePid(root, { pid: process.pid, port });
+await writePid(root, { pid: process.pid, port, projectRoot: root, token: '' });
 
 console.log(`[api-server] Fastify listening on http://127.0.0.1:${port}`);
 

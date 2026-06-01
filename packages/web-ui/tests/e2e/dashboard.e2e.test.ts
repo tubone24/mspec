@@ -1,3 +1,6 @@
+// @mspec-delta 2026-05-29-133745-fix-e2e-flakiness-verify-cmd-auto-execute/specs/e2e-stability/spec.md
+// Requirements implemented: FR-001
+// Change: fix-e2e-flakiness-verify-cmd-auto-execute
 // @mspec-delta 2026-05-25-012714-mspec-web-ui-e2e/specs/change-dashboard/spec.md
 // Requirements implemented: FR-005, FR-006
 // Change: mspec-web-ui-e2e
@@ -28,10 +31,10 @@ test('Dashboard: mode filter-bugfix shows only bugfix changes or no-results mess
   await page.goto('/');
   await page.waitForLoadState('networkidle');
   await page.locator('[data-testid="filter-bugfix"]').click();
-  await page.waitForTimeout(500);
   // After filtering: only bugfix rows or no-results message
   const rows = page.locator('[data-testid^="change-row-"]');
   const noChanges = page.locator('text=No active changes found.');
+  await expect(noChanges.or(rows.first())).toBeVisible({ timeout: 5000 });
   const count = await rows.count();
   if (count === 0) {
     await expect(noChanges).toBeVisible();

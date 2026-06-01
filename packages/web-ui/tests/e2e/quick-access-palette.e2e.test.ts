@@ -1,3 +1,6 @@
+// @mspec-delta 2026-05-29-133745-fix-e2e-flakiness-verify-cmd-auto-execute/specs/e2e-stability/spec.md
+// Requirements implemented: FR-001
+// Change: fix-e2e-flakiness-verify-cmd-auto-execute
 // @mspec-delta 2026-05-27-110858-markdown-search-and-quick-access/specs/quick-access-palette/spec.md
 // Requirements implemented: FR-001, FR-002, FR-003, FR-004, FR-005
 // Change: markdown-search-and-quick-access
@@ -86,7 +89,8 @@ test('QuickAccess: typing in palette filters items', async ({ page }) => {
   const countBefore = await allItems.count();
 
   await input.fill('xyzzy-nonexistent-99999');
-  await page.waitForTimeout(200);
+  // Wait for filter to apply — count should drop to 0 or fewer than before
+  await expect(allItems).not.toHaveCount(countBefore, { timeout: 5000 }).catch(() => {});
   const countAfter = await allItems.count();
 
   expect(countAfter).toBeLessThanOrEqual(countBefore);

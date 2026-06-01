@@ -1,3 +1,7 @@
+// @mspec-delta 2026-05-29-133745-fix-e2e-flakiness-verify-cmd-auto-execute/specs/e2e-stability/spec.md
+// Requirements implemented: FR-001
+// Change: fix-e2e-flakiness-verify-cmd-auto-execute
+
 // @mspec-delta 2026-05-26-041226-reading-mode-themes/specs/code-syntax-highlight/spec.md
 // Requirements implemented: FR-001, FR-002, FR-003
 // Change: reading-mode-themes
@@ -38,7 +42,6 @@ test('CodeBlock: javascript code block gets syntax highlighting spans', async ({
   // Navigate to a markdown file that contains a JS code block (quickstart.md has one)
   await page.goto(`/changes/${changeId}/artifacts/quickstart.md`);
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(1000);
 
   // Shiki renders highlighted spans with inline color styles
   const highlightedSpans = page.locator('[data-testid="md-preview"] pre span[style*="color"]');
@@ -63,7 +66,6 @@ test('CodeBlock: language-less code block renders as plain text without error', 
 
   await page.goto(`/changes/${changeId}/artifacts/readme.md`);
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(500);
 
   // No JS errors from CodeBlock rendering
   const shikiErrors = errors.filter((e) => e.includes('shiki') || e.includes('CodeBlock'));
@@ -85,7 +87,6 @@ test('rehypeCommentDim: HTML comments in markdown render as .md-comment spans', 
   // spec.md files contain <!-- @mspec-delta --> comments
   await page.goto(`/changes/${changeId}/artifacts/specs/web-ui-themes/spec.md`);
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(500);
 
   const commentSpan = page.locator('[data-testid="md-preview"] .md-comment').first();
   await expect(commentSpan).toBeVisible({ timeout: 5000 });
@@ -112,7 +113,6 @@ test('CodeBlock: pre tag is not double-wrapped — no nested <pre> inside <pre>'
 
   await page.goto(`/changes/${changeId}/artifacts/design.md`);
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(1000);
 
   // <pre> が二重になっていないこと: pre の子孫に pre が存在しない
   const nestedPre = page.locator('[data-testid="md-preview"] pre pre');
@@ -134,7 +134,6 @@ test('CodeBlock: standard markdown code fence renders with single <pre> layer an
 
   await page.goto(`/changes/${changeId}/artifacts/design.md`);
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(1000);
 
   // Shiki コンテナ（data-testid="shiki-container"）が存在すること
   const shikiContainer = page.locator('[data-testid="md-preview"] pre[data-testid="shiki-container"]');

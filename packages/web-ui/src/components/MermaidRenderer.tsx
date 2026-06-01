@@ -1,3 +1,7 @@
+// @mspec-delta 2026-05-30-223816-fix-mermaid-error-display/specs/artifact-preview/spec.md
+// Requirements implemented: FR-015, FR-016
+// Change: fix-mermaid-error-display
+
 // @mspec-delta 2026-05-24-130128-mspec-web-ui/specs/artifact-preview/spec.md
 // Requirements implemented: FR-002
 // Change: mspec-web-ui
@@ -14,20 +18,39 @@ export function MermaidRenderer({ chart }: { chart: string }) {
 
   useEffect(() => {
     if (!initialized) {
-      mermaid.initialize({ startOnLoad: false, theme: 'default' });
+      mermaid.initialize({ startOnLoad: false, theme: 'default', suppressErrorRendering: true });
       initialized = true;
     }
 
+    let cancelled = false;
     const id = `mermaid-${Math.random().toString(36).slice(2)}`;
-    mermaid
-      .render(id, chart)
-      .then(({ svg: rendered }) => setSvg(rendered))
-      .catch((err: unknown) => setError(String(err)));
+
+    void (async () => {
+      try {
+        await mermaid.parse(chart);
+      } catch {
+        if (!cancelled) setError('Mermaid 構文エラー');
+        return;
+      }
+      try {
+        const { svg: rendered } = await mermaid.render(id, chart);
+        if (!cancelled) setSvg(rendered);
+      } catch {
+        if (!cancelled) setError('Mermaid 構文エラー');
+      }
+    })();
+
+    return () => { cancelled = true; };
   }, [chart]);
 
   if (error) {
     return (
-      <pre className="text-red-500 text-xs p-2 bg-red-50 dark:bg-red-900 rounded">{error}</pre>
+      <div
+        data-testid="mermaid-error"
+        className="text-amber-600 text-xs p-2 bg-amber-50 dark:bg-amber-900/20 rounded border border-amber-200 dark:border-amber-800"
+      >
+        ⚠ {error}
+      </div>
     );
   }
 

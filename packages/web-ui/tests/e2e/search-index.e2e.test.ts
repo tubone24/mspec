@@ -1,3 +1,6 @@
+// @mspec-delta 2026-05-29-133745-fix-e2e-flakiness-verify-cmd-auto-execute/specs/e2e-stability/spec.md
+// Requirements implemented: FR-001
+// Change: fix-e2e-flakiness-verify-cmd-auto-execute
 // @mspec-delta 2026-05-27-000005-full-text-search/specs/search-index/spec.md
 // Requirements implemented: FR-001, FR-002, FR-003
 // Change: full-text-search
@@ -15,8 +18,8 @@ test('SearchIndex: artifact content requests are made on startup to build index'
 
   await page.goto('/');
   await page.waitForLoadState('networkidle');
-  // Allow time for index building
-  await page.waitForTimeout(3000);
+  // Allow time for index building — wait until at least one artifact request has been made
+  await expect.poll(() => artifactRequests.length, { timeout: 10000 }).toBeGreaterThan(0);
 
   // Artifact content should have been fetched for index building
   expect(artifactRequests.length).toBeGreaterThan(0);
@@ -38,15 +41,16 @@ test('SearchIndex: search matches across name field', async ({ page }) => {
 
   await page.goto('/');
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(3000);
+  // Wait for index to finish building before searching
+  await expect(page.locator('[data-testid^="change-row-"]').first()).toBeVisible({ timeout: 10000 });
 
   const searchInput = page.locator('input[placeholder*="Search"]');
 
   // Search for a known change name fragment
   await searchInput.fill(searchFragment);
-  await page.waitForTimeout(500);
 
   const rows = page.locator('[data-testid^="change-row-"]');
+  await expect(rows.first()).toBeVisible({ timeout: 5000 });
   const count = await rows.count();
   expect(count).toBeGreaterThan(0);
 });
@@ -55,14 +59,16 @@ test('SearchIndex: search matches across name field', async ({ page }) => {
 test('SearchIndex: search works even before full index is built (fallback)', async ({ page }) => {
   await page.goto('/');
   // Do NOT wait for networkidle — search before index is ready
-  await page.waitForTimeout(500);
-
+  // Wait only for the search input to be available (DOM ready)
   const searchInput = page.locator('input[placeholder*="Search"]');
+  await expect(searchInput).toBeVisible({ timeout: 5000 });
+
   await searchInput.fill('full-text-search');
-  await page.waitForTimeout(300);
 
   // Should show results using metadata fallback (name match)
   const rows = page.locator('[data-testid^="change-row-"]');
+  // Allow brief render cycle — count may be 0 if no match, which is valid
+  await expect(rows.or(page.locator('text=No active changes found.'))).toBeVisible({ timeout: 5000 }).catch(() => {});
   const count = await rows.count();
   expect(count).toBeGreaterThanOrEqual(0);
 });

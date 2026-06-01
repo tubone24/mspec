@@ -1,3 +1,7 @@
+// @mspec-delta 2026-05-29-133745-fix-e2e-flakiness-verify-cmd-auto-execute/specs/e2e-stability/spec.md
+// Requirements implemented: FR-001
+// Change: fix-e2e-flakiness-verify-cmd-auto-execute
+
 // @mspec-delta 2026-05-26-083855-web-ui-enhancements/specs/change-dashboard/spec.md
 // Requirements implemented: FR-009
 // Change: web-ui-enhancements
@@ -35,7 +39,6 @@ test('Spec Viewer: clicking a capability renders spec content', async ({ page })
   await page.waitForLoadState('networkidle');
   const firstItem = page.locator('[data-testid="capability-item"]').first();
   await firstItem.click();
-  await page.waitForTimeout(500);
   // Right pane should show rendered markdown (look for headings)
   const heading = page.locator('[data-testid="spec-content"] h1, [data-testid="spec-content"] h2').first();
   await expect(heading).toBeVisible();
@@ -53,9 +56,12 @@ test('Spec Viewer: search filters capability list', async ({ page }) => {
   await page.goto('/spec-viewer');
   await page.waitForLoadState('networkidle');
   const allItems = page.locator('[data-testid="capability-item"]');
+  // capabilities が読み込まれるまで待機してから件数を記録
+  await expect(allItems.first()).toBeVisible();
   const totalCount = await allItems.count();
   await page.locator('[data-testid="spec-search-input"]').fill('search');
-  await page.waitForTimeout(400);
+  // highlight が現れたら debounce 完了とみなす
+  await expect(page.locator('[data-testid="capability-item"] mark').first()).toBeVisible();
   const filteredCount = await allItems.count();
   expect(filteredCount).toBeGreaterThan(0);
   expect(filteredCount).toBeLessThan(totalCount);
@@ -66,12 +72,14 @@ test('Spec Viewer: clear button resets search', async ({ page }) => {
   await page.goto('/spec-viewer');
   await page.waitForLoadState('networkidle');
   const allItems = page.locator('[data-testid="capability-item"]');
+  // capabilities が読み込まれるまで待機してから件数を記録
+  await expect(allItems.first()).toBeVisible();
   const totalCount = await allItems.count();
   await page.locator('[data-testid="spec-search-input"]').fill('search');
-  await page.waitForTimeout(400);
+  await expect(page.locator('[data-testid="capability-item"] mark').first()).toBeVisible();
   await page.locator('[data-testid="spec-search-clear"]').click();
-  await page.waitForTimeout(300); // debounce is 200ms; wait longer to ensure filter resets
-  expect(await allItems.count()).toBe(totalCount);
+  // debounce リセット後に全件が戻ることを条件ベースで待機
+  await expect(allItems).toHaveCount(totalCount);
 });
 
 // T407: spec-viewer-search FR-006 — 結果なし時のメッセージ
@@ -79,7 +87,6 @@ test('Spec Viewer: shows no-results message', async ({ page }) => {
   await page.goto('/spec-viewer');
   await page.waitForLoadState('networkidle');
   await page.locator('[data-testid="spec-search-input"]').fill('xyzzy-nonexistent-9999');
-  await page.waitForTimeout(400);
   await expect(page.locator('[data-testid="spec-no-results"]')).toBeVisible();
 });
 
@@ -88,7 +95,6 @@ test('Spec Viewer: capability name highlight shown in sidebar', async ({ page })
   await page.goto('/spec-viewer');
   await page.waitForLoadState('networkidle');
   await page.locator('[data-testid="spec-search-input"]').fill('search');
-  await page.waitForTimeout(400);
   const mark = page.locator('[data-testid="capability-item"] mark').first();
   await expect(mark).toBeVisible();
 });
@@ -98,8 +104,8 @@ test('Spec Viewer: search is case-insensitive', async ({ page }) => {
   await page.goto('/spec-viewer');
   await page.waitForLoadState('networkidle');
   await page.locator('[data-testid="spec-search-input"]').fill('FR-001');
-  await page.waitForTimeout(400);
   const items = page.locator('[data-testid="capability-item"]');
+  await expect(items.first()).toBeVisible();
   expect(await items.count()).toBeGreaterThan(0);
 });
 
@@ -107,30 +113,25 @@ test('Spec Viewer: search is case-insensitive', async ({ page }) => {
 test('Spec Viewer: snippet shown for body-only keyword match', async ({ page }) => {
   await page.goto('/spec-viewer');
   await page.waitForLoadState('networkidle');
-  // Wait for index to build
-  await page.waitForTimeout(3000);
   await page.locator('[data-testid="spec-search-input"]').fill('SHALL');
-  await page.waitForTimeout(600);
-  const items = page.locator('[data-testid="capability-item"]');
-  expect(await items.count()).toBeGreaterThan(0);
-  // snippet should appear under at least one capability item
+  // インデックスビルド完了後にスニペットが表示されるまで条件ベースで待機
   const snippet = page.locator('[data-testid="spec-snippet"]').first();
-  await expect(snippet).toBeVisible({ timeout: 5000 });
+  await expect(snippet).toBeVisible({ timeout: 10000 });
 });
 
 // T2.3: spec-viewer-search FR-009 — AND条件で複数キーワードを絞り込む
 test('Spec Viewer: AND condition narrows results with space-separated keywords', async ({ page }) => {
   await page.goto('/spec-viewer');
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(3000);
-
   const singleKeyword = page.locator('[data-testid="capability-item"]');
   await page.locator('[data-testid="spec-search-input"]').fill('SHALL');
-  await page.waitForTimeout(600);
+  // インデックスビルド完了後、スニペット表示を条件として待機
+  await expect(page.locator('[data-testid="spec-snippet"]').first()).toBeVisible({ timeout: 10000 });
   const singleCount = await singleKeyword.count();
 
   await page.locator('[data-testid="spec-search-input"]').fill('SHALL nonexistent-xyz-9999');
-  await page.waitForTimeout(600);
+  // AND 絞り込み後は no-results または件数ゼロになるまで待機
+  await expect(page.locator('[data-testid="spec-no-results"]')).toBeVisible();
   const andCount = await singleKeyword.count();
 
   // AND condition: must be subset of single-keyword results

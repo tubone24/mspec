@@ -1,3 +1,7 @@
+// @mspec-delta 2026-05-29-133745-fix-e2e-flakiness-verify-cmd-auto-execute/specs/e2e-stability/spec.md
+// Requirements implemented: FR-001
+// Change: fix-e2e-flakiness-verify-cmd-auto-execute
+
 // @mspec-delta 2026-05-27-131059-fix-pre-tag-checklist-ui/specs/web-ui-server/spec.md
 // Requirements implemented: FR-005
 // Change: fix-pre-tag-checklist-ui
@@ -37,7 +41,6 @@ test('ChecklistVerifyHuman: items with verify-human tag get amber highlight', as
 
   await page.goto(`/changes/${changeId}/artifacts/checklist.md`);
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(500);
 
   // verify: human コメントを含む li に amber スタイルが適用されていること
   const highlightedItems = page.locator('[data-testid="md-preview"] li.border-amber-400');
@@ -66,7 +69,6 @@ test('ChecklistVerifyHuman: non-verify-human items do not get amber highlight', 
 
   await page.goto(`/changes/${changeId}/artifacts/checklist.md`);
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(500);
 
   // すべての li の数と amber ハイライト付き li の数を比較
   const allItems = page.locator('[data-testid="md-preview"] li');
@@ -97,7 +99,6 @@ test('ChecklistVerifyCmd: items with verify-cmd tag get amber highlight', async 
 
   await page.goto(`/changes/${changeId}/artifacts/checklist.md`);
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(500);
 
   const pageContent = await page.textContent('[data-testid="md-preview"]');
   if (!pageContent?.includes('verify: cmd:')) {
@@ -125,7 +126,6 @@ test('ChecklistVerifyFr: items with verify-fr tag do not get amber highlight', a
 
   await page.goto(`/changes/${changeId}/artifacts/checklist.md`);
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(500);
 
   // verify: fr-NNN コメントのみを持つ行（verify:human/cmd を含まない）は amber ハイライトされないこと
   // data-verify-type="fr" の li が amber クラスを持たないことを確認

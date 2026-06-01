@@ -1,3 +1,6 @@
+// @mspec-delta 2026-05-29-133745-fix-e2e-flakiness-verify-cmd-auto-execute/specs/e2e-stability/spec.md
+// Requirements implemented: FR-001
+// Change: fix-e2e-flakiness-verify-cmd-auto-execute
 // @mspec-delta 2026-05-26-113511-webui-keyword-badge-style/specs/code-syntax-highlight/spec.md
 // Requirements implemented: FR-004, FR-005
 // Change: webui-keyword-badge-style
@@ -35,7 +38,6 @@ test('KeywordBadge: GIVEN keyword has badge background-color and border-radius',
   // Navigate to a spec file with Gherkin keywords (delta spec for this change)
   await page.goto(`/changes/${changeId}/artifacts/specs/code-syntax-highlight/spec.md`);
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(500);
 
   const givenSpan = page.locator('[data-testid="md-preview"] span.k-given').first();
   await expect(givenSpan).toBeVisible({ timeout: 5000 });
@@ -74,7 +76,6 @@ test('KeywordBadge: SHALL keyword has badge background-color', async ({ page }) 
 
   await page.goto(`/changes/${changeId}/artifacts/specs/code-syntax-highlight/spec.md`);
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(500);
 
   const shallSpan = page.locator('[data-testid="md-preview"] span.k-shall').first();
   await expect(shallSpan).toBeVisible({ timeout: 5000 });
@@ -110,7 +111,6 @@ test('CodeBlock: prose pre has 1px outline border', async ({ page }) => {
   // Navigate to a file that contains a code block (design.md has CSS code blocks)
   await page.goto(`/changes/${changeId}/artifacts/design.md`);
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(1000);
 
   const pre = page.locator('[data-testid="md-preview"] pre').first();
   await expect(pre).toBeVisible({ timeout: 5000 });

@@ -1,3 +1,7 @@
+// @mspec-delta 2026-05-29-133745-fix-e2e-flakiness-verify-cmd-auto-execute/specs/e2e-stability/spec.md
+// Requirements implemented: FR-001
+// Change: fix-e2e-flakiness-verify-cmd-auto-execute
+
 // @mspec-delta 2026-05-27-131059-fix-pre-tag-checklist-ui/specs/web-ui-server/spec.md
 // Requirements implemented: FR-006
 // Change: fix-pre-tag-checklist-ui
@@ -34,7 +38,6 @@ test('ChecklistInteractive: clicking unchecked checkbox makes it checked', async
 
   await page.goto(`/changes/${changeId}/artifacts/checklist.md`);
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(500);
 
   // GFM チェックボックスが存在し disabled でないこと
   const checkboxes = page.locator('[data-testid="md-preview"] input[type="checkbox"]');
@@ -52,7 +55,6 @@ test('ChecklistInteractive: clicking unchecked checkbox makes it checked', async
 
   // クリックしてトグル
   await uncheckedBox.click();
-  await page.waitForTimeout(100);
 
   const isNowChecked = await uncheckedBox.isChecked();
   expect(isNowChecked).toBe(!wasChecked);
@@ -72,7 +74,6 @@ test('ChecklistInteractive: clicking checked checkbox makes it unchecked', async
 
   await page.goto(`/changes/${changeId}/artifacts/checklist.md`);
   await page.waitForLoadState('networkidle');
-  await page.waitForTimeout(500);
 
   const checkboxes = page.locator('[data-testid="md-preview"] input[type="checkbox"]');
   const count = await checkboxes.count();
@@ -87,13 +88,10 @@ test('ChecklistInteractive: clicking checked checkbox makes it unchecked', async
   // まずチェック状態にする
   if (!(await checkbox.isChecked())) {
     await checkbox.click();
-    await page.waitForTimeout(100);
   }
   await expect(checkbox).toBeChecked();
 
   // もう一度クリックしてアンチェック
   await checkbox.click();
-  await page.waitForTimeout(100);
-
   await expect(checkbox).not.toBeChecked();
 });

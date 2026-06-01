@@ -1,3 +1,7 @@
+// @mspec-delta 2026-05-29-133745-fix-e2e-flakiness-verify-cmd-auto-execute/specs/e2e-stability/spec.md
+// Requirements implemented: FR-001
+// Change: fix-e2e-flakiness-verify-cmd-auto-execute
+
 // @mspec-delta 2026-05-27-000005-full-text-search/specs/full-text-search/spec.md
 // Requirements implemented: FR-001, FR-002
 // Change: full-text-search
@@ -18,7 +22,6 @@ test('FullTextSearch: search uses client-side engine without calling a search AP
 
   const searchInput = page.locator('input[placeholder*="Search"]');
   await searchInput.fill('requirement');
-  await page.waitForTimeout(500);
 
   // No server-side search endpoint should be called
   expect(searchRequests).toHaveLength(0);
@@ -29,15 +32,11 @@ test('FullTextSearch: body text content from spec files is searchable', async ({
   await page.goto('/');
   await page.waitForLoadState('networkidle');
 
-  // Wait for index to build (artifacts are fetched on startup)
-  await page.waitForTimeout(3000);
-
   const searchInput = page.locator('input[placeholder*="Search"]');
 
   // Search for a word that appears in spec document bodies but not in change titles
   // Use a specific EARS keyword that would be in spec bodies
   await searchInput.fill('SHALL');
-  await page.waitForTimeout(500);
 
   const rows = page.locator('[data-testid^="change-row-"]');
   const count = await rows.count();

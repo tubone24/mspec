@@ -1,3 +1,6 @@
+// @mspec-delta 2026-05-29-133745-fix-e2e-flakiness-verify-cmd-auto-execute/specs/e2e-stability/spec.md
+// Requirements implemented: FR-001
+// Change: fix-e2e-flakiness-verify-cmd-auto-execute
 // @mspec-delta 2026-05-26-083855-web-ui-enhancements/specs/change-dashboard/spec.md
 // Requirements implemented: FR-008
 // Change: web-ui-enhancements
@@ -16,7 +19,7 @@ test('Dashboard: archive filter toggle updates URL to ?showArchived=true', async
   await page.goto('/');
   await page.waitForLoadState('networkidle');
   await page.locator('[data-testid="filter-archived"]').click();
-  await page.waitForTimeout(300);
+  await page.waitForURL(/showArchived=true/);
   expect(page.url()).toContain('showArchived=true');
 });
 

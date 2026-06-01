@@ -1,3 +1,7 @@
+// @mspec-delta 2026-05-29-133745-fix-e2e-flakiness-verify-cmd-auto-execute/specs/e2e-stability/spec.md
+// Requirements implemented: FR-002
+// Change: fix-e2e-flakiness-verify-cmd-auto-execute
+
 // @mspec-delta 2026-05-26-131825-p4-learn-command/specs/cli-core/spec.md
 // Requirements implemented: FR-006
 // Change: p4-learn-command
@@ -106,7 +110,7 @@ describe('FR-006: mspec learn コマンド', () => {
         agentRuns: [AGENT_RUN_WITH_EDITS, AGENT_RUN_NO_EDITS],
       },
     });
-    vi.spyOn(process, 'cwd').mockReturnValue(env.root);
+    const cwdSpy1 = vi.spyOn(process, 'cwd').mockReturnValue(env.root);
 
     const lines: string[] = [];
     vi.spyOn(process.stdout, 'write').mockImplementation((data) => {
@@ -124,6 +128,7 @@ describe('FR-006: mspec learn コマンド', () => {
     expect(blockers[0]?.change).toBe('2026-05-01-000000-test-change');
     expect(blockers[0]?.step).toBe('self-review');
     expect(blockers[0]?.edits).toBe(3);
+    cwdSpy1.mockRestore();
   });
 
   it('Scenario 2: verify: human 未チェック項目から unchecked-human-verify パターンを抽出する', async () => {
@@ -136,7 +141,7 @@ describe('FR-006: mspec learn コマンド', () => {
         checklistMd: CHECKLIST_ALL_CHECKED,
       },
     });
-    vi.spyOn(process, 'cwd').mockReturnValue(env.root);
+    const cwdSpy2 = vi.spyOn(process, 'cwd').mockReturnValue(env.root);
 
     const lines: string[] = [];
     vi.spyOn(process.stdout, 'write').mockImplementation((data) => {
@@ -153,5 +158,6 @@ describe('FR-006: mspec learn コマンド', () => {
     expect(humanVerify).toHaveLength(1);
     expect(humanVerify[0]?.change).toBe('2026-05-02-000000-test-change-b');
     expect(humanVerify[0]?.items).toHaveLength(2);
+    cwdSpy2.mockRestore();
   });
 });

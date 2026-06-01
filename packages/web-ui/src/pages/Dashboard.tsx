@@ -13,6 +13,9 @@
 // @mspec-delta 2026-05-27-110858-markdown-search-and-quick-access/specs/web-ui-search/spec.md
 // Requirements implemented: FR-004, FR-005
 // Change: markdown-search-and-quick-access
+// @mspec-delta 2026-05-31-010428-fix-webui-archive-initial-count/specs/change-dashboard/spec.md
+// Requirements implemented: FR-011
+// Change: fix-webui-archive-initial-count
 
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useState, useMemo } from 'react';
@@ -75,6 +78,7 @@ export function Dashboard() {
 
   const includeArchived = statusFilter === 'archived';
   const { data: changes = [], isLoading, error } = useChanges(includeArchived);
+  const { data: allChanges = [] } = useChanges(true);
 
   const { index: searchIndex, contentCache, isBuilding: indexBuilding } = useSearchIndex(changes);
 
@@ -82,8 +86,8 @@ export function Dashboard() {
     inProgress: changes.filter(isInProgress).length,
     ready:      changes.filter(isReady).length,
     shipped:    changes.filter((c) => isShipped(c) && !c.isArchived).length,
-    archived:   changes.filter((c) => c.isArchived).length,
-  }), [changes]);
+    archived:   allChanges.filter((c) => c.isArchived).length,
+  }), [changes, allChanges]);
 
   const modeCount = (m: string) =>
     m === 'all' ? changes.length : changes.filter((c) => c.mode === m).length;

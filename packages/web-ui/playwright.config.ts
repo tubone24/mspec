@@ -20,11 +20,13 @@ export default defineConfig({
       command: 'pnpm dev',
       url: 'http://localhost:5173',
       reuseExistingServer: !process.env['CI'],
+      timeout: 120000,
     },
     {
       command: 'npx tsx tests/e2e/setup/api-server.ts',
-      url: 'http://localhost:3847/api/health',
+      url: 'http://127.0.0.1:3847/api/health',
       reuseExistingServer: !process.env['CI'],
+      timeout: 30000,
     },
   ],
 });
